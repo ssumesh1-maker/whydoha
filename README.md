@@ -82,3 +82,11 @@ This animates content during native scrolling; it does not add scroll inertia or
 ### People & Stories alignment and autoplay
 
 The large background word stays centred horizontally on the page and vertically behind the story card; its previous scroll-linked vertical offset is removed. Athletes, Community and Culture advance every four seconds while the story stage is visible. Images, card labels, background word and active dot update together using React state and the existing CSS fade. Mouse hover over the stage, keyboard focus within the carousel, open dialogs, hidden tabs and reduced motion suspend automatic advancement. Manual dots remain available and retain focus. Typography weights, line heights and letter spacing are unchanged.
+
+### Progressive large-text fades
+
+Headings and body copy with a rendered font size strictly above 24px receive a staggered word-opacity reveal using GSAP SplitText and ScrollTrigger. Words fade from 12% to full opacity without translation, with a maximum 900ms stagger spread. The rendered size is checked after fonts load and when the viewport resizes. Larger changing legacy titles are picked up when their content changes. Small controls, decorative background words and modal text are excluded.
+
+SplitText preserves an accessible text label, and reduced motion restores the original unsplit markup immediately. Font family, weight, size, line height and letter spacing are unchanged; words wrap naturally. No CSS hides content before JavaScript loads. Existing parent text reveals are removed to avoid doubling the effect.
+
+The noho.ink reference could not be loaded from this environment; the chosen effect follows the user's clarification: words fade in progressively. Production build and Chromium desktop/mobile/reduced-motion checks pass for size threshold, responsive changes, dynamic titles, accessible labels, cleanup, progressive opacity and unchanged typography.
