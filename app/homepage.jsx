@@ -13,7 +13,7 @@ const heroPoster = '/media/hero-poster.png'
 const evidence = 'Experience, infrastructure and connectivity told through real places and verified evidence.'
 const nav = [['The Vision', '#vision'], ['Qatar is Ready', '#venues'], ['People & Stories', '#stories'], ['Explore Doha', '#explore']]
 const vision = [['Sport','8c11d.png'],['People','cf4ea.png'],['Culture','c16da.png'],['Doha','9aded.png']]
-const stories = [['Athletes','7aa1c.png'],['Community','cf4ea.png'],['Culture','36e04.png']]
+const stories = [['Athletes','7aa1c.png'],['Volunteer','cf4ea.png'],['Culture','36e04.png']]
 const legacy = [
   ['Community','7edd5.png','Athletes, volunteers, and communities across Qatar share a purpose across different backgrounds.'],
   ['Sport','8c11d.png','A shared ambition for sport across generations.'],
