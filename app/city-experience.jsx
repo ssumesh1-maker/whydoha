@@ -32,17 +32,45 @@ export default function CityExperience({ children, renderAction }) {
     const media = gsap.matchMedia()
     // Short screens use the same direct controls without trapping an oversized card.
     media.add('(prefers-reduced-motion: no-preference) and (min-height: 620px)', () => {
+      const backgrounds = section.current.querySelectorAll('.city-backgrounds .city-scene')
+      const thumbnails = section.current.querySelectorAll('.city-thumbnails .city-scene')
+      const timeline = gsap.timeline({ defaults: { duration: 1, ease: 'power1.inOut' } })
+      timeline.addLabel('scene-0', 0)
+      scenes.slice(1).forEach((_, offset) => {
+        const i = offset + 1
+        const start = .5 + offset * 1.5
+        const frames = [backgrounds[i], thumbnails[i]]
+        const inners = frames.map(frame => frame.querySelector('.city-inner'))
+        const photos = frames.map(frame => frame.querySelector('img'))
+        const previous = [backgrounds[i - 1], thumbnails[i - 1]]
+        gsap.set(frames, { autoAlpha: 0, yPercent: 100 })
+        gsap.set(inners, { yPercent: -100 })
+        timeline.set(frames, { autoAlpha: 1, zIndex: i }, start)
+          .fromTo(frames, { yPercent: 100 }, { yPercent: 0 }, start)
+          .fromTo(inners, { yPercent: -100 }, { yPercent: 0 }, start)
+          .fromTo(photos, { yPercent: 15 }, { yPercent: 0 }, start)
+          .to(previous.map(frame => frame.querySelector('img')), { yPercent: -15 }, start)
+          .set(previous, { autoAlpha: 0 }, start + 1)
+          .addLabel('scene-' + i, start + 1)
+      })
+      timeline.to({}, { duration: .5 })
       const sequence = ScrollTrigger.create({
         id: 'city-experience',
         trigger: section.current,
+        animation: timeline,
         start: 'top top',
         end: () => '+=' + window.innerHeight * (scenes.length - 1),
         pin: true,
+        scrub: .35,
         anticipatePin: 1,
         invalidateOnRefresh: true,
-        onUpdate: self => setActive(Math.min(scenes.length - 1, Math.floor(self.progress * scenes.length))),
+        onUpdate: self => {
+          let index = 0
+          scenes.forEach((_, i) => { if (self.progress * timeline.duration() >= timeline.labels['scene-' + i] - .01) index = i })
+          setActive(index)
+        },
       })
-      scrollSequence.current = sequence
+      scrollSequence.current = { trigger: sequence, timeline }
       return () => { scrollSequence.current = null }
     })
     return () => media.revert()
@@ -52,8 +80,8 @@ export default function CityExperience({ children, renderAction }) {
     const sequence = scrollSequence.current
     if (sequence) {
       // Native scroll ownership, no wheel/touch interception or forced smooth scrolling.
-      const progress = index === 0 ? 0 : (index + .5) / scenes.length
-      window.scrollTo({ top: sequence.start + progress * (sequence.end - sequence.start), behavior: 'instant' })
+      const progress = sequence.timeline.labels['scene-' + index] / sequence.timeline.duration()
+      window.scrollTo({ top: sequence.trigger.start + progress * (sequence.trigger.end - sequence.trigger.start), behavior: 'instant' })
     }
     setActive(index)
   }
@@ -61,13 +89,13 @@ export default function CityExperience({ children, renderAction }) {
   const scene = scenes[active]
   return <section ref={section} tabIndex={-1} id="explore" className="explore city-experience" aria-labelledby="explore-title">
     <div className="city-backgrounds" aria-hidden="true">
-      {scenes.map((item, index) => <img key={item.file} src={'/media/' + item.file} alt="" decoding="async" loading="lazy" className={'cover city-scene' + (active === index ? ' is-active' : '')} />)}
+      {scenes.map((item, index) => <div key={item.file} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><img src={'/media/' + item.file} alt="" decoding="async" loading="lazy" className="cover" /></div></div>)}
     </div>
     <div className="explore-card">
       {children}
       {renderAction(scene)}
       <div className="city-thumbnails">
-        {scenes.map((item, index) => <img key={item.file} src={'/media/' + item.file} alt={item.alt} aria-hidden={active !== index} decoding="async" loading="lazy" className={'explore-thumb city-scene' + (active === index ? ' is-active' : '')} />)}
+        {scenes.map((item, index) => <div key={item.file} aria-hidden={active !== index} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><img src={'/media/' + item.file} alt={item.alt} decoding="async" loading="lazy" className="explore-thumb" /></div></div>)}
       </div>
       <h3 id="city-scene-title" aria-live="polite" aria-atomic="true">{scene.title}</h3>
       <div className="city-controls" role="group" aria-label="Choose a city experience">

@@ -93,8 +93,14 @@ The noho.ink reference could not be loaded from this environment; the chosen eff
 
 ## Legacy & Impact continuous scenes
 
-Replaces the former split-column card with full-viewport Community, Sport and Culture scenes, retaining the existing images, copy and detail CTA. Inspired by the supplied GSAP Observer demo: opposing clipped outer/inner wrappers create a continuous vertical reveal, backgrounds shift gently, and SplitText characters reveal into each incoming title. Scoped styles retain Doha 2036 typography and avoid the demo's global fixed-section rules.
+Replaces the former split-column card with full-viewport Community, Sport and Culture scenes, retaining the existing images, copy and detail CTA. Inspired by the supplied GSAP Observer demo: opposing clipped outer/inner wrappers create a continuous horizontal reveal, backgrounds shift gently, and SplitText characters reveal into each incoming title. Scoped styles retain Doha 2036 typography and avoid the demo's global fixed-section rules.
 
 The adaptation uses native scrolling plus a finite ScrollTrigger pin over two viewport heights, rather than the demo's global preventDefault Observer/infinite loop. Scroll backward to reverse; after Culture the page releases into Experience the City. Numbered theme controls and Next provide keyboard/touch selection with focus retained, and the CTA follows the selected theme. Reduced motion and screens shorter than 620px use direct controls without pinning, image motion or split text. The page-level word-fade hook excludes this section to avoid double splitting.
 
 Production build passes. Chromium desktop, emulated iPhone touch, reduced-motion and short-landscape checks pass for all three scenes, reverse selection, image loading, focus, matching detail dialogs, pin/release, downstream city selection, preference-change cleanup and horizontal overflow. Physical-device Safari remains untested.
+
+### Transition direction update
+
+Legacy & Impact now uses horizontal opposing wrappers, background movement and title entry. Experience the City uses the vertical opposing-wrapper transition for both its full-screen background and the image inside its fixed card. Both image layers share the same GSAP timeline and progress, including reverse scrolling. Scene titles and controls follow the completed scene. Reduced motion and short-screen fallbacks remain manual and unanimated.
+
+Production build and desktop/mobile/reduced-motion/short-landscape checks pass. Mid-transition browser checks verify horizontal-only Legacy motion and matching vertical progress for city background and thumbnail, while the card frame stays stationary.

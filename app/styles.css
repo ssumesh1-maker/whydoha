@@ -350,10 +350,13 @@ a:active,button:active { filter:brightness(.8); }
 /* One stationary card, four synchronized photo/title states. */
 .city-experience { min-height:100svh; padding-block:32px; background:#222; }
 .city-backgrounds { position:absolute; inset:0; z-index:-1; overflow:hidden; }
-.city-scene { opacity:0; visibility:hidden; transition:opacity var(--swap) ease, visibility var(--swap); }
+.city-scene { opacity:0; visibility:hidden; overflow:hidden; }
+.city-backgrounds .city-scene { position:absolute; inset:0; }
+.city-inner { position:relative; width:100%; height:100%; overflow:hidden; }
 .city-scene.is-active { opacity:1; visibility:visible; }
 .city-thumbnails { display:grid; width:100%; }
-.city-thumbnails .explore-thumb { grid-area:1 / 1; }
+.city-thumbnails .city-scene { grid-area:1 / 1; aspect-ratio:435/288; border-radius:clamp(11px,.83vw,16px); }
+.city-thumbnails .explore-thumb { width:100%; height:100%; aspect-ratio:auto; border-radius:0; }
 .city-experience .explore-card { position:relative; }
 .city-experience .explore-card h3 { min-height:2.2em; display:grid; place-items:center; }
 .city-controls { display:flex; justify-content:center; gap:2px; margin-block:-12px; }
