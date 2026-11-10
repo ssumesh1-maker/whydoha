@@ -5,6 +5,9 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from './logo.json'
 
+const heroFilm = '/media/hero-film.mp4'
+const heroPoster = '/media/hero-poster.png'
+
 const evidence = 'Experience, infrastructure and connectivity told through real places and verified evidence.'
 const nav = [['The Vision', '#vision'], ['Qatar is Ready', '#venues'], ['People & Stories', '#stories'], ['Explore Doha', '#explore']]
 const vision = [['Sport','8c11d.png'],['People','cf4ea.png'],['Culture','c16da.png'],['Doha','9aded.png']]
@@ -58,6 +61,9 @@ export default function Homepage() {
   const [query,setQuery] = useState('')
   const [notice,setNotice] = useState('')
   const [newsletterNotice,setNewsletterNotice] = useState('')
+  const [allowMotion,setAllowMotion] = useState(false)
+  const [heroPaused,setHeroPaused] = useState(false)
+  const heroVideo = useRef(null)
   const root = useRef(null)
   const dialog = useRef(null)
   const menuButton = useRef(null)
@@ -72,12 +78,29 @@ export default function Homepage() {
     gsap.registerPlugin(ScrollTrigger)
     const motion = gsap.matchMedia(root)
     motion.add('(min-width: 801px) and (prefers-reduced-motion: no-preference)',()=>{
-      gsap.to('.hero-media',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.4}})
+      gsap.to('.hero-media video',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.4}})
       gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.35}})
       gsap.from('.vision-gallery',{y:26,duration:.7,ease:'power2.out',scrollTrigger:{trigger:'.vision-gallery',start:'top 90%',once:true}})
     },root)
     return ()=>motion.revert()
   },[])
+
+  useEffect(()=>{
+    const preference = window.matchMedia('(prefers-reduced-motion: no-preference)')
+    const syncPreference = ()=>setAllowMotion(preference.matches)
+    syncPreference()
+    preference.addEventListener('change',syncPreference)
+    return ()=>preference.removeEventListener('change',syncPreference)
+  },[])
+
+  useEffect(()=>{
+    const video = heroVideo.current
+    if(allowMotion && !heroPaused && !modal) {
+      video.play().catch(()=>{})
+    } else {
+      video.pause()
+    }
+  },[allowMotion,heroPaused,modal])
 
   useEffect(()=>{
     if(modal && !dialog.current.open) dialog.current.showModal()
@@ -129,7 +152,9 @@ export default function Homepage() {
   return <div ref={root} id="top" tabIndex={-1} className="site" onClick={navigateSection}>
     <a className="skip" href="#main">Skip to content</a>
     <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-media"><Pic file="hero-poster.png" fetchPriority="high" /></div>
+      <div className="hero-media" aria-hidden="true">
+        <video ref={heroVideo} src={allowMotion ? heroFilm : undefined} poster={heroPoster} preload="none" muted loop playsInline />
+      </div>
       <header className="header container">
         <Logo />
         <nav className={menu?'main-nav open':'main-nav'} id="site-navigation" aria-label="Main navigation">{nav.map(([label,href])=><a key={href} href={href} onClick={()=>setMenu(false)}>{label}</a>)}</nav>
@@ -144,9 +169,10 @@ export default function Homepage() {
         <h1 id="hero-title">A city ready<br />to welcome.</h1>
         <div className="hero-meta">
           <Rule>Great ambitions begin with people. Discover the energy, hospitality and spirit that make Doha a place to connect.</Rule>
-          <Pill play onClick={e=>open(e,'A city ready to welcome','hero-poster.png','The campaign film is awaiting its source video.')}>Watch the story</Pill>
+          <Pill play onClick={e=>open(e,'A city ready to welcome',null,null,'campaign-film')}>Watch the story</Pill>
         </div>
       </div>
+      {allowMotion && <button className="hero-playback" type="button" onClick={()=>setHeroPaused(!heroPaused)}>{heroPaused ? 'Play background' : 'Pause background'}</button>}
       <a className="scroll-cue" href="#vision" aria-label="Scroll to Our Ambition">Scroll to explore<Pic file="scroll-cue-motion.svg" /></a>
     </section>
 
@@ -257,6 +283,7 @@ export default function Homepage() {
       {modal&&<div className="dialog-inner">
         <button className="dialog-close" type="button" aria-label="Close dialog" onClick={()=>setModal(null)}>×</button>
         <h2 id="dialog-title">{modal.title}</h2>
+        {modal.type==='campaign-film'&&<video className="dialog-image" src={heroFilm} poster={heroPoster} controls playsInline autoPlay aria-label="Campaign film" />}
         {modal.image&&<Pic className="dialog-image" file={modal.image} />}
         {modal.copy&&<p>{modal.copy}</p>}
         {modal.type==='search'&&<div className="search-results"><label htmlFor="section-search">Find a section</label><input id="section-search" type="search" value={query} onChange={e=>setQuery(e.target.value)} autoFocus />

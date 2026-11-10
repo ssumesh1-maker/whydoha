@@ -17,7 +17,7 @@ Open http://localhost:3000. Run `npm run build` to generate the static site in `
 
 | Section | Behavior |
 | --- | --- |
-| Hero | Desktop scroll parallax, a static media composition on narrow screens or when reduced motion is enabled |
+| Hero | Muted campaign video with a pause control, desktop scroll parallax, and a static poster for reduced motion |
 | Our Ambition | Image selection with a detail dialog |
 | Venues | Selectable venue map on desktop and a venue list on narrower screens |
 | People and Stories | Three selectable story panels and preview dialogs |
@@ -28,7 +28,7 @@ Open http://localhost:3000. Run `npm run build` to generate the static site in `
 
 ## Integration status
 
-The hero poster is from the Figma video layer. Campaign and story video files, the licensed Doha 2036 font, Arabic copy, external destinations, and a backend for form submissions are pending. Outfit is bundled as a font fallback. Secondary gallery states use the Figma imagery already present on the homepage with draft labels and descriptions. Forms validate the email and save the latest entry locally per form for review.
+The hero poster is from the Figma video layer. The campaign film also plays with sound from Watch the story. Other story video files, Arabic copy, external destinations, and a backend for form submissions are pending. Doha 2036 is bundled in Light, Regular, and Bold, with Outfit as a fallback. Secondary gallery states use the Figma imagery already present on the homepage with draft labels and descriptions. Forms validate the email and save the latest entry locally per form for review.
 
 ## Motion reference
 
