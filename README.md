@@ -72,3 +72,9 @@ The hero video autoplays muted without a visible playback button; reduced motion
 Selecting the active stadium again closes its card. On desktop the card anchors beside the selected marker, flips left when there is insufficient room on the right, and stays within map bounds. ResizeObserver recalculates placement as images load and the map/card resize. The pointer follows the selected marker. On narrower screens the card remains in the responsive venue layout. Mouse, touch and Enter toggling preserve focus on the stadium control; aria-expanded reflects visibility.
 
 Production build and Chromium desktop, emulated touch and reduced-motion checks pass across all five stadiums for open/close toggling, focus retention, marker-relative placement and card bounds.
+
+### Page scroll animation
+
+GSAP ScrollTrigger reveals section content with small eased vertical movement as it enters view. Desktop uses 24px / 850ms reveals, mobile uses 12px / 550ms; text stays at least 65% opaque throughout and returns to its original styles on completion. Hero parallax, story backdrop and journey-line drawing use smooth scrub catch-up. The city pin container and map geometry are excluded from reveal transforms.
+
+This animates content during native scrolling; it does not add scroll inertia or replace wheel/touch handling. Existing smooth native anchor navigation remains. Reduced motion disables the new reveals and scrubbing and reverts their styles immediately when the preference changes. Font family, weights, line heights and letter spacing are unchanged. No dependencies were added.

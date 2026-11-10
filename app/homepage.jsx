@@ -109,10 +109,29 @@ export default function Homepage() {
   useEffect(()=>{
     gsap.registerPlugin(ScrollTrigger)
     const motion = gsap.matchMedia(root)
-    motion.add('(min-width: 801px) and (prefers-reduced-motion: no-preference)',()=>{
-      gsap.to('.hero-media video',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.4}})
-      gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.35}})
-      gsap.from('.vision-gallery',{y:26,duration:.7,ease:'power2.out',scrollTrigger:{trigger:'.vision-gallery',start:'top 90%',once:true}})
+    motion.add({
+      desktop: '(min-width: 801px)',
+      animate: '(prefers-reduced-motion: no-preference)',
+    },context=>{
+      if (!context.conditions.animate) return
+      const desktop = context.conditions.desktop
+      const reveal = target => {
+        gsap.from(target,{
+          y:desktop ? 24 : 12,
+          opacity:.65,
+          duration:desktop ? .85 : .55,
+          ease:'power2.out',
+          clearProps:'transform,opacity',
+          scrollTrigger:{trigger:target,start:'top 92%',once:true},
+        })
+      }
+      // Animate local content only: pin containers, map markers and card geometry stay fixed.
+      root.current.querySelectorAll('.vision .section-title, .vision-copy, .vision-gallery, .venue-heading, .venue-foot, .stories .section-title, .stories-stage, .legacy-info, .legacy-image, .journey-head, .milestones li, .newsletter, .footer-links').forEach(reveal)
+      if (desktop) {
+        gsap.to('.hero-media video',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.7}})
+        gsap.to('.stories-word',{yPercent:-12,ease:'none',scrollTrigger:{trigger:'.stories-stage',start:'top bottom',end:'bottom top',scrub:.6}})
+        gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.6}})
+      }
     },root)
     return ()=>motion.revert()
   },[])
