@@ -126,6 +126,8 @@ section[id],footer[id] { scroll-margin-top:16px }
 .venue-markers { position:absolute; inset:0 }
 .venue-marker { position:absolute; left:var(--x); top:var(--y); transform:translateX(-50%); border:0; background:none; padding:0; display:flex; flex-direction:column; align-items:center; gap:8px; z-index:1; color:#dedede; }
 .venue-marker img { width:clamp(52px,4.65vw,89px); height:clamp(35px,3.02vw,58px); object-fit:contain; transition:filter var(--control), transform var(--control) }
+/* Compensate for transparent padding in the Stadium 974 export. */
+.venue-marker img.stadium-974-model { scale:1.85; }
 .venue-marker span { background:#111d; border-radius:8px; font-size:clamp(12px,1.35vw,26px); padding:.38em .78em; white-space:nowrap }
 .venue-marker[aria-pressed="true"] { color:white; z-index:3 }
 .venue-marker[aria-pressed="true"] img,.venue-marker:hover img { filter:drop-shadow(0 10px 13px #ff7346a0); transform:translateY(-3px) }
@@ -276,6 +278,7 @@ section[id],footer[id] { scroll-margin-top:16px }
   .venue-marker { position:relative; inset:auto; transform:none; border:1px solid #ffffff35; border-radius:10px; width:100%; min-height:48px; padding:5px 9px; flex-direction:row-reverse; justify-content:flex-end; gap:8px; background:#141414e6; text-align:start; }
   .venue-marker span { padding:0; white-space:normal; background:none; font-size:clamp(12px,2.15vw,16px); }
   .venue-marker img { width:35px; height:30px; }
+  .venue-marker img.stadium-974-model { scale:1.4; }
   .venue-marker[aria-pressed="true"] { border-color:var(--accent); }
   .venue-card { width:100%; align-self:start; }
   .venue-card::before { display:none }
