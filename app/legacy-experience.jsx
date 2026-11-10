@@ -51,21 +51,35 @@ export default function LegacyExperience({ scenes, children, renderAction }) {
             .addLabel('scene-' + i, start + 1)
         })
         timeline.to({}, { duration: .5 })
+        // Hold the final scene for the extra viewport in which the city covers it.
+        timeline.to({}, { duration: timeline.duration() / (scenes.length - 1) })
+        const container = section.current.parentElement
+        const toolbar = section.current.querySelector('.legacy-toolbar')
+        container.classList.add('legacy-city-overlap')
+        const measureOverlap = () => container.style.setProperty('--legacy-overlap-height', section.current.offsetHeight + 'px')
+        measureOverlap()
         const trigger = ScrollTrigger.create({
           id: 'legacy-experience', trigger: section.current, animation: timeline,
-          start: 'top top', end: () => '+=' + innerHeight * (scenes.length - 1),
+          start: 'top top', end: () => { measureOverlap(); return '+=' + innerHeight * scenes.length },
           pin: true, scrub: .35, anticipatePin: 1, invalidateOnRefresh: true,
           onUpdate: self => {
             const time = self.progress * timeline.duration()
             let index = 0
             scenes.forEach((_, i) => { if (time >= timeline.labels['scene-' + i] - .01) index = i })
             setActive(index)
+            toolbar.inert = self.progress >= (scenes.length - 1) / scenes.length
           },
         })
         sequence.current = { trigger, timeline }
         ScrollTrigger.sort()
         ScrollTrigger.refresh()
-        return () => { sequence.current = null; headings.forEach(heading => heading.revert()) }
+        return () => {
+          sequence.current = null
+          container.classList.remove('legacy-city-overlap')
+          container.style.removeProperty('--legacy-overlap-height')
+          toolbar.inert = false
+          headings.forEach(heading => heading.revert())
+        }
       }, section)
     })
     return () => { disposed = true; media.revert() }
