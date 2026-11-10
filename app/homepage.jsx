@@ -32,6 +32,12 @@ const searchable = [...nav, ['Legacy & Impact','#legacy'], ['The Journey','#jour
 function Pic({ file, alt = '', ...props }) {
   return <img src={'/media/' + file} alt={alt} decoding="async" {...props} />
 }
+function PeopleCollage({ preview = false }) {
+  return <div className={'people-collage' + (preview ? ' people-collage-preview' : '')}>
+    <Pic className="people-collage-art" file="people-collage.png" width="1309" height="793" loading="lazy" alt="A collage of Qatar’s athletes, supporters and cultural life in organic shapes" />
+    <Pic className="people-volunteer" file="people-volunteer.png" width="205" height="212" loading="lazy" alt="Qatari volunteers wearing maroon uniforms" />
+  </div>
+}
 function Logo() {
   return <a href="#top" className="logo" aria-label="Why Doha home">
     {logo.map(([file,x,y,w,h]) => <Pic key={file} file={file} style={{left:x/2.34+'%',top:y/.7+'%',width:Math.max(w,.5)/2.34+'%',height:h/.7+'%'}} />)}
@@ -274,10 +280,10 @@ export default function Homepage() {
             <Title label="People & Stories" id="stories-title">The people<br />behind the bid</Title>
             <div className="people-intro">
               <p>Every ambitions begins with a human story</p>
-              <Pill light onClick={e=>open(e,'Meet the People','people-collage.png','Every ambitions begins with a human story')}>Meet the People</Pill>
+              <Pill light onClick={e=>open(e,'Meet the People',null,'Every ambitions begins with a human story','people')}>Meet the People</Pill>
             </div>
           </div>
-          <Pic className="people-collage" file="people-collage.png" width="1309" height="793" loading="lazy" alt="A collage of Qatar’s athletes, supporters, volunteers and cultural life, framed in organic shapes" />
+          <PeopleCollage />
         </div>
       </section>
 
@@ -330,6 +336,7 @@ export default function Homepage() {
         <h2 id="dialog-title">{modal.title}</h2>
         {modal.type==='campaign-film'&&<video className="dialog-image" src={heroFilm} poster={heroPoster} controls playsInline autoPlay aria-label="Campaign film" />}
         {modal.image&&<Pic className="dialog-image" file={modal.image} />}
+        {modal.type==='people'&&<PeopleCollage preview />}
         {modal.copy&&<p>{modal.copy}</p>}
         {modal.type==='search'&&<div className="search-results"><label htmlFor="section-search">Find a section</label><input id="section-search" type="search" value={query} onChange={e=>setQuery(e.target.value)} autoFocus />
           {matching.map(([label,href])=><a key={href} href={href} onClick={()=>{skipRestore.current=true;setMenu(false);setModal(null)}}>{label}</a>)}
