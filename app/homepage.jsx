@@ -14,7 +14,6 @@ const heroPoster = '/media/hero-poster.png'
 const evidence = 'Experience, infrastructure and connectivity told through real places and verified evidence.'
 const nav = [['The Vision', '#vision'], ['Qatar is Ready', '#venues'], ['People & Stories', '#stories'], ['Explore Doha', '#explore']]
 const vision = [['Sport','8c11d.png'],['People','cf4ea.png'],['Culture','c16da.png'],['Doha','9aded.png']]
-const stories = [['Athletes','7aa1c.png'],['Volunteer','cf4ea.png'],['Culture','36e04.png']]
 const legacy = [
   ['Community','7edd5.png','Athletes, volunteers, and communities across Qatar share a purpose across different backgrounds.'],
   ['Sport','8c11d.png','A shared ambition for sport across generations.'],
@@ -49,15 +48,11 @@ function Title({ label, children, id }) {
 function Rule({ children }) {
   return <div className="rule-text"><div aria-hidden="true"><Pic file="716f7.svg" /><span /></div><p>{children}</p></div>
 }
-function Dots({ items, active, select, name }) {
-  return <div className="dots" role="group" aria-label={name}>{items.map(([title],i) => <button key={title} type="button" aria-label={title} aria-pressed={active===i} onClick={()=>select(i)} />)}</div>
-}
 function rotate(index, amount, count) { return (index + amount + count) % count }
 
 export default function Homepage() {
   const [visionIndex,setVision] = useState(1)
   const [venueIndex,setVenue] = useState(null)
-  const [storyIndex,setStory] = useState(0)
   const [menu,setMenu] = useState(false)
   const [modal,setModal] = useState(null)
   const [query,setQuery] = useState('')
@@ -66,7 +61,6 @@ export default function Homepage() {
   const [allowMotion,setAllowMotion] = useState(false)
   const heroVideo = useRef(null)
   const visionGallery = useRef(null)
-  const storyCarousel = useRef(null)
   const venueStage = useRef(null)
   const venueCard = useRef(null)
   const [cardPlacement,setCardPlacement] = useState(null)
@@ -77,7 +71,6 @@ export default function Homepage() {
   const trigger = useRef(null)
   const skipRestore = useRef(false)
   const [venue,model,,,venueImage] = venues[venueIndex] || []
-  const [story,storyImage] = stories[storyIndex]
   const matching = searchable.filter(([label])=>label.toLowerCase().includes(query.trim().toLowerCase()))
 
   useLayoutEffect(()=>{
@@ -128,7 +121,7 @@ export default function Homepage() {
         })
       }
       // Animate local content only: pin containers, map markers and card geometry stay fixed.
-      root.current.querySelectorAll('.vision-gallery, .stories-stage, .milestones li, .footer-links').forEach(reveal)
+      root.current.querySelectorAll('.vision-gallery, .people-collage, .milestones li, .footer-links').forEach(reveal)
       if (desktop) {
         gsap.to('.hero-media video',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.7}})
         gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.6}})
@@ -167,18 +160,6 @@ export default function Homepage() {
     return ()=>window.clearInterval(timer)
   },[allowMotion,modal,visionIndex])
 
-  useEffect(()=>{
-    if (!allowMotion || modal) return
-    const timer = window.setInterval(()=>{
-      const carousel = storyCarousel.current
-      if (!carousel || document.hidden || carousel.contains(document.activeElement)) return
-      if (window.matchMedia('(hover:hover)').matches && carousel.querySelector('.stories-stage').matches(':hover')) return
-      const bounds = carousel.querySelector('.stories-stage').getBoundingClientRect()
-      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return
-      setStory(index=>rotate(index,1,stories.length))
-    },4000)
-    return ()=>window.clearInterval(timer)
-  },[allowMotion,modal,storyIndex])
 
   useEffect(()=>{
     if(modal && !dialog.current.open) dialog.current.showModal()
@@ -288,16 +269,15 @@ export default function Homepage() {
       </section>
 
       <section tabIndex={-1} id="stories" className="stories" aria-labelledby="stories-title">
-        <div ref={storyCarousel} className="stories-panel">
-          <Title label="People & Stories" id="stories-title">The people behind<br />the bid</Title>
-          <div className="stories-stage">
-            <span className="stories-word" aria-hidden="true">{story}</span>
-            <article className="story-card state-change" key={story}>
-              <Pic className="cover" file={storyImage} loading="lazy" />
-              <div className="story-meta"><h3>{story}</h3><Pill play onClick={e=>open(e,story,storyImage,'Video playback is awaiting source media.')}>Play story</Pill></div>
-            </article>
+        <div className="stories-panel">
+          <div className="people-heading-row">
+            <Title label="People & Stories" id="stories-title">The people<br />behind the bid</Title>
+            <div className="people-intro">
+              <p>Every ambitions begins with a human story</p>
+              <Pill light onClick={e=>open(e,'Meet the People','people-collage.png','Every ambitions begins with a human story')}>Meet the People</Pill>
+            </div>
           </div>
-          <Dots items={stories} active={storyIndex} select={setStory} name="Choose a story" />
+          <Pic className="people-collage" file="people-collage.png" width="1309" height="793" loading="lazy" alt="A collage of Qatar’s athletes, supporters, volunteers and cultural life, framed in organic shapes" />
         </div>
       </section>
 
