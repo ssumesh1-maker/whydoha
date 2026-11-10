@@ -275,7 +275,7 @@ export default function Homepage() {
             <Pill onClick={e=>open(e,venue || 'Qatar is Ready',venueImage||model,venueImage?'Capacity shown in the bid design: 88,966. Multi-sport ready.':evidence)}>Explore the evidence</Pill>
           </div>
           <div className="venue-markers" role="group" aria-label="Select a venue">
-            {venues.map(([name,file,x,y],i)=><button key={name} type="button" className="venue-marker" aria-pressed={venueIndex===i} aria-expanded={venueIndex===i} aria-controls={venueIndex===i ? "stadium-detail" : undefined} style={{'--x':x+'%','--y':y+'%'}} onClick={()=>setVenue(current=>current===i ? null : i)}><span>{name}</span><Pic file={file} /></button>)}
+            {venues.map(([name,file,x,y],i)=><button key={name} type="button" className="venue-marker" aria-pressed={venueIndex===i} aria-expanded={venueIndex===i} aria-controls={venueIndex===i ? "stadium-detail" : undefined} style={{'--x':x+'%','--y':y+'%'}} onClick={()=>setVenue(current=>current===i ? null : i)}><span>{name}</span><Pic className={name === 'Stadium 974' ? 'stadium-974-model' : undefined} file={file} /></button>)}
           </div>
           {venueIndex !== null && <article ref={venueCard} id="stadium-detail" className="venue-card" data-side={cardPlacement?.side} style={cardPlacement ? {'--card-x':cardPlacement['--card-x'],'--card-y':cardPlacement['--card-y'],'--pointer-y':cardPlacement['--pointer-y']} : undefined} aria-live="polite"><div key={venue} className="state-change">
             <Pic className={venueImage?'venue-photo':'venue-photo venue-model'} file={venueImage||model} alt={venue} loading="lazy" />
