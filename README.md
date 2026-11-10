@@ -78,3 +78,7 @@ Production build and Chromium desktop, emulated touch and reduced-motion checks 
 GSAP ScrollTrigger reveals section content with small eased vertical movement as it enters view. Desktop uses 24px / 850ms reveals, mobile uses 12px / 550ms; text stays at least 65% opaque throughout and returns to its original styles on completion. Hero parallax, story backdrop and journey-line drawing use smooth scrub catch-up. The city pin container and map geometry are excluded from reveal transforms.
 
 This animates content during native scrolling; it does not add scroll inertia or replace wheel/touch handling. Existing smooth native anchor navigation remains. Reduced motion disables the new reveals and scrubbing and reverts their styles immediately when the preference changes. Font family, weights, line heights and letter spacing are unchanged. No dependencies were added.
+
+### People & Stories alignment and autoplay
+
+The large background word stays centred horizontally on the page and vertically behind the story card; its previous scroll-linked vertical offset is removed. Athletes, Community and Culture advance every four seconds while the story stage is visible. Images, card labels, background word and active dot update together using React state and the existing CSS fade. Mouse hover over the stage, keyboard focus within the carousel, open dialogs, hidden tabs and reduced motion suspend automatic advancement. Manual dots remain available and retain focus. Typography weights, line heights and letter spacing are unchanged.

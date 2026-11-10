@@ -143,7 +143,7 @@ section[id],footer[id] { scroll-margin-top:16px }
 .stories { color:#080808; padding-inline:clamp(14px,2.34vw,45px); background:linear-gradient(180deg,#020202 0%,#4c2d20 13%,#ff7346 36%,#fff 61%); }
 .stories-panel { background:white; border-radius:clamp(19px,1.67vw,32px) clamp(19px,1.67vw,32px) 0 0; text-align:center; min-height:max(680px,62.75vw); padding:clamp(76px,7.7vw,148px) 10px clamp(56px,7.35vw,141px); overflow:hidden }
 .stories-stage { margin:clamp(38px,5.8vw,111px) auto clamp(17px,2.65vw,51px); position:relative; }
-.stories-word { position:absolute; inset:50% auto auto 50%; transform:translate(-50%,-50%); color:#aaa; font-size:clamp(72px,13.28vw,255px); font-weight:700; text-transform:uppercase; letter-spacing:-.045em; line-height:1; white-space:nowrap; }
+.stories-word { position:absolute; inset:50% 0 auto; width:100%; text-align:center; transform:translateY(-50%); color:#aaa; font-size:clamp(72px,13.28vw,255px); font-weight:700; text-transform:uppercase; letter-spacing:-.045em; line-height:1; white-space:nowrap; }
 .story-card { margin-inline:auto; width:clamp(270px,30.9vw,594px); aspect-ratio:594/556; position:relative; overflow:hidden; border-radius:clamp(18px,1.67vw,32px); color:white; background:#242424; }
 .story-card::after,.legacy-slide::after { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(180deg,#0002 14%,transparent 34%,#000c 100%) }
 .story-meta { position:absolute; z-index:1; inset:auto 0 11%; display:grid; justify-items:center; gap:clamp(10px,1.4vw,26px) }
