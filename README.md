@@ -109,4 +109,10 @@ Production build and desktop/mobile/reduced-motion/short-landscape checks pass. 
 
 After the horizontal Legacy scenes, Culture holds behind the page for one additional viewport of native scrolling. Experience the City rises from below on a higher layer until it completely covers Legacy; its vertical image sequence then begins. Scrolling backward reverses the overlap. The final Legacy controls leave the focus order while covered. Typography and media remain unchanged.
 
-The city's pin starts at the Legacy pin's end and uses a transform pin to avoid the fixed-position offset from overlapping pins. Reduced motion and short screens remove the overlap and use the existing direct-control layouts. Production build and Chromium desktop, emulated iPhone and reduced-motion checks pass for half-overlap geometry/layer hit testing, Culture hold, city handoff, reverse scroll and preference-change cleanup.
+The city sequence starts at the Legacy pin's end; its stage uses native CSS sticky positioning for stable scrolling. Reduced motion and short screens remove the overlap and use the existing direct-control layouts. Production build and Chromium desktop, emulated iPhone and reduced-motion checks pass for half-overlap geometry/layer hit testing, Culture hold, city handoff, reverse scroll and preference-change cleanup.
+
+### City scroll stability fix
+
+Replaces the city's per-frame transform pin with native CSS sticky positioning. GSAP controls only the image timeline; it no longer counter-translates the entire section while the browser scrolls. A stable outer scroll track reserves the same four-scene distance. ResizeObserver updates track height only when the actual stage height changes, and reduced motion/short screens remove the track and sticky behavior. The Legacy overlap and direct scene controls are preserved.
+
+Production build and overlap regression checks pass. Chromium desktop and emulated iPhone checks sample 90 animation frames in forward/reverse scrolling to verify a stationary stage/card without a JavaScript pin transform. Physical-device Safari remains untested.
