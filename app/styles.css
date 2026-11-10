@@ -189,7 +189,7 @@ section[id],footer[id] { scroll-margin-top:16px }
 .milestones li:nth-child(2) { left:36.5%; top:0 }
 .milestones li:nth-child(3) { left:68.15%; top:37.5% }
 .milestones article { text-align:center; background:white; padding:clamp(10px,.83vw,16px); border-radius:clamp(14px,1.25vw,24px); }
-.milestones h3 { font-size:clamp(12px,.94vw,18px); text-transform:uppercase; font-weight:700; margin-bottom:clamp(7px,.7vw,13px) }
+.milestones h3 { font-size:clamp(12px,.94vw,18px); text-transform:uppercase; font-weight:400; margin-bottom:clamp(7px,.7vw,13px) }
 .milestones article img { width:100%; aspect-ratio:1.1; object-fit:cover; object-position:52%; border-radius:clamp(6px,.55vw,10px) }
 .milestones p { font-size:clamp(12px,.94vw,18px); line-height:1.25; margin-top:clamp(7px,.7vw,13px) }
 .milestone-marker { position:absolute; left:50%; top:0; transform:translate(-50%,-145%); width:clamp(33px,3vw,58px); aspect-ratio:1; border-radius:50%; display:grid; place-items:center; background:black; }

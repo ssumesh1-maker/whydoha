@@ -22,7 +22,7 @@ const venues = [
   ['Lusail Stadium','1075a.png',60.4,16,'0f67b.png'],
   ['Khalifa Stadium','14cf7.png',56.7,43],
   ['Al Thumama Stadium','893e0.png',40.2,54],
-  ['Stadium 974','6ef7b.png',71.4,71],
+  ['Stadium 974','6ef7b.png',67.838,47.01],
   ['Al Bayt Stadium','e1238.png',86,8],
 ]
 const milestones = [['Our Ambitions','Bid vision launched'],['Engagement','Global dialogue & support'],['Candidature','Official submissions (in progress)']]
