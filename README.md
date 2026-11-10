@@ -90,3 +90,11 @@ Headings and body copy with a rendered font size strictly above 24px receive a s
 SplitText preserves an accessible text label, and reduced motion restores the original unsplit markup immediately. Font family, weight, size, line height and letter spacing are unchanged; words wrap naturally. No CSS hides content before JavaScript loads. Existing parent text reveals are removed to avoid doubling the effect.
 
 The noho.ink reference could not be loaded from this environment; the chosen effect follows the user's clarification: words fade in progressively. Production build and Chromium desktop/mobile/reduced-motion checks pass for size threshold, responsive changes, dynamic titles, accessible labels, cleanup, progressive opacity and unchanged typography.
+
+## Legacy & Impact continuous scenes
+
+Replaces the former split-column card with full-viewport Community, Sport and Culture scenes, retaining the existing images, copy and detail CTA. Inspired by the supplied GSAP Observer demo: opposing clipped outer/inner wrappers create a continuous vertical reveal, backgrounds shift gently, and SplitText characters reveal into each incoming title. Scoped styles retain Doha 2036 typography and avoid the demo's global fixed-section rules.
+
+The adaptation uses native scrolling plus a finite ScrollTrigger pin over two viewport heights, rather than the demo's global preventDefault Observer/infinite loop. Scroll backward to reverse; after Culture the page releases into Experience the City. Numbered theme controls and Next provide keyboard/touch selection with focus retained, and the CTA follows the selected theme. Reduced motion and screens shorter than 620px use direct controls without pinning, image motion or split text. The page-level word-fade hook excludes this section to avoid double splitting.
+
+Production build passes. Chromium desktop, emulated iPhone touch, reduced-motion and short-landscape checks pass for all three scenes, reverse selection, image loading, focus, matching detail dialogs, pin/release, downstream city selection, preference-change cleanup and horizontal overflow. Physical-device Safari remains untested.
