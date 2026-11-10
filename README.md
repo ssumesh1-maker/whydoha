@@ -54,3 +54,11 @@ The [Codrops sticky grid article](https://tympanus.net/codrops/2026/03/02/sticky
 Production static export passes. Chromium browser checks pass at desktop 1440×1000, emulated iPhone 13 touch 390×664, and desktop with reduced motion. Checks cover cue Enter/touch activation, selection and focus retention, modal Escape and focus restoration, mobile menu, search navigation, forms, anchor destinations, image decoding and horizontal overflow. Touch is emulated; physical-device Safari testing remains pending.
 
 Remaining integrations are unchanged: campaign/story video, licensed font, Arabic translation, approved external/social/legal destinations and submission backend. These controls retain their honest preview dialogs. This is a local preview, not a deployed site.
+
+## Experience the city scroll sequence
+
+Culture & Heritage → City life → Nature & outdoors → Food & lifestyle. The existing centre card stays still while a ScrollTrigger pins the full-viewport section over three viewport heights of native scrolling. Four equal progress ranges select the scene, updating the title and matching full background/card images; CSS crossfades the photographs. Reverse scrolling reverses the sequence. The final state holds before releasing into The Journey.
+
+Four labelled, keyboard-accessible scene controls provide direct selection without moving focus. The existing Explore Doha CTA opens the active scene image/title. Images preload when the visitor approaches the section. Reduced motion and viewports under 620px tall use the same controls without pinning or animated transitions. Changing motion preferences removes the pin immediately. No wheel or touch event interception, WebGL or 3D dependency is used.
+
+Verified against the production export in Chromium desktop, emulated iPhone, reduced motion and short landscape: all scene images decode, background/card sources match, titles advance and reverse, card stays stationary, pin releases, controls retain focus, active CTA matches, and no horizontal overflow or page errors occur. Physical-device Safari remains untested.

@@ -377,3 +377,22 @@ a:active,button:active { filter:brightness(.8); }
 @media(pointer:coarse) {
   .footer-links a,.footer-links button,.footer-legal button { min-height:44px; display:flex; align-items:center; }
 }
+
+/* One stationary card, four synchronized photo/title states. */
+.city-experience { min-height:100svh; padding-block:32px; background:#222; }
+.city-backgrounds { position:absolute; inset:0; z-index:-1; overflow:hidden; }
+.city-scene { opacity:0; visibility:hidden; transition:opacity var(--swap) ease, visibility var(--swap); }
+.city-scene.is-active { opacity:1; visibility:visible; }
+.city-thumbnails { display:grid; width:100%; }
+.city-thumbnails .explore-thumb { grid-area:1 / 1; }
+.city-experience .explore-card { position:relative; }
+.city-experience .explore-card h3 { min-height:2.2em; display:grid; place-items:center; }
+.city-controls { display:flex; justify-content:center; gap:2px; margin-block:-12px; }
+.city-controls button { width:44px; height:44px; border:0; border-radius:50%; background:none; display:grid; place-items:center; }
+.city-controls button span { width:7px; height:7px; border-radius:50%; background:#aaa; }
+.city-controls button[aria-pressed="true"] span { background:var(--accent); box-shadow:0 0 0 6px #ff734630; }
+.city-controls button:hover { background:#ff734620; }
+@media (prefers-reduced-motion:reduce), (max-height:619px) {
+  .city-experience { min-height:0; padding-block:48px; }
+  .city-scene { transition:none; }
+}
