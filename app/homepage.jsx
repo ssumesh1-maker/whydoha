@@ -302,7 +302,7 @@ export default function Homepage() {
       </section>
 
       <LegacyExperience scenes={legacy} renderAction={([title,image,copy]) => <Pill onClick={e=>open(e,title,image,copy)}>Explore the legacy</Pill>}>
-        <Title label="Legacy & Impact" id="legacy-title">Beyond the<br />Games</Title>
+        <Title label="Legacy & Impact" id="legacy-title">Beyond the Games</Title>
       </LegacyExperience>
 
       <CityExperience renderAction={scene => <Pill light onClick={e=>open(e,scene.title,scene.file,scene.title === 'Culture & Heritage' ? 'Discover Doha’s culture and heritage through its historic souq and public spaces.' : null)}>Explore Doha</Pill>}>

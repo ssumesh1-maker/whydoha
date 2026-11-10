@@ -371,17 +371,19 @@ a:active,button:active { filter:brightness(.8); }
 
 /* Section-scoped adaptation of GSAP's continuous-section demo. */
 .legacy-experience { position:relative; isolation:isolate; height:100svh; min-height:620px; color:white; background:#111; overflow:hidden; }
-.legacy-heading { position:absolute; z-index:10; inset:clamp(28px,5vw,96px) var(--gutter) auto; pointer-events:none; }
-.legacy-heading .eyebrow { color:var(--accent); }
+.legacy-heading { position:absolute; z-index:10; inset:0 var(--gutter) auto; min-height:clamp(88px,7vw,134px); display:flex; align-items:center; pointer-events:none; }
+.legacy-heading .section-title { display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; }
+.legacy-heading .eyebrow { color:var(--accent); margin:0; }
+.legacy-heading h2 { font-size:clamp(12px,.94vw,18px); text-align:right; }
 .legacy-scene { position:absolute; inset:0; visibility:hidden; }
 .legacy-scene.is-active { visibility:visible; }
 .legacy-outer,.legacy-inner { position:absolute; inset:0; overflow:hidden; }
 .legacy-background { position:absolute; inset:0; }
 .legacy-background::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,#000a, #0004 40%,#000a 100%); }
 .legacy-background .cover { object-position:60% center; }
-.legacy-scene-copy { position:absolute; inset:0; padding:180px var(--gutter) 130px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; text-align:center; }
-.legacy-scene-title { font-size:clamp(40px,6vw,112px); font-weight:400; line-height:1.12; letter-spacing:-.045em; text-transform:uppercase; }
-.legacy-scene-copy p { max-width:560px; font-size:clamp(16px,1.25vw,24px); font-weight:300; line-height:1.33; }
+.legacy-scene-copy { position:absolute; inset:0; padding:100px 5vw; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; text-align:center; }
+.legacy-scene-title { width:90vw; max-width:1200px; font-size:clamp(40px,6vw,112px); font-weight:400; line-height:1.12; letter-spacing:-.045em; text-transform:uppercase; }
+.legacy-scene-copy p { position:absolute; top:calc(50% + clamp(40px,6vw,112px) * .56 + 24px); width:calc(100% - 48px); max-width:560px; font-size:clamp(16px,1.25vw,24px); font-weight:300; line-height:1.33; }
 .legacy-toolbar { position:absolute; z-index:10; inset:auto var(--gutter) clamp(24px,4vw,76px); display:flex; align-items:center; justify-content:space-between; gap:20px; }
 .legacy-scene-controls { display:flex; gap:8px; }
 .legacy-scene-controls button { width:44px; height:44px; border-radius:50%; border:1px solid #fff7; color:white; background:#0003; font-size:14px; }
@@ -391,10 +393,9 @@ a:active,button:active { filter:brightness(.8); }
 .legacy-advance { border:0; border-bottom:1px solid #fff8; padding:12px 0; min-height:44px; color:white; background:transparent; font-size:14px; text-transform:uppercase; }
 .legacy-advance span { margin-left:12px; }
 @media(max-width:800px) {
-  .legacy-heading { inset-block-start:32px; }
   .legacy-toolbar { flex-wrap:wrap; inset-block-end:24px; }
   .legacy-scene-actions { gap:16px; }
-  .legacy-scene-copy { padding:170px 24px 160px; gap:18px; }
+  .legacy-scene-copy { padding:100px 5vw; gap:18px; }
 }
 @media(max-width:480px) {
   .legacy-toolbar { justify-content:center; gap:14px; }
