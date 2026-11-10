@@ -74,10 +74,12 @@ section[id],footer[id] { scroll-margin-top:16px }
 .hero::before { z-index:-2; background:linear-gradient(180deg,#0a111139 0%,#05090922 23%,#050a09a1 78%,#0c1511 99%) }
 .hero::after {
   z-index:-1;
-  inset-block-end:calc(-1 * clamp(24px,4vw,56px));
-  background:linear-gradient(to bottom,transparent 78%,#fff 100%),
-    radial-gradient(ellipse 89% 45% at 50% 71%,transparent 66%,#fff 100%);
-  mask-image:linear-gradient(transparent 70%,#000 93%,#000 96%,transparent 100%);
+  inset-block-start:auto;
+  inset-block-end:-1px;
+  height:clamp(180px,18vw,350px);
+  /* The sides turn white first; the centre keeps the cue against the film. */
+  background:linear-gradient(to bottom,transparent 32%,#fff 100%),
+    radial-gradient(ellipse 90% 100% at 50% 0%,transparent 48%,#fff 100%);
 }
 .hero-playback {
   position:absolute;
