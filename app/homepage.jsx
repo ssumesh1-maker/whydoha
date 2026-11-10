@@ -104,6 +104,16 @@ export default function Homepage() {
     setModal({title,image,copy,type})
   }
 
+  // Let native anchors update history and scroll; move focus without a second scroll.
+  function navigateSection(event) {
+    const link = event.target.closest('a[href^="#"]')
+    if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    const destination = document.getElementById(link.hash.slice(1))
+    if (!destination) return
+    setMenu(false)
+    destination.focus({ preventScroll: true })
+  }
+
   function saveEmail(event,type){
     event.preventDefault()
     const email = new FormData(event.currentTarget).get('email')
@@ -116,7 +126,7 @@ export default function Homepage() {
     }
   }
 
-  return <div ref={root} id="top" className="site">
+  return <div ref={root} id="top" tabIndex={-1} className="site" onClick={navigateSection}>
     <a className="skip" href="#main">Skip to content</a>
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-media"><Pic file="hero-poster.png" fetchPriority="high" /></div>
@@ -137,23 +147,24 @@ export default function Homepage() {
           <Pill play onClick={e=>open(e,'A city ready to welcome','hero-poster.png','The campaign film is awaiting its source video.')}>Watch the story</Pill>
         </div>
       </div>
-      <a className="scroll-cue" href="#vision">Scroll to explore<Pic file="b2433.svg" /></a>
+      <a className="scroll-cue" href="#vision" aria-label="Scroll to Our Ambition">Scroll to explore<Pic file="scroll-cue-motion.svg" /></a>
     </section>
 
     <main aria-label="Why Doha">
-      <section id="vision" className="vision" aria-labelledby="vision-title">
+      <section tabIndex={-1} id="vision" className="vision" aria-labelledby="vision-title">
         <Title label="Our Ambition" id="vision-title">More than a Games</Title>
         <p className="vision-copy">A shared ambition begins with people. Doha’s vision brings people, sport and cultures together, with the ambition to create an enduring legacy for future generations.</p>
-        <div className="vision-gallery" aria-label="Explore the vision imagery">
+        <div className="vision-gallery" role="group" aria-label="Explore the vision imagery">
           {vision.map(([label,file],i)=>{
             const position = rotate(i,-visionIndex+1,vision.length)
-            return <button key={label} className={'vision-image offset-'+position} aria-label={'Show '+label} aria-pressed={i===visionIndex} type="button" onClick={()=>setVision(i)}><Pic file={file} loading="lazy" /></button>
+            return <button key={label} className={'vision-image offset-'+position} aria-label={'Show '+label} aria-pressed={i===visionIndex} aria-controls="vision-detail" type="button" onClick={()=>setVision(i)}><Pic file={file} loading="lazy" /></button>
           })}
         </div>
-        <Pill light onClick={e=>open(e,vision[visionIndex][0],vision[visionIndex][1],'A shared ambition begins with people.')}>Discover the vision</Pill>
+        <span className="sr-only" role="status">{vision[visionIndex][0]} selected</span>
+        <div id="vision-detail"><Pill light onClick={e=>open(e,vision[visionIndex][0],vision[visionIndex][1],'A shared ambition begins with people.')}>Discover the vision</Pill></div>
       </section>
 
-      <section id="venues" className="venues" aria-labelledby="venues-title">
+      <section tabIndex={-1} id="venues" className="venues" aria-labelledby="venues-title">
         <div className="venue-stage">
           <div className="venue-map" aria-hidden="true"><Pic file="9074b.svg" /></div>
           <div className="venue-heading">
@@ -172,7 +183,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section id="stories" className="stories" aria-labelledby="stories-title">
+      <section tabIndex={-1} id="stories" className="stories" aria-labelledby="stories-title">
         <div className="stories-panel">
           <Title label="People & Stories" id="stories-title">The people behind<br />the bid</Title>
           <div className="stories-stage">
@@ -186,7 +197,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section id="legacy" className="legacy" aria-labelledby="legacy-title">
+      <section tabIndex={-1} id="legacy" className="legacy" aria-labelledby="legacy-title">
         <div className="legacy-info">
           <Title label="Legacy & Impact" id="legacy-title">Beyond the<br />Games</Title>
           <div><Rule>{evidence}</Rule><div className="legacy-actions">
@@ -200,7 +211,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section id="explore" className="explore" aria-labelledby="explore-title">
+      <section tabIndex={-1} id="explore" className="explore" aria-labelledby="explore-title">
         <Pic className="cover" file="36e04.png" loading="lazy" />
         <div className="explore-card">
           <Title label="Explore Doha" id="explore-title">Experience<br />the city</Title>
@@ -209,7 +220,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section id="journey" className="journey" aria-labelledby="journey-title">
+      <section tabIndex={-1} id="journey" className="journey" aria-labelledby="journey-title">
         <div className="journey-glow" aria-hidden="true"><Pic file="0dd4d.svg" /></div>
         <div className="container journey-head"><div><Title label="The Journey" id="journey-title">Follow the<br />journey</Title><Pill href="#updates">Get updates</Pill></div><Rule>{evidence}</Rule></div>
         <div className="journey-line" aria-hidden="true"><Pic file="d5f9e.svg" /><Pic file="817b8.svg" /></div>
@@ -220,7 +231,7 @@ export default function Homepage() {
       </section>
     </main>
 
-    <footer id="updates" className="footer">
+    <footer tabIndex={-1} id="updates" className="footer">
       <div className="container">
         <div className="newsletter"><h2>Stay close to<br />the story</h2><p>Get the latest updates, stories and key developments.</p>
           <form onSubmit={e=>saveEmail(e,'updates')}><label className="sr-only" htmlFor="newsletter-email">Email address</label><input id="newsletter-email" name="email" type="email" autoComplete="email" required placeholder="Enter your email" /><button type="submit" aria-label="Register for updates"><Pic file="e4328.svg" /></button><span className="form-notice" role="status">{newsletterNotice}</span></form>
@@ -237,7 +248,7 @@ export default function Homepage() {
         <div className="footer-base"><Logo />
           <div className="footer-legal">{['Privacy','Accessibility','Terms'].map(label=><button type="button" key={label} onClick={e=>open(e,label,null,'This page is awaiting its approved content and destination.')}>{label}</button>)}</div>
           <span>©WhyDoha</span>
-          <a className="top-link" href="#top"><span aria-hidden="true"><Pic file="23103.svg" /><Pic file="1b749.svg" /></span>Back to top</a>
+          <a className="top-link" href="#top"><span aria-hidden="true"><Pic file="outline-motion.svg" /><Pic file="1b749.svg" /></span>Back to top</a>
         </div>
       </div>
     </footer>
