@@ -65,6 +65,7 @@ export default function Homepage() {
   const [allowMotion,setAllowMotion] = useState(false)
   const heroVideo = useRef(null)
   const visionGallery = useRef(null)
+  const storyCarousel = useRef(null)
   const venueStage = useRef(null)
   const venueCard = useRef(null)
   const [cardPlacement,setCardPlacement] = useState(null)
@@ -129,7 +130,6 @@ export default function Homepage() {
       root.current.querySelectorAll('.vision .section-title, .vision-copy, .vision-gallery, .venue-heading, .venue-foot, .stories .section-title, .stories-stage, .legacy-info, .legacy-image, .journey-head, .milestones li, .newsletter, .footer-links').forEach(reveal)
       if (desktop) {
         gsap.to('.hero-media video',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.7}})
-        gsap.to('.stories-word',{yPercent:-12,ease:'none',scrollTrigger:{trigger:'.stories-stage',start:'top bottom',end:'bottom top',scrub:.6}})
         gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.6}})
       }
     },root)
@@ -165,6 +165,19 @@ export default function Homepage() {
     },4000)
     return ()=>window.clearInterval(timer)
   },[allowMotion,modal,visionIndex])
+
+  useEffect(()=>{
+    if (!allowMotion || modal) return
+    const timer = window.setInterval(()=>{
+      const carousel = storyCarousel.current
+      if (!carousel || document.hidden || carousel.contains(document.activeElement)) return
+      if (window.matchMedia('(hover:hover)').matches && carousel.querySelector('.stories-stage').matches(':hover')) return
+      const bounds = carousel.querySelector('.stories-stage').getBoundingClientRect()
+      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return
+      setStory(index=>rotate(index,1,stories.length))
+    },4000)
+    return ()=>window.clearInterval(timer)
+  },[allowMotion,modal,storyIndex])
 
   useEffect(()=>{
     if(modal && !dialog.current.open) dialog.current.showModal()
@@ -274,7 +287,7 @@ export default function Homepage() {
       </section>
 
       <section tabIndex={-1} id="stories" className="stories" aria-labelledby="stories-title">
-        <div className="stories-panel">
+        <div ref={storyCarousel} className="stories-panel">
           <Title label="People & Stories" id="stories-title">The people behind<br />the bid</Title>
           <div className="stories-stage">
             <span className="stories-word" aria-hidden="true">{story}</span>
