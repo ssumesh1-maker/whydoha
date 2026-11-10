@@ -404,3 +404,7 @@ a:active,button:active { filter:brightness(.8); }
 @media(max-height:619px) {
   .legacy-experience { height:620px; }
 }
+
+/* City rises over the held final Legacy scene; both sections keep native scroll. */
+.city-overlap-layer { position:relative; z-index:2; }
+.legacy-city-overlap .city-overlap-layer { margin-block-start:calc(-1 * var(--legacy-overlap-height,100svh)); }

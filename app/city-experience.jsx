@@ -58,9 +58,13 @@ export default function CityExperience({ children, renderAction }) {
         id: 'city-experience',
         trigger: section.current,
         animation: timeline,
-        start: 'top top',
+        start: () => {
+          const legacy = ScrollTrigger.getById('legacy-experience')
+          return legacy && section.current.closest('.legacy-city-overlap') ? legacy.end : 'top top'
+        },
         end: () => '+=' + window.innerHeight * (scenes.length - 1),
         pin: true,
+        pinType: 'transform',
         scrub: .35,
         anticipatePin: 1,
         invalidateOnRefresh: true,

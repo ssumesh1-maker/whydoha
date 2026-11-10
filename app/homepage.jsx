@@ -305,9 +305,11 @@ export default function Homepage() {
         <Title label="Legacy & Impact" id="legacy-title">Beyond the Games</Title>
       </LegacyExperience>
 
+      <div className="city-overlap-layer">
       <CityExperience renderAction={scene => <Pill light onClick={e=>open(e,scene.title,scene.file,scene.title === 'Culture & Heritage' ? 'Discover Doha’s culture and heritage through its historic souq and public spaces.' : null)}>Explore Doha</Pill>}>
         <Title label="Explore Doha" id="explore-title">Experience<br />the city</Title>
       </CityExperience>
+      </div>
 
       <section tabIndex={-1} id="journey" className="journey" aria-labelledby="journey-title">
         <div className="journey-glow" aria-hidden="true"><Pic file="0dd4d.svg" /></div>

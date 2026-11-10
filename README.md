@@ -104,3 +104,9 @@ Production build passes. Chromium desktop, emulated iPhone touch, reduced-motion
 Legacy & Impact now uses horizontal opposing wrappers, background movement and title entry. Experience the City uses the vertical opposing-wrapper transition for both its full-screen background and the image inside its fixed card. Both image layers share the same GSAP timeline and progress, including reverse scrolling. Scene titles and controls follow the completed scene. Reduced motion and short-screen fallbacks remain manual and unanimated.
 
 Production build and desktop/mobile/reduced-motion/short-landscape checks pass. Mid-transition browser checks verify horizontal-only Legacy motion and matching vertical progress for city background and thumbnail, while the card frame stays stationary.
+
+### Legacy-to-city overlap
+
+After the horizontal Legacy scenes, Culture holds behind the page for one additional viewport of native scrolling. Experience the City rises from below on a higher layer until it completely covers Legacy; its vertical image sequence then begins. Scrolling backward reverses the overlap. The final Legacy controls leave the focus order while covered. Typography and media remain unchanged.
+
+The city's pin starts at the Legacy pin's end and uses a transform pin to avoid the fixed-position offset from overlapping pins. Reduced motion and short screens remove the overlap and use the existing direct-control layouts. Production build and Chromium desktop, emulated iPhone and reduced-motion checks pass for half-overlap geometry/layer hit testing, Culture hold, city handoff, reverse scroll and preference-change cleanup.
