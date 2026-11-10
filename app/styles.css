@@ -193,8 +193,8 @@ section[id],footer[id] { scroll-margin-top:16px }
 .top-link img:first-child { bottom:0; clip-path:inset(0 0 0 0) }
 .top-link img:last-child { bottom:6px; }
 @media (prefers-reduced-motion:no-preference) {
-  .top-link:is(:hover,:focus-visible) img:first-child { animation:ring-draw 4s ease-in-out }
-  .top-link:is(:hover,:focus-visible) img:last-child { animation:arrow-float 4s ease-in-out }
+
+  .top-link img:last-child { animation:arrow-float 4s ease-in-out infinite }
   .state-change { animation:state-in var(--swap) ease-out both }
 }
 @keyframes ring-draw { 0%,8.75%,83.75%,100% { clip-path:inset(0) } 41.25% { clip-path:inset(0 100% 0 0) } }
@@ -310,4 +310,28 @@ section[id],footer[id] { scroll-margin-top:16px }
 @media (min-width:801px) {
   .hero-content { margin-block-start:clamp(84px,11.3vw,217px); }
   .hero-meta .rule-text { width:min(38%,23.8vw,457px); }
+}
+
+/* Feedback preserves control geometry and works with pointer, touch and keyboard. */
+a,button { -webkit-tap-highlight-color: #ff734640; }
+a:not(.vision-image),button { transition:background-color var(--control),color var(--control),filter var(--control),box-shadow var(--control); }
+a:active,button:active { filter:brightness(.8); }
+.main-nav a,.footer-links a,.footer-links button,.footer-legal button,.top-link { text-decoration-thickness:1px; text-underline-offset:5px; }
+:is(.main-nav a,.footer-links a,.footer-links button,.footer-legal button,.top-link):focus-visible { text-decoration-line:underline; }
+:is(.search-control,.menu-toggle,.interest,.socials button,.newsletter button,.dialog-close):focus-visible { background-color:#ff734640; }
+.scroll-cue { padding-inline:12px; border-radius:8px; }
+.scroll-cue:focus-visible { outline-color:white; background:#0006; }
+.vision-image[aria-pressed="true"] { box-shadow:0 0 0 2px var(--accent); }
+.vision-image:focus-visible { outline-offset:-5px; z-index:5; }
+@media(hover:hover) {
+  .scroll-cue:hover { color:var(--accent); }
+  .scroll-cue:hover img { filter:drop-shadow(0 0 3px white); }
+  .dots button:hover,.search-control:hover,.socials button:hover,.newsletter button:hover,.dialog-close:hover { background-color:#ff734630; }
+  .vision-image:hover { box-shadow:0 0 0 2px var(--accent); }
+  .search-results a:hover { background-color:#ff734620; }
+  .interest-form button:hover { background-color:#ab3a18; }
+  .top-link:hover { color:var(--accent); }
+}
+@media(pointer:coarse) {
+  .footer-links a,.footer-links button,.footer-legal button { min-height:44px; display:flex; align-items:center; }
 }
