@@ -38,6 +38,13 @@ export default function CityExperience({ children, renderAction }) {
       layer.classList.add('city-scroll-enabled')
       const backgrounds = section.current.querySelectorAll('.city-backgrounds .city-scene')
       const thumbnails = section.current.querySelectorAll('.city-thumbnails .city-scene')
+      // Explicit baselines keep reversal independent of React's active CSS class.
+      // Otherwise a lazy timeline set can capture opacity:0 after the label changes.
+      const frames = [...backgrounds, ...thumbnails]
+      gsap.set(frames, { autoAlpha: 0, yPercent: 0, zIndex: 0 })
+      gsap.set([backgrounds[0], thumbnails[0]], { autoAlpha: 1 })
+      gsap.set(frames.map(frame => frame.querySelector('.city-inner')), { yPercent: 0 })
+      gsap.set(frames.map(frame => frame.querySelector('img')), { yPercent: 0 })
       const timeline = gsap.timeline({ defaults: { duration: 1, ease: 'power1.inOut' } })
       timeline.addLabel('scene-0', 0)
       scenes.slice(1).forEach((_, offset) => {
