@@ -153,7 +153,7 @@ section[id],footer[id] { scroll-margin-top:16px }
 .people-intro > p { font-size:clamp(22px,1.666667vw,32px); line-height:1.189906; font-weight:300; color:#1a1c1a; }
 .people-intro .pill { width:211px; min-width:0; min-height:56px; font-size:16px; line-height:20px; letter-spacing:-.4px; padding:11px 12px 11px 24px; }
 .people-intro .pill-icon { width:32px; }
-.people-collage { display:block; width:83.698%; max-width:none; height:auto; margin-block-start:26px; margin-inline-start:9.0184%; }
+.people-collage { position:relative; display:block; width:83.698%; max-width:none; height:auto; margin-block-start:26px; margin-inline-start:9.0184%; }
 .explore-card h3 { text-transform:uppercase; font-weight:400; font-size:clamp(19px,1.67vw,32px) }
 .explore { position:relative; min-height:max(640px,56.25vw); display:grid; place-items:center; isolation:isolate; padding:40px var(--gutter); }
 .explore > img { z-index:-1; }
@@ -415,3 +415,7 @@ a:active,button:active { filter:brightness(.8); }
   .people-intro > p { max-width:347px; }
   .people-collage { width:100%; margin-inline-start:0; margin-block-start:36px; }
 }
+
+.people-collage-art { width:100%; height:auto; }
+.people-volunteer { position:absolute; left:22.4005%; top:70.4461%; width:15.6322%; height:auto; }
+.people-collage.people-collage-preview { width:100%; margin:0; }

@@ -124,3 +124,7 @@ Replaces the former story slider with the updated composition from Figma page 76
 At 1920px, section heading typography is Doha 2036 Regular 48/56px; body copy is Light 32/38.077px; eyebrow is Light 18/24px with 4.5px letter spacing. Mobile stacks the heading and introduction above the complete collage. The former slider autoplay, giant background word and pagination dots are removed to match the new design. Meet the People uses the existing accessible preview dialog until a destination is supplied.
 
 Production build and Chromium desktop/mobile/reduced-motion checks pass for artwork loading, layout, exact desktop typography, keyboard/touch CTA activation, Escape/focus restoration and horizontal overflow. Existing city reverse-image behavior is retained.
+
+### Missing volunteer portrait restored
+
+The bottom-left volunteer portrait is now included as its own exact masked Figma export (node 109:1453) and positioned relative to the collage at x=22.4005%, y=70.4461%, width=15.6322%. This preserves alignment when the collage scales. The complete composition is reused in the Meet the People preview, so the image is visible there too. Production build and Chromium desktop, emulated touch and reduced-motion checks pass for portrait loading, reference placement, preview rendering, focus restoration and overflow.
