@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from './logo.json'
+import CityExperience from './city-experience'
 
 const heroFilm = '/media/hero-film.mp4'
 const heroPoster = '/media/hero-poster.png'
@@ -237,14 +238,9 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section tabIndex={-1} id="explore" className="explore" aria-labelledby="explore-title">
-        <Pic className="cover" file="36e04.png" loading="lazy" />
-        <div className="explore-card">
-          <Title label="Explore Doha" id="explore-title">Experience<br />the city</Title>
-          <Pill light onClick={e=>open(e,'Culture & Heritage','36e04.png','Discover Doha’s culture and heritage through its historic souq and public spaces.')}>Explore Doha</Pill>
-          <Pic className="explore-thumb" file="36e04.png" alt="A Qatari souq at golden hour" loading="lazy" /><h3>Culture & Heritage</h3>
-        </div>
-      </section>
+      <CityExperience renderAction={scene => <Pill light onClick={e=>open(e,scene.title,scene.file,scene.title === 'Culture & Heritage' ? 'Discover Doha’s culture and heritage through its historic souq and public spaces.' : null)}>Explore Doha</Pill>}>
+        <Title label="Explore Doha" id="explore-title">Experience<br />the city</Title>
+      </CityExperience>
 
       <section tabIndex={-1} id="journey" className="journey" aria-labelledby="journey-title">
         <div className="journey-glow" aria-hidden="true"><Pic file="0dd4d.svg" /></div>
