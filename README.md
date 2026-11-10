@@ -20,7 +20,7 @@ Open http://localhost:3000. Run `npm run build` to generate the static site in `
 | Hero | Muted autoplay campaign video, desktop scroll parallax, and a static poster for reduced motion |
 | Our Ambition | Borderless image gallery advances every four seconds while visible; manual selection and detail dialog |
 | Venues | Selectable venue map/list; details stay hidden until a stadium is selected |
-| People and Stories | Three selectable story panels and preview dialogs |
+| People and Stories | Figma portrait collage with Meet the People preview dialog |
 | Legacy | Theme dots, Next control and theme detail dialog |
 | Explore Doha | Culture and heritage preview dialog |
 | Journey | A scroll-linked path on desktop and a vertical timeline on narrow screens |
@@ -116,3 +116,11 @@ The city sequence starts at the Legacy pin's end; its stage uses native CSS stic
 Replaces the city's per-frame transform pin with native CSS sticky positioning. GSAP controls only the image timeline; it no longer counter-translates the entire section while the browser scrolls. A stable outer scroll track reserves the same four-scene distance. ResizeObserver updates track height only when the actual stage height changes, and reduced motion/short screens remove the track and sticky behavior. The Legacy overlap and direct scene controls are preserved.
 
 Production build and overlap regression checks pass. Chromium desktop and emulated iPhone checks sample 90 animation frames in forward/reverse scrolling to verify a stationary stage/card without a JavaScript pin transform. Physical-device Safari remains untested.
+
+## People Behind the Bid — updated Figma design
+
+Replaces the former story slider with the updated composition from Figma page 76:2, section 97:59: a left-aligned heading, a right-side introduction and Meet the People button, followed by the organic portrait collage. The collage is the exact exported static artwork from Figma node 97:75, preserving the authored masks, imagery, cropping and image slots; UI text and the button remain native HTML. It is stored locally at public/media/people-collage.png (1309×793, approximately 1 MB), with reserved dimensions and descriptive alt text. No temporary Figma URLs are used at runtime.
+
+At 1920px, section heading typography is Doha 2036 Regular 48/56px; body copy is Light 32/38.077px; eyebrow is Light 18/24px with 4.5px letter spacing. Mobile stacks the heading and introduction above the complete collage. The former slider autoplay, giant background word and pagination dots are removed to match the new design. Meet the People uses the existing accessible preview dialog until a destination is supplied.
+
+Production build and Chromium desktop/mobile/reduced-motion checks pass for artwork loading, layout, exact desktop typography, keyboard/touch CTA activation, Escape/focus restoration and horizontal overflow. Existing city reverse-image behavior is retained.
