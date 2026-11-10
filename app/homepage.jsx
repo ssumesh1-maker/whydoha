@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from './logo.json'
 import CityExperience from './city-experience'
+import useTextReveals from './use-text-reveals'
 
 const heroFilm = '/media/hero-film.mp4'
 const heroPoster = '/media/hero-poster.png'
@@ -70,6 +71,7 @@ export default function Homepage() {
   const venueCard = useRef(null)
   const [cardPlacement,setCardPlacement] = useState(null)
   const root = useRef(null)
+  useTextReveals(root)
   const dialog = useRef(null)
   const menuButton = useRef(null)
   const trigger = useRef(null)
@@ -127,7 +129,7 @@ export default function Homepage() {
         })
       }
       // Animate local content only: pin containers, map markers and card geometry stay fixed.
-      root.current.querySelectorAll('.vision .section-title, .vision-copy, .vision-gallery, .venue-heading, .venue-foot, .stories .section-title, .stories-stage, .legacy-info, .legacy-image, .journey-head, .milestones li, .newsletter, .footer-links').forEach(reveal)
+      root.current.querySelectorAll('.vision-gallery, .stories-stage, .legacy-image, .milestones li, .footer-links').forEach(reveal)
       if (desktop) {
         gsap.to('.hero-media video',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.7}})
         gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.6}})
