@@ -66,3 +66,9 @@ Verified against the production export in Chromium desktop, emulated iPhone, red
 ### Gallery and map behavior update
 
 The hero video autoplays muted without a visible playback button; reduced motion keeps its static poster. Our Ambition advances every four seconds while visible, pausing while a gallery control has keyboard focus, on mouse hover, while a dialog is open, or while the document is hidden. Reduced motion disables automatic advancement. Selection borders and hover rings are removed; keyboard focus remains visible. Stadium details are initially absent and appear only after selecting a stadium; the evidence CTA still works before selection.
+
+### Stadium detail toggle and placement
+
+Selecting the active stadium again closes its card. On desktop the card anchors beside the selected marker, flips left when there is insufficient room on the right, and stays within map bounds. ResizeObserver recalculates placement as images load and the map/card resize. The pointer follows the selected marker. On narrower screens the card remains in the responsive venue layout. Mouse, touch and Enter toggling preserve focus on the stadium control; aria-expanded reflects visibility.
+
+Production build and Chromium desktop, emulated touch and reduced-motion checks pass across all five stadiums for open/close toggling, focus retention, marker-relative placement and card bounds.
