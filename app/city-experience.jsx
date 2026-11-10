@@ -32,6 +32,10 @@ export default function CityExperience({ children, renderAction }) {
     const media = gsap.matchMedia()
     // Short screens use the same direct controls without trapping an oversized card.
     media.add('(prefers-reduced-motion: no-preference) and (min-height: 620px)', () => {
+      const layer = section.current.parentElement
+      layer.style.setProperty('--city-scene-count', String(scenes.length))
+      layer.style.setProperty('--city-stage-height', section.current.offsetHeight + 'px')
+      layer.classList.add('city-scroll-enabled')
       const backgrounds = section.current.querySelectorAll('.city-backgrounds .city-scene')
       const thumbnails = section.current.querySelectorAll('.city-thumbnails .city-scene')
       const timeline = gsap.timeline({ defaults: { duration: 1, ease: 'power1.inOut' } })
@@ -56,17 +60,14 @@ export default function CityExperience({ children, renderAction }) {
       timeline.to({}, { duration: .5 })
       const sequence = ScrollTrigger.create({
         id: 'city-experience',
-        trigger: section.current,
+        trigger: layer,
         animation: timeline,
         start: () => {
           const legacy = ScrollTrigger.getById('legacy-experience')
           return legacy && section.current.closest('.legacy-city-overlap') ? legacy.end : 'top top'
         },
-        end: () => '+=' + window.innerHeight * (scenes.length - 1),
-        pin: true,
-        pinType: 'transform',
+        end: () => '+=' + section.current.offsetHeight * (scenes.length - 1),
         scrub: .35,
-        anticipatePin: 1,
         invalidateOnRefresh: true,
         onUpdate: self => {
           let index = 0
@@ -75,7 +76,25 @@ export default function CityExperience({ children, renderAction }) {
         },
       })
       scrollSequence.current = { trigger: sequence, timeline }
-      return () => { scrollSequence.current = null }
+      let refreshFrame
+      let previousHeight = section.current.offsetHeight
+      const resize = new ResizeObserver(() => {
+        const height = section.current.offsetHeight
+        if (height === previousHeight) return
+        previousHeight = height
+        layer.style.setProperty('--city-stage-height', height + 'px')
+        cancelAnimationFrame(refreshFrame)
+        refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh())
+      })
+      resize.observe(section.current)
+      return () => {
+        scrollSequence.current = null
+        resize.disconnect()
+        cancelAnimationFrame(refreshFrame)
+        layer.classList.remove('city-scroll-enabled')
+        layer.style.removeProperty('--city-stage-height')
+        layer.style.removeProperty('--city-scene-count')
+      }
     })
     return () => media.revert()
   }, [])

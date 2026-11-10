@@ -408,3 +408,7 @@ a:active,button:active { filter:brightness(.8); }
 /* City rises over the held final Legacy scene; both sections keep native scroll. */
 .city-overlap-layer { position:relative; z-index:2; }
 .legacy-city-overlap .city-overlap-layer { margin-block-start:calc(-1 * var(--legacy-overlap-height,100svh)); }
+
+/* Native sticky keeps the city stage stable during compositor-driven scrolling. */
+.city-overlap-layer.city-scroll-enabled { height:calc(var(--city-stage-height) * var(--city-scene-count)); }
+.city-scroll-enabled > .city-experience { position:sticky; top:0; }
