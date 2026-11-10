@@ -54,7 +54,7 @@ function rotate(index, amount, count) { return (index + amount + count) % count 
 
 export default function Homepage() {
   const [visionIndex,setVision] = useState(1)
-  const [venueIndex,setVenue] = useState(0)
+  const [venueIndex,setVenue] = useState(null)
   const [storyIndex,setStory] = useState(0)
   const [legacyIndex,setLegacy] = useState(0)
   const [menu,setMenu] = useState(false)
@@ -63,14 +63,14 @@ export default function Homepage() {
   const [notice,setNotice] = useState('')
   const [newsletterNotice,setNewsletterNotice] = useState('')
   const [allowMotion,setAllowMotion] = useState(false)
-  const [heroPaused,setHeroPaused] = useState(false)
   const heroVideo = useRef(null)
+  const visionGallery = useRef(null)
   const root = useRef(null)
   const dialog = useRef(null)
   const menuButton = useRef(null)
   const trigger = useRef(null)
   const skipRestore = useRef(false)
-  const [venue,model,,,venueImage] = venues[venueIndex]
+  const [venue,model,,,venueImage] = venues[venueIndex] || []
   const [story,storyImage] = stories[storyIndex]
   const [theme,themeImage,themeCopy] = legacy[legacyIndex]
   const matching = searchable.filter(([label])=>label.toLowerCase().includes(query.trim().toLowerCase()))
@@ -96,12 +96,25 @@ export default function Homepage() {
 
   useEffect(()=>{
     const video = heroVideo.current
-    if(allowMotion && !heroPaused && !modal) {
+    if(allowMotion && !modal) {
       video.play().catch(()=>{})
     } else {
       video.pause()
     }
-  },[allowMotion,heroPaused,modal])
+  },[allowMotion,modal])
+
+  useEffect(()=>{
+    if (!allowMotion || modal) return
+    const timer = window.setInterval(()=>{
+      const gallery = visionGallery.current
+      if (!gallery || document.hidden || gallery.contains(document.activeElement)) return
+      if (window.matchMedia('(hover:hover)').matches && gallery.matches(':hover')) return
+      const bounds = gallery.getBoundingClientRect()
+      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return
+      setVision(index=>rotate(index,1,vision.length))
+    },4000)
+    return ()=>window.clearInterval(timer)
+  },[allowMotion,modal,visionIndex])
 
   useEffect(()=>{
     if(modal && !dialog.current.open) dialog.current.showModal()
@@ -154,7 +167,7 @@ export default function Homepage() {
     <a className="skip" href="#main">Skip to content</a>
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-media" aria-hidden="true">
-        <video ref={heroVideo} src={allowMotion ? heroFilm : undefined} poster={heroPoster} preload="none" muted loop playsInline />
+        <video autoPlay={allowMotion} ref={heroVideo} src={allowMotion ? heroFilm : undefined} poster={heroPoster} preload="none" muted loop playsInline />
       </div>
       <header className="header container">
         <Logo />
@@ -173,7 +186,7 @@ export default function Homepage() {
           <Pill play onClick={e=>open(e,'A city ready to welcome',null,null,'campaign-film')}>Watch the story</Pill>
         </div>
       </div>
-      {allowMotion && <button className="hero-playback" type="button" onClick={()=>setHeroPaused(!heroPaused)}>{heroPaused ? 'Play background' : 'Pause background'}</button>}
+
       <a className="scroll-cue" href="#vision" aria-label="Scroll to Our Ambition">Scroll to explore<Pic file="scroll-cue-motion.svg" /></a>
     </section>
 
@@ -181,7 +194,7 @@ export default function Homepage() {
       <section tabIndex={-1} id="vision" className="vision" aria-labelledby="vision-title">
         <Title label="Our Ambition" id="vision-title">More than a Games</Title>
         <p className="vision-copy">A shared ambition begins with people. Doha’s vision brings people, sport and cultures together, with the ambition to create an enduring legacy for future generations.</p>
-        <div className="vision-gallery" role="group" aria-label="Explore the vision imagery">
+        <div ref={visionGallery} className="vision-gallery" role="group" aria-label="Explore the vision imagery">
           {vision.map(([label,file],i)=>{
             const position = rotate(i,-visionIndex+1,vision.length)
             return <button key={label} className={'vision-image offset-'+position} aria-label={'Show '+label} aria-pressed={i===visionIndex} aria-controls="vision-detail" type="button" onClick={()=>setVision(i)}><Pic file={file} loading="lazy" /></button>
@@ -196,16 +209,16 @@ export default function Homepage() {
           <div className="venue-map" aria-hidden="true"><Pic file="9074b.svg" /></div>
           <div className="venue-heading">
             <Title label="Qatar is Ready" id="venues-title">A city built for<br />major events</Title>
-            <Pill onClick={e=>open(e,venue,venueImage||model,venueImage?'Capacity shown in the bid design: 88,966. Multi-sport ready.':evidence)}>Explore the evidence</Pill>
+            <Pill onClick={e=>open(e,venue || 'Qatar is Ready',venueImage||model,venueImage?'Capacity shown in the bid design: 88,966. Multi-sport ready.':evidence)}>Explore the evidence</Pill>
           </div>
           <div className="venue-markers" role="group" aria-label="Select a venue">
             {venues.map(([name,file,x,y],i)=><button key={name} type="button" className="venue-marker" aria-pressed={venueIndex===i} style={{'--x':x+'%','--y':y+'%'}} onClick={()=>setVenue(i)}><span>{name}</span><Pic file={file} /></button>)}
           </div>
-          <article className="venue-card" aria-live="polite"><div key={venue} className="state-change">
+          {venueIndex !== null && <article className="venue-card" aria-live="polite"><div key={venue} className="state-change">
             <Pic className={venueImage?'venue-photo':'venue-photo venue-model'} file={venueImage||model} alt={venue} loading="lazy" />
             <h3>{venue}</h3><p>A closer look at the places, connection and experience that shape Doha’s readiness.</p>
             {venueImage&&<div className="venue-facts"><span><Pic file="df3e7.svg" />Capacity&nbsp; 88,966</span><span><Pic file="1ded2.svg" />Multi-sport ready</span></div>}
-          </div></article>
+          </div></article>}
           <div className="venue-foot"><Rule>{evidence}</Rule></div>
         </div>
       </section>
