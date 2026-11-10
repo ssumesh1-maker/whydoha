@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from './logo.json'
 import CityExperience from './city-experience'
+import LegacyExperience from './legacy-experience'
 import useTextReveals from './use-text-reveals'
 
 const heroFilm = '/media/hero-film.mp4'
@@ -57,7 +58,6 @@ export default function Homepage() {
   const [visionIndex,setVision] = useState(1)
   const [venueIndex,setVenue] = useState(null)
   const [storyIndex,setStory] = useState(0)
-  const [legacyIndex,setLegacy] = useState(0)
   const [menu,setMenu] = useState(false)
   const [modal,setModal] = useState(null)
   const [query,setQuery] = useState('')
@@ -78,7 +78,6 @@ export default function Homepage() {
   const skipRestore = useRef(false)
   const [venue,model,,,venueImage] = venues[venueIndex] || []
   const [story,storyImage] = stories[storyIndex]
-  const [theme,themeImage,themeCopy] = legacy[legacyIndex]
   const matching = searchable.filter(([label])=>label.toLowerCase().includes(query.trim().toLowerCase()))
 
   useLayoutEffect(()=>{
@@ -129,7 +128,7 @@ export default function Homepage() {
         })
       }
       // Animate local content only: pin containers, map markers and card geometry stay fixed.
-      root.current.querySelectorAll('.vision-gallery, .stories-stage, .legacy-image, .milestones li, .footer-links').forEach(reveal)
+      root.current.querySelectorAll('.vision-gallery, .stories-stage, .milestones li, .footer-links').forEach(reveal)
       if (desktop) {
         gsap.to('.hero-media video',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.7}})
         gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.6}})
@@ -302,19 +301,9 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section tabIndex={-1} id="legacy" className="legacy" aria-labelledby="legacy-title">
-        <div className="legacy-info">
-          <Title label="Legacy & Impact" id="legacy-title">Beyond the<br />Games</Title>
-          <div><Rule>{evidence}</Rule><div className="legacy-actions">
-            <Dots items={legacy} active={legacyIndex} select={setLegacy} name="Choose a legacy theme" />
-            <Pill onClick={e=>open(e,theme,themeImage,themeCopy)}>Explore the legacy</Pill>
-          </div></div>
-        </div>
-        <div className="legacy-image">
-          <div className="legacy-slide state-change" key={theme}><Pic className="cover" file={themeImage} loading="lazy" /><div className="legacy-caption" aria-live="polite"><h3>{theme}</h3><p>{themeCopy}</p></div></div>
-          <button className="next" type="button" aria-label="Next legacy theme" onClick={()=>setLegacy(i=>rotate(i,1,legacy.length))}>Next</button>
-        </div>
-      </section>
+      <LegacyExperience scenes={legacy} renderAction={([title,image,copy]) => <Pill onClick={e=>open(e,title,image,copy)}>Explore the legacy</Pill>}>
+        <Title label="Legacy & Impact" id="legacy-title">Beyond the Games</Title>
+      </LegacyExperience>
 
       <CityExperience renderAction={scene => <Pill light onClick={e=>open(e,scene.title,scene.file,scene.title === 'Culture & Heritage' ? 'Discover Doha’s culture and heritage through its historic souq and public spaces.' : null)}>Explore Doha</Pill>}>
         <Title label="Explore Doha" id="explore-title">Experience<br />the city</Title>
