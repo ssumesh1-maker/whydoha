@@ -17,9 +17,9 @@ Open http://localhost:3000. Run `npm run build` to generate the static site in `
 
 | Section | Behavior |
 | --- | --- |
-| Hero | Muted campaign video with a pause control, desktop scroll parallax, and a static poster for reduced motion |
-| Our Ambition | Image selection with a detail dialog |
-| Venues | Selectable venue map on desktop and a venue list on narrower screens |
+| Hero | Muted autoplay campaign video, desktop scroll parallax, and a static poster for reduced motion |
+| Our Ambition | Borderless image gallery advances every four seconds while visible; manual selection and detail dialog |
+| Venues | Selectable venue map/list; details stay hidden until a stadium is selected |
 | People and Stories | Three selectable story panels and preview dialogs |
 | Legacy | Theme dots, Next control and theme detail dialog |
 | Explore Doha | Culture and heritage preview dialog |
@@ -37,7 +37,7 @@ The [Codrops sticky grid article](https://tympanus.net/codrops/2026/03/02/sticky
 ## First interaction pass
 
 - Section links retain native scrolling and URL history and move keyboard focus to the destination. The hero cue supports click, touch and Enter.
-- Our Ambition uses the existing Sport / People / Culture / Doha image gallery, with React selection, an active outline and a selection announcement. Selecting an image retains focus on that button and updates the existing detail CTA. The supplied app and frame have no People / Sport / Reach / Legacy story index, so no new copy or index was added.
+- Our Ambition uses the existing Sport / People / Culture / Doha image gallery, with React selection and a selection announcement. Selecting an image retains focus on that button and updates the existing detail CTA. The supplied app and frame have no People / Sport / Reach / Legacy story index, so no new copy or index was added.
 - The Figma motion nodes (76:651 and 76:652) belong to Back to top. The original exported outline geometry now draws on the four-second Figma timeline, with a synchronized floating arrow. The hero's original scroll cue also floats subtly. Motion is disabled with prefers-reduced-motion; the full static vectors remain visible.
 - Controls have hover, focus and press feedback. Coarse-pointer footer links have 44px touch targets. Existing GSAP effects remain scoped to desktop visitors without reduced motion. No pinning, scroll replacement or 3D sequence was added.
 
@@ -62,3 +62,7 @@ Culture & Heritage → City life → Nature & outdoors → Food & lifestyle. The
 Four labelled, keyboard-accessible scene controls provide direct selection without moving focus. The existing Explore Doha CTA opens the active scene image/title. Images preload when the visitor approaches the section. Reduced motion and viewports under 620px tall use the same controls without pinning or animated transitions. Changing motion preferences removes the pin immediately. No wheel or touch event interception, WebGL or 3D dependency is used.
 
 Verified against the production export in Chromium desktop, emulated iPhone, reduced motion and short landscape: all scene images decode, background/card sources match, titles advance and reverse, card stays stationary, pin releases, controls retain focus, active CTA matches, and no horizontal overflow or page errors occur. Physical-device Safari remains untested.
+
+### Gallery and map behavior update
+
+The hero video autoplays muted without a visible playback button; reduced motion keeps its static poster. Our Ambition advances every four seconds while visible, pausing while a gallery control has keyboard focus, on mouse hover, while a dialog is open, or while the document is hidden. Reduced motion disables automatic advancement. Selection borders and hover rings are removed; keyboard focus remains visible. Stadium details are initially absent and appear only after selecting a stadium; the evidence CTA still works before selection.
