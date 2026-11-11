@@ -148,7 +148,7 @@ The Figma Journey fixes remain: white dotted arrow surround, dotted card-to-circ
 
 ## Image effects simplified and City flicker prevention
 
-People/Legacy/City photos have no added scale, perspective, blur or image parallax. The former multi-layer telescope zoom is removed; the current single-image section opening is described below. Our Ambition retains its separately requested parallax. Hero, Journey and footer motion remain unchanged.
+People flows directly into Legacy with native scrolling. The telescope preview, additional hold, masked/blurred image planes, portrait perspective and image parallax in People/Legacy/City have been removed. Our Ambition retains its separately requested parallax. Hero, Journey and footer motion remain unchanged.
 
 City keeps its stationary sticky card and synchronized vertical scene wipes. A persistent first-image layer stays beneath every transition. Later frames stay rendered while moving into/out of the clipped image slots, avoiding visibility toggles at scene boundaries. Labels follow the rendered timeline and immediate scroll progress. Individual photos have no extra transform or parallax. Images warm/decode earlier, and the first image loads eagerly. Reduced motion retains direct scene controls.
 
@@ -158,10 +158,3 @@ The footer sentence remains two lines, and the update arrows remain white.
 ## People backdrop restored from Figma
 
 Restores the black → brand orange → white gradient behind the rounded white People panel, based on Figma nodes 76:456 and 76:458. Shared CSS gradient sizes and offsets continue the same backdrop through the map’s lower edge while map labels, controls and cards remain above it. Desktop uses the design’s 812px/481px layers and 163px/179px overlaps, scaled for smaller screens. The nine exact portrait crops, centered typography, CTA and spacing are unchanged. This is a static background; removed image effects stay removed.
-
-
-## People → Legacy reveal without photo zoom
-
-Restores a [Telescope Zoom](https://github.com/joffreysp/telescope-zoom)-inspired section opening with a single stationary Legacy image. A clipping aperture expands as People’s text separates and portraits fade. Photos receive no scaling, translation, perspective, blur, layered echoes or parallax. The Figma backdrop remains at rest and returns on reverse scrolling.
-
-A native CSS sticky stage and immediate ScrollTrigger progress hold the preview opaque until the exact Legacy boundary. Existing Legacy horizontal scenes, Legacy/City overlap, persistent City image layers, vertical wipes, Journey and footer effects remain separate. Reduced motion and short screens skip the opening and retain direct controls. ResizeObserver/matchMedia cleanup restores layout and focusable controls.
