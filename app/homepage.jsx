@@ -8,6 +8,7 @@ import CityExperience from './city-experience'
 import LegacyExperience from './legacy-experience'
 import useTextReveals from './use-text-reveals'
 import usePageParallax from './use-page-parallax'
+import usePeopleEntrance from './use-people-entrance'
 
 const heroFilm = '/media/hero-film.mp4'
 const heroPoster = '/media/hero-poster.png'
@@ -77,6 +78,7 @@ export default function Homepage() {
   const root = useRef(null)
   useTextReveals(root)
   usePageParallax(root)
+  usePeopleEntrance(root)
   const dialog = useRef(null)
   const menuButton = useRef(null)
   const trigger = useRef(null)
