@@ -70,17 +70,7 @@ section[id],footer[id] { scroll-margin-top:16px }
 .hero { position:relative; isolation:isolate; z-index:1; color:white; background:#fff; min-height:max(650px,56.25vw); display:flex; flex-direction:column }
 .hero-media { position:absolute; z-index:-3; inset:0; overflow:hidden; background:#122524 }
 .hero-media video { position:relative; inset-block-start:-8%; width:100%; height:108%; object-fit:cover; object-position:center 34%; display:block; transform-origin:center top }
-.hero::before,.hero::after { content:""; position:absolute; inset:0; pointer-events:none }
-.hero::before { z-index:-2; background:linear-gradient(180deg,#0a111139 0%,#05090922 23%,#050a09a1 78%,#0c1511 99%) }
-.hero::after {
-  z-index:-1;
-  inset-block-start:auto;
-  inset-block-end:-1px;
-  height:clamp(180px,18vw,350px);
-  /* The sides turn white first; the centre keeps the cue against the film. */
-  background:linear-gradient(to bottom,transparent 32%,#fff 100%),
-    radial-gradient(ellipse 90% 100% at 50% 0%,transparent 48%,#fff 100%);
-}
+.hero::before,
 .header { display:flex; align-items:center; justify-content:space-between; gap:clamp(12px,2.6vw,48px); padding-block:clamp(14px,1.4vw,28px); position:relative; z-index:2 }
 .main-nav,.header-actions { display:flex; align-items:center; gap:clamp(13px,2.35vw,48px) }
 .main-nav a,.language,.interest,.menu-toggle { font-size:clamp(10px,.75vw,15px); text-transform:uppercase }
@@ -425,3 +415,63 @@ a:active,button:active { filter:brightness(.8); }
 .city-depth { position:relative; width:100%; height:100%; }
 .footer { position:relative; isolation:isolate; overflow:hidden; }
 .footer::before { content:""; position:absolute; inset:-15% 0; z-index:-1; pointer-events:none; background:inherit; transform:translateY(var(--footer-depth,0px)); }
+
+/* Updated Figma 76:198: shared 146px desktop section rhythm. */
+:root { --section-space:clamp(64px,7.604167vw,146px); }
+.vision { display:block; padding:var(--section-space) var(--gutter); text-align:left; }
+.vision-layout { position:relative; width:100%; aspect-ratio:1587/804; }
+.vision .section-title { position:absolute; top:0; left:0; width:33%; }
+.vision .eyebrow { justify-content:flex-start; font-size:clamp(12px,.9375vw,18px); line-height:24px; letter-spacing:4.5px; font-weight:300; margin-bottom:16px; }
+.vision h2 { font-size:clamp(30px,2.5vw,48px); line-height:1.166667; font-weight:400; letter-spacing:normal; }
+.vision-photo { position:absolute; overflow:hidden; border-radius:clamp(10px,.833333vw,16px); }
+.vision-photo img { width:100%; height:100%; object-fit:cover; }
+.vision-sport { left:0; top:32.3383%; width:32.0101%; height:67.6617%; }
+.vision-sport img { object-position:center 38%; }
+.vision-culture { left:51.0397%; top:.6219%; width:23.4405%; height:38.806%; }
+.vision-culture img { object-position:center 34%; }
+.vision-people { left:76.4965%; top:.6219%; width:15.0599%; height:25.995%; }
+.vision-description { position:absolute; left:50.9137%; top:54.9751%; width:49.0863%; }
+.vision-copy { margin:0; max-width:none; font-size:clamp(19px,1.666667vw,32px); line-height:1.25; font-weight:300; }
+.vision-description .pill { margin-top:clamp(24px,2.552083vw,49px); font-size:16px; line-height:20px; letter-spacing:-.4px; min-height:56px; }
+.stories { background:white; padding:5px clamp(14px,2.34375vw,45px) var(--section-space); }
+.stories-panel { position:relative; padding:0; width:100%; aspect-ratio:1832/1118; border-radius:24px; overflow:visible; background:white; }
+.people-collage { position:absolute; inset:0; width:100%; height:100%; margin:0; }
+.people-parallax { position:relative; width:100%; height:100%; }
+.people-parallax > img { position:absolute; width:6.6587%; height:16.3669%; border-radius:clamp(9px,.9511vw,18.261px); object-fit:cover; }
+.people-heading-row { position:absolute; left:21.3428%; top:35.0626%; width:57.1507%; display:block; text-align:center; }
+.people-heading-row .section-title { width:100%; }
+.stories .eyebrow { justify-content:center; font-size:clamp(12px,.9375vw,18px); line-height:24px; letter-spacing:4.5px; margin-bottom:13px; }
+.stories .section-title h2 { font-size:clamp(36px,5.989583vw,115px); line-height:1.095652; font-weight:400; letter-spacing:normal; }
+.people-intro { position:absolute; top:64.6691%; left:50%; transform:translateX(-50%); width:34.4432%; display:flex; flex-direction:column; align-items:center; gap:clamp(24px,2.5vw,48px); text-align:center; }
+.people-intro > p { width:68.3043%; max-width:431px; font-size:clamp(18px,1.666667vw,32px); line-height:1.189906; font-weight:300; }
+.people-intro .pill { width:239px; justify-content:space-between; }
+.people-collage.people-collage-preview { position:relative; aspect-ratio:1832/1118; width:100%; height:auto; margin:0; }
+@media(max-width:800px) {
+ .vision-layout { display:grid; grid-template-columns:1.3fr 1fr; gap:24px 16px; aspect-ratio:auto; }
+ .vision .section-title { position:static; grid-column:1/-1; width:100%; }
+ .vision-photo { position:relative; inset:auto; width:100%; height:auto; }
+ .vision-sport { grid-row:2/4; aspect-ratio:508/544; }
+ .vision-culture { aspect-ratio:372/312; }
+ .vision-people { width:65%; aspect-ratio:239/209; }
+ .vision-description { position:static; width:100%; grid-column:1/-1; }
+ .vision-description .pill { font-size:14px; }
+ .stories-panel { aspect-ratio:auto; min-height:740px; }
+ .people-collage { height:100%; }
+ .people-parallax > img { width:12%; height:15%; }
+ .people-parallax > img:nth-child(1) { left:1%!important; top:4%!important; }
+ .people-parallax > img:nth-child(2) { left:34%!important; top:0%!important; }
+ .people-parallax > img:nth-child(3) { left:66%!important; top:8%!important; }
+ .people-parallax > img:nth-child(4) { left:87%!important; top:0%!important; }
+ .people-parallax > img:nth-child(5) { left:0%!important; top:32%!important; }
+ .people-parallax > img:nth-child(6) { left:88%!important; top:54%!important; }
+ .people-parallax > img:nth-child(7) { left:2%!important; top:78%!important; }
+ .people-parallax > img:nth-child(8) { left:35%!important; top:85%!important; }
+ .people-parallax > img:nth-child(9) { left:74%!important; top:80%!important; }
+ .people-heading-row { left:13%; top:29%; width:74%; }
+ .stories .section-title h2 { font-size:clamp(32px,6.9vw,55px); }
+ .stories .eyebrow { font-size:11px; letter-spacing:2.5px; }
+ .people-intro { top:53%; width:70%; gap:24px; }
+ .people-intro > p { width:85%; max-width:310px; }
+ .people-intro .pill { width:211px; font-size:14px; }
+ .people-collage.people-collage-preview { min-height:400px; }
+}
