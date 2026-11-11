@@ -10,7 +10,7 @@ const stadiums = [
   { id:'khalifa-international', name:'Khalifa International Stadium', image:'stadium-khalifa-international.png', x:1251, y:457 },
   { id:'al-thumama', name:'Al Thumama Stadium', image:'stadium-al-thumama.png', x:1171.5, y:616 },
   { id:'stadium-974', name:'Stadium 974', image:'stadium-stadium-974.png', x:1716.5, y:466 },
-  { id:'al-janoub', name:'Al Janoub Stadium', x:1599.5, y:694 },
+  { id:'al-janoub', name:'Al Janoub Stadium', image:'stadium-al-janoub.png', x:1599.5, y:694 },
 ]
 const detail = 'A closer look at the places, connection and experience that shape Doha’s readiness.'
 const evidence = 'Experience, infrastructure and connectivity told through real places and verified evidence.'
