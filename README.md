@@ -138,10 +138,10 @@ Depth wrappers are separate from horizontal/vertical scene transition targets, a
 Production build and Chromium desktop/emulated iPhone/reduced-motion checks pass for parallax movement, collage alignment, preference-change cleanup, overflow, city image reversal and Legacy overlap. The 90-frame city stability check still reports 0px card drift. Physical-device Safari remains untested.
 
 
-## Looping section galleries and Journey connectors
+## Native ScrollTrigger sequences restored
 
-Legacy and Experience the City now loop in both directions with GSAP horizontal/vertical transitions, including synchronized city card imagery. Scroll and one-finger swipe change one scene per gesture when the stage fits the viewport. Explicit Previous/Next section links leave the loop using native anchors; slide controls also wrap. Static Figma image compositions remain unchanged. These loops replace the previous finite pin/overlap sequence.
+Legacy returns to its finite horizontal ScrollTrigger sequence. Experience the City returns to its stable native sticky stage with a finite vertical sequence and synchronized card imagery. Native scrolling continues into the next section; there are no wheel/touch handlers or infinite-gallery exits. The previous Legacy/City overlap and reversed first-image baseline are restored.
 
-No document-level scroll replacement or pin spacers. Reduced motion and oversized/short stages retain native scrolling with direct looping controls. Touch zoom, keyboard page navigation, scrollbars and dialog scrolling remain native. Animation contexts and event listeners clean up on changes/unmount.
+Page-wide ScrollTrigger parallax remains active on supported imagery. All three Our Ambition photos now use a clearer 7% image travel with 1.18 overscan on desktop, reduced to 3% and 1.1 on mobile. Rounded frames and text stay stationary. Reduced motion reverts these transforms and keeps direct scene controls usable.
 
-Journey uses the exact Figma-exported white arrow surround and dotted connector stroke. The curved timeline remains visible behind milestone circles; desktop card positions align with the reference. Connectors adapt to the existing vertical mobile layout.
+The Figma Journey fixes remain: white dotted arrow surround, dotted card-to-circle connectors, and the visible curve behind milestone circles.
