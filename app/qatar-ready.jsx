@@ -5,8 +5,8 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 const stadiums = [
   { id:'al-bayt', name:'Al Bayt Stadium', image:'stadium-al-bayt.png', x:956.5, y:126 },
   { id:'lusail', name:'Lusail Stadium', image:'0f67b.png', capacity:'88,966', x:1325, y:237 },
-  { id:'education-city', name:'Education City Stadium', image:'stadium-education-city.png', x:730, y:305 },
-  { id:'ahmad-bin-ali', name:'Ahmad Bin Ali Stadium', image:'stadium-ahmad-bin-ali.png', x:878, y:444 },
+  { id:'education-city', name:'Education City Stadium', image:'stadium-education-city.png', cardSide:'right', x:730, y:305 },
+  { id:'ahmad-bin-ali', name:'Ahmad Bin Ali Stadium', image:'stadium-ahmad-bin-ali.png', x:959.5, y:383 },
   { id:'khalifa-international', name:'Khalifa International Stadium', image:'stadium-khalifa-international.png', x:1251, y:457 },
   { id:'al-thumama', name:'Al Thumama Stadium', image:'stadium-al-thumama.png', x:1171.5, y:616 },
   { id:'stadium-974', name:'Stadium 974', image:'stadium-stadium-974.png', x:1716.5, y:466 },
@@ -78,7 +78,7 @@ export default function QatarReady({ children, renderAction }) {
         x = clamp(centerX - w / 2, padding, area.width - w - padding)
         y = clamp(anchor.top - area.top - h - gap, padding, area.height - h - padding)
         arrowX = clamp(centerX - x, 28, w - 28)
-      } else if (anchor.left - area.left >= w + gap + padding) {
+      } else if (stadium.cardSide !== 'right' && anchor.left - area.left >= w + gap + padding) {
         side = 'right'
         x = anchor.left - area.left - w - gap
         y = clamp(centerY - h + 65, padding, area.height - h - padding)
