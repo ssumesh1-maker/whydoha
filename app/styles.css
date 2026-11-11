@@ -537,3 +537,11 @@ a:active,button:active { filter:brightness(.8); }
  .legacy-scene-actions.has-video-start { justify-content:center; gap:8px 12px; }
  .legacy-scene-actions.has-video-start > .pill { flex-basis:100%; }
 }
+
+/* Enlarge the stadium artwork while labels and marker positions stay stable. */
+.venue-marker:focus-visible { z-index:4; }
+.venue-marker:focus-visible img { transform:translateY(-3px) scale(1.14); filter:drop-shadow(0 10px 13px #ff7346a0); }
+@media(hover:hover) and (pointer:fine) {
+ .venue-marker:hover { z-index:4; }
+ .venue-marker:hover img { transform:translateY(-3px) scale(1.14); }
+}
