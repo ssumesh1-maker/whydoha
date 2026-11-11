@@ -11,7 +11,6 @@ export default function usePageParallax(root) {
     media.add({ desktop: '(min-width: 801px)', motion: '(prefers-reduced-motion: no-preference)' }, context => {
       if (!context.conditions.motion) return
       const desktop = context.conditions.desktop
-      const amount = desktop ? 4 : 2
       const scrub = desktop ? .65 : .3
       function depth(targets, trigger, distance, extra = {}, scale = 1.12) {
         gsap.fromTo(targets, { yPercent: -distance, scale }, {
@@ -23,17 +22,6 @@ export default function usePageParallax(root) {
       // Overscan keeps the approved rounded frames filled throughout the image travel.
       root.current.querySelectorAll('.vision-photo').forEach(photo =>
         depth(photo.querySelector('img'), photo, desktop ? 7 : 3, {}, desktop ? 1.18 : 1.1))
-      // Keep every collage portrait in one coordinate space, including the restored image.
-      gsap.fromTo('#stories .people-parallax', { yPercent: desktop ? 2 : 1 }, { yPercent: desktop ? -2 : -1, ease: 'none', scrollTrigger: { trigger: '.people-transition-layer', start: 'top bottom', end: 'bottom top', scrub, invalidateOnRefresh: true } })
-      depth('.legacy-background .cover, .telescope-depth', '#legacy', amount, {
-        start: () => { const scene = ScrollTrigger.getById('legacy-experience'); return scene ? scene.start - innerHeight : 'top bottom' },
-        end: () => { const scene = ScrollTrigger.getById('legacy-experience'); return scene ? scene.end + innerHeight : 'bottom top' },
-      })
-      // Separate depth wrappers avoid writing to the city transition's image transforms.
-      depth('.city-depth', '.city-overlap-layer', amount, {
-        start: () => { const scene = ScrollTrigger.getById('city-experience'); return scene ? scene.start - innerHeight : 'top bottom' },
-        end: () => { const scene = ScrollTrigger.getById('city-experience'); return scene ? scene.end + innerHeight : 'bottom top' },
-      })
       depth('.journey-glow img', '.journey', desktop ? 6 : 3)
       gsap.fromTo('.footer', { '--footer-depth': desktop ? '-24px' : '-10px' }, { '--footer-depth': desktop ? '24px' : '10px', ease: 'none', scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'bottom bottom', scrub, invalidateOnRefresh: true } })
     }, root)

@@ -20,9 +20,12 @@ export default function CityExperience({ children, renderAction }) {
     // Warm all four images before the section arrives, including hidden layers.
     const observer = new IntersectionObserver(entries => {
       if (!entries.some(entry => entry.isIntersecting)) return
-      section.current.querySelectorAll('img').forEach(image => { image.loading = 'eager' })
+      section.current.querySelectorAll('img').forEach(image => {
+        image.loading = 'eager'
+        image.decode().catch(() => {})
+      })
       observer.disconnect()
-    }, { rootMargin: '100% 0px' })
+    }, { rootMargin: '200% 0px' })
     observer.observe(section.current)
     return () => observer.disconnect()
   }, [])
@@ -38,13 +41,13 @@ export default function CityExperience({ children, renderAction }) {
       layer.classList.add('city-scroll-enabled')
       const backgrounds = section.current.querySelectorAll('.city-backgrounds .city-scene')
       const thumbnails = section.current.querySelectorAll('.city-thumbnails .city-scene')
-      // Explicit baselines keep reversal independent of React's active CSS class.
-      // Otherwise a lazy timeline set can capture opacity:0 after the label changes.
+      // Keep a solid first layer underneath every wipe. No visibility toggles at
+      // scene boundaries: reverse/fast scroll always reveals an existing image.
       const frames = [...backgrounds, ...thumbnails]
-      gsap.set(frames, { autoAlpha: 0, yPercent: 0, zIndex: 0 })
-      gsap.set([backgrounds[0], thumbnails[0]], { autoAlpha: 1 })
+      gsap.set(frames, { autoAlpha: 1, yPercent: 0 })
+      backgrounds.forEach((frame, i) => gsap.set(frame, { zIndex: i }))
+      thumbnails.forEach((frame, i) => gsap.set(frame, { zIndex: i }))
       gsap.set(frames.map(frame => frame.querySelector('.city-inner')), { yPercent: 0 })
-      gsap.set(frames.map(frame => frame.querySelector('img')), { yPercent: 0 })
       const timeline = gsap.timeline({ defaults: { duration: 1, ease: 'power1.inOut' } })
       timeline.addLabel('scene-0', 0)
       scenes.slice(1).forEach((_, offset) => {
@@ -52,19 +55,20 @@ export default function CityExperience({ children, renderAction }) {
         const start = .5 + offset * 1.5
         const frames = [backgrounds[i], thumbnails[i]]
         const inners = frames.map(frame => frame.querySelector('.city-inner'))
-        const photos = frames.map(frame => frame.querySelector('img'))
-        const previous = [backgrounds[i - 1], thumbnails[i - 1]]
-        gsap.set(frames, { autoAlpha: 0, yPercent: 100 })
+        gsap.set(frames, { yPercent: 100 })
         gsap.set(inners, { yPercent: -100 })
-        timeline.set(frames, { autoAlpha: 1, zIndex: i }, start)
-          .fromTo(frames, { yPercent: 100 }, { yPercent: 0 }, start)
+        timeline.fromTo(frames, { yPercent: 100 }, { yPercent: 0 }, start)
           .fromTo(inners, { yPercent: -100 }, { yPercent: 0 }, start)
-          .fromTo(photos, { yPercent: 15 }, { yPercent: 0 }, start)
-          .to(previous.map(frame => frame.querySelector('img')), { yPercent: -15 }, start)
-          .set(previous, { autoAlpha: 0 }, start + 1)
           .addLabel('scene-' + i, start + 1)
       })
       timeline.to({}, { duration: .5 })
+      // Derive labels from the rendered animation, not an independently lagging
+      // scroll position. The stage/card and images stay in the same scroll frame.
+      timeline.eventCallback('onUpdate', () => {
+        let index = 0
+        scenes.forEach((_, i) => { if (timeline.time() >= timeline.labels['scene-' + i] - .01) index = i })
+        setActive(current => current === index ? current : index)
+      })
       const sequence = ScrollTrigger.create({
         id: 'city-experience',
         trigger: layer,
@@ -74,13 +78,8 @@ export default function CityExperience({ children, renderAction }) {
           return legacy && section.current.closest('.legacy-city-overlap') ? legacy.end : 'top top'
         },
         end: () => '+=' + section.current.offsetHeight * (scenes.length - 1),
-        scrub: .35,
+        scrub: true,
         invalidateOnRefresh: true,
-        onUpdate: self => {
-          let index = 0
-          scenes.forEach((_, i) => { if (self.progress * timeline.duration() >= timeline.labels['scene-' + i] - .01) index = i })
-          setActive(index)
-        },
       })
       scrollSequence.current = { trigger: sequence, timeline }
       let refreshFrame
@@ -119,13 +118,13 @@ export default function CityExperience({ children, renderAction }) {
   const scene = scenes[active]
   return <section ref={section} tabIndex={-1} id="explore" className="explore city-experience" aria-labelledby="explore-title">
     <div className="city-backgrounds" aria-hidden="true">
-      {scenes.map((item, index) => <div key={item.file} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><div className="city-depth"><img src={'/media/' + item.file} alt="" decoding="async" loading="lazy" className="cover" /></div></div></div>)}
+      {scenes.map((item, index) => <div key={item.file} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><div className="city-depth"><img src={'/media/' + item.file} alt="" decoding="async" loading={index === 0 ? 'eager' : 'lazy'} className="cover" /></div></div></div>)}
     </div>
     <div className="explore-card">
       {children}
       {renderAction(scene)}
       <div className="city-thumbnails">
-        {scenes.map((item, index) => <div key={item.file} aria-hidden={active !== index} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><div className="city-depth"><img src={'/media/' + item.file} alt={item.alt} decoding="async" loading="lazy" className="explore-thumb" /></div></div></div>)}
+        {scenes.map((item, index) => <div key={item.file} aria-hidden={active !== index} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><div className="city-depth"><img src={'/media/' + item.file} alt={item.alt} decoding="async" loading={index === 0 ? 'eager' : 'lazy'} className="explore-thumb" /></div></div></div>)}
       </div>
       <h3 id="city-scene-title" aria-live="polite" aria-atomic="true">{scene.title}</h3>
       <div className="city-controls" role="group" aria-label="Choose a city experience">

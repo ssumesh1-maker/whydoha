@@ -131,7 +131,7 @@ The bottom-left volunteer portrait is now included as its own exact masked Figma
 
 ## Page-wide GSAP parallax
 
-Uses GSAP ScrollTrigger with eased scrub on separate imagery layers: hero video, ambition images, the complete people collage, Legacy backgrounds, synchronized city background/card depth wrappers, journey glow and footer gradient. Desktop uses gentle 4% image travel, mobile 2%; the collage moves as one group so the restored volunteer portrait keeps its relative placement. Text typography and interactive control geometry stay unchanged.
+Uses GSAP ScrollTrigger for the hero video, Our Ambition photos, Journey glow and footer gradient. People, Legacy and City photos stay free of added parallax. Text typography and interactive control geometry stay unchanged.
 
 Depth wrappers are separate from horizontal/vertical scene transition targets, and the city stage remains native CSS sticky. Images use small overscan to prevent exposed edges. There is no replacement scroller, input interception or new dependency. Reduced motion disables parallax and reverts all added transforms/custom properties immediately.
 
@@ -146,14 +146,10 @@ Page-wide ScrollTrigger parallax remains active on supported imagery. All three 
 
 The Figma Journey fixes remain: white dotted arrow surround, dotted card-to-circle connectors, and the visible curve behind milestone circles.
 
-## People → Legacy telescope reveal
+## Image effects simplified and City flicker prevention
 
-Based on the mechanism in [Joffrey Spitzer’s Telescope Zoom](https://github.com/joffreysp/telescope-zoom): six masked image planes expand together, blur resolves, and surrounding portraits move forward in perspective. Uses the existing Doha portraits and Legacy opening image, with a CSS portrait vignette instead of the demo’s bird mask or imagery. Implementation is adapted to React and native ScrollTrigger; no ScrollSmoother, replacement scroller or new dependency is introduced.
+People flows directly into Legacy with native scrolling. The telescope preview, additional hold, masked/blurred image planes, portrait perspective and image parallax in People/Legacy/City have been removed. Our Ambition retains its separately requested parallax. Hero, Journey and footer motion remain unchanged.
 
-The transition holds People briefly, then hands over to the unique real Legacy content and existing horizontal sequence. The City overlap remains unchanged. The image preview is decorative and hidden from assistive technology. People controls become inert while fading and restore on reverse. Reduced motion and screens below 620px tall skip the effect; matchMedia/context cleanup restores layout and controls after viewport/preference changes.
+City keeps its stationary sticky card and synchronized vertical scene wipes. A persistent first-image layer stays beneath every transition. Later frames stay rendered while moving into/out of the clipped image slots, avoiding visibility toggles at scene boundaries. Labels follow the rendered timeline and immediate scroll progress. Individual photos have no extra transform or parallax. Images warm/decode earlier, and the first image loads eagerly. Reduced motion retains direct scene controls.
 
-The footer updates sentence uses two explicit lines. Get updates and newsletter arrows are white.
-
-### People/Legacy handoff stability
-
-The telescope stage now uses native CSS sticky rather than a second GSAP pin. ScrollTrigger immediately tracks native scroll progress, holds the full preview opaque until the exact shared boundary, then hands over to Legacy. This removes the early crossfade between two vertically offset copies of the image and prevents delayed preview frames from lingering after the stage releases. A ResizeObserver keeps stage measurements current, and the transparent outer layer does not intercept Legacy controls.
+The footer sentence remains two lines, and the update arrows remain white.
