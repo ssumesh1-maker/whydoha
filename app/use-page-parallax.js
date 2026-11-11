@@ -23,15 +23,9 @@ export default function usePageParallax(root) {
       root.current.querySelectorAll('.vision-photo').forEach(photo => depth(photo.querySelector('img'), photo, amount))
       // Keep every collage portrait in one coordinate space, including the restored image.
       gsap.fromTo('#stories .people-parallax', { yPercent: desktop ? 2 : 1 }, { yPercent: desktop ? -2 : -1, ease: 'none', scrollTrigger: { trigger: '#stories', start: 'top bottom', end: 'bottom top', scrub, invalidateOnRefresh: true } })
-      depth('.legacy-background .cover', '#legacy', amount, {
-        start: () => { const scene = ScrollTrigger.getById('legacy-experience'); return scene ? scene.start - innerHeight : 'top bottom' },
-        end: () => { const scene = ScrollTrigger.getById('legacy-experience'); return scene ? scene.end + innerHeight : 'bottom top' },
-      })
-      // Separate depth wrappers avoid writing to the city transition's image transforms.
-      depth('.city-depth', '.city-overlap-layer', amount, {
-        start: () => { const scene = ScrollTrigger.getById('city-experience'); return scene ? scene.start - innerHeight : 'top bottom' },
-        end: () => { const scene = ScrollTrigger.getById('city-experience'); return scene ? scene.end + innerHeight : 'bottom top' },
-      })
+      depth('.legacy-background .cover', '#legacy', amount)
+      // Depth wrappers stay independent of the gallery's vertical transitions.
+      depth('.city-depth', '.city-overlap-layer', amount)
       depth('.journey-glow img', '.journey', desktop ? 6 : 3)
       gsap.fromTo('.footer', { '--footer-depth': desktop ? '-24px' : '-10px' }, { '--footer-depth': desktop ? '24px' : '10px', ease: 'none', scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'bottom bottom', scrub, invalidateOnRefresh: true } })
     }, root)

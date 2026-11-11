@@ -136,3 +136,12 @@ Uses GSAP ScrollTrigger with eased scrub on separate imagery layers: hero video,
 Depth wrappers are separate from horizontal/vertical scene transition targets, and the city stage remains native CSS sticky. Images use small overscan to prevent exposed edges. There is no replacement scroller, input interception or new dependency. Reduced motion disables parallax and reverts all added transforms/custom properties immediately.
 
 Production build and Chromium desktop/emulated iPhone/reduced-motion checks pass for parallax movement, collage alignment, preference-change cleanup, overflow, city image reversal and Legacy overlap. The 90-frame city stability check still reports 0px card drift. Physical-device Safari remains untested.
+
+
+## Looping section galleries and Journey connectors
+
+Legacy and Experience the City now loop in both directions with GSAP horizontal/vertical transitions, including synchronized city card imagery. Scroll and one-finger swipe change one scene per gesture when the stage fits the viewport. Explicit Previous/Next section links leave the loop using native anchors; slide controls also wrap. Static Figma image compositions remain unchanged. These loops replace the previous finite pin/overlap sequence.
+
+No document-level scroll replacement or pin spacers. Reduced motion and oversized/short stages retain native scrolling with direct looping controls. Touch zoom, keyboard page navigation, scrollbars and dialog scrolling remain native. Animation contexts and event listeners clean up on changes/unmount.
+
+Journey uses the exact Figma-exported white arrow surround and dotted connector stroke. The curved timeline remains visible behind milestone circles; desktop card positions align with the reference. Connectors adapt to the existing vertical mobile layout.

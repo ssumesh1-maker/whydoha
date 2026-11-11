@@ -50,8 +50,8 @@ function Logo() {
     <span>Aspiring to welcome<br />the Olympic and<br />Paralympic Games</span>
   </a>
 }
-function Pill({ children, href, onClick, light = false, play = false }) {
-  const inner = <>{children}<span className="pill-icon" aria-hidden="true"><Pic file={light?'414fa.png':'030a4.png'} /><Pic file={play?'318ce.svg':light?'5c0e4.svg':'e4328.svg'} /></span></>
+function Pill({ children, href, onClick, light = false, play = false, surround }) {
+  const inner = <>{children}<span className="pill-icon" aria-hidden="true"><Pic file={surround || (light?'414fa.png':'030a4.png')} /><Pic file={play?'318ce.svg':light?'5c0e4.svg':'e4328.svg'} /></span></>
   return href ? <a className="pill" href={href}>{inner}</a> : <button className="pill" type="button" onClick={onClick}>{inner}</button>
 }
 function Title({ label, children, id }) {
@@ -134,7 +134,6 @@ export default function Homepage() {
       // Animate local content only: pin containers, map markers and card geometry stay fixed.
       root.current.querySelectorAll('.vision-photo, .milestones li, .footer-links').forEach(reveal)
       if (desktop) {
-        gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.6}})
       }
     },root)
     return ()=>motion.revert()
@@ -284,9 +283,10 @@ export default function Homepage() {
 
       <section tabIndex={-1} id="journey" className="journey" aria-labelledby="journey-title">
         <div className="journey-glow" aria-hidden="true"><Pic file="0dd4d.svg" /></div>
-        <div className="container journey-head"><div><Title label="The Journey" id="journey-title">Follow the<br />journey</Title><Pill href="#updates">Get updates</Pill></div><Rule>{evidence}</Rule></div>
+        <div className="container journey-head"><div><Title label="The Journey" id="journey-title">Follow the<br />journey</Title><Pill href="#updates" surround="journey-arrow-surround.png">Get updates</Pill></div><Rule>{evidence}</Rule></div>
         <div className="journey-line" aria-hidden="true"><Pic file="d5f9e.svg" /><Pic file="817b8.svg" /></div>
         <ol className="milestones">{milestones.map(([title,description],i)=><li key={title}>
+          <span className="milestone-connector" aria-hidden="true"><Pic file="journey-connector.svg" /></span>
           <span className="milestone-marker" aria-hidden="true"><Pic file={i<2?'a18a2.svg':'54c3d.svg'} /></span>
           <article><h3>{title}</h3><Pic file="36e04.png" loading="lazy" /><p>{description}</p></article>
         </li>)}</ol>

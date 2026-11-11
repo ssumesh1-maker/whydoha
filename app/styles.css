@@ -390,14 +390,6 @@ a:active,button:active { filter:brightness(.8); }
   .legacy-experience { height:620px; }
 }
 
-/* City rises over the held final Legacy scene; both sections keep native scroll. */
-.city-overlap-layer { position:relative; z-index:2; }
-.legacy-city-overlap .city-overlap-layer { margin-block-start:calc(-1 * var(--legacy-overlap-height,100svh)); }
-
-/* Native sticky keeps the city stage stable during compositor-driven scrolling. */
-.city-overlap-layer.city-scroll-enabled { height:calc(var(--city-stage-height) * var(--city-scene-count)); }
-.city-scroll-enabled > .city-experience { position:sticky; top:0; }
-
 @media(max-width:800px) {
   .people-heading-row { flex-direction:column; gap:28px; }
   .people-heading-row .section-title,.people-intro { width:100%; }
@@ -474,4 +466,41 @@ a:active,button:active { filter:brightness(.8); }
  .people-intro > p { width:85%; max-width:310px; }
  .people-intro .pill { width:211px; font-size:14px; }
  .people-collage.people-collage-preview { min-height:400px; }
+}
+
+/* Infinite galleries have explicit exits and no document-length pin spacers. */
+.legacy-experience,.city-experience { scroll-margin-top:0; }
+.legacy-scene { overflow:hidden; }
+.gallery-section-nav { position:absolute; z-index:12; inset:auto var(--gutter) 14px; display:flex; justify-content:space-between; gap:16px; color:white; }
+.gallery-section-nav a { min-height:44px; display:flex; align-items:center; padding:8px 12px; border-radius:8px; background:#0009; font-size:13px; text-transform:uppercase; }
+.gallery-section-nav a:hover { background:#000d; text-decoration:underline; text-underline-offset:4px; }
+.legacy-toolbar { bottom:82px; flex-wrap:wrap; }
+.legacy-scene-actions { flex-wrap:wrap; }
+.legacy-advance { font-size:12px; }
+.city-experience { padding-bottom:82px; }
+
+@media(max-width:480px) {
+ .legacy-toolbar { bottom:82px; gap:8px; }
+ .legacy-scene-actions { justify-content:center; gap:8px 16px; }
+ .legacy-scene-actions > .pill { min-width:100%; }
+ .gallery-section-nav { inset-inline:16px; }
+ .gallery-section-nav a { font-size:11px; }
+}
+@media(max-height:619px) { .city-experience { padding-bottom:82px; } }
+
+/* Figma Journey: dotted connectors bridge each card and its circular milestone. */
+.milestone-connector { position:absolute; left:50%; width:1px; height:clamp(24px,1.927083vw,37px); top:calc(-1 * clamp(24px,1.927083vw,37px)); pointer-events:none; }
+.milestone-connector img { width:1px; height:100%; }
+.milestones li:nth-child(2) .milestone-connector { top:100%; }
+@media(min-width:801px) {
+ .milestones { inset:0; }
+ .milestones li:nth-child(1) { top:61.481481%; }
+ .milestones li:nth-child(2) { top:28.240741%; }
+ .milestones li:nth-child(3) { top:53.425926%; }
+ .milestone-marker { transform:translate(-50%,-153.448276%); }
+ .milestones li:nth-child(2) .milestone-marker { transform:translate(-50%,53.448276%); }
+}
+@media(max-width:800px) {
+ .milestone-connector,.milestones li:nth-child(2) .milestone-connector { top:30px; left:-12px; width:24px; height:1px; }
+ .milestone-connector img { transform:rotate(-90deg); transform-origin:top left; width:1px; height:24px; }
 }
