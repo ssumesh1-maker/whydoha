@@ -153,3 +153,7 @@ Based on the mechanism in [Joffrey Spitzer’s Telescope Zoom](https://github.co
 The transition holds People briefly, then hands over to the unique real Legacy content and existing horizontal sequence. The City overlap remains unchanged. The image preview is decorative and hidden from assistive technology. People controls become inert while fading and restore on reverse. Reduced motion and screens below 620px tall skip the effect; matchMedia/context cleanup restores layout and controls after viewport/preference changes.
 
 The footer updates sentence uses two explicit lines. Get updates and newsletter arrows are white.
+
+### People/Legacy handoff stability
+
+The telescope stage now uses native CSS sticky rather than a second GSAP pin. ScrollTrigger immediately tracks native scroll progress, holds the full preview opaque until the exact shared boundary, then hands over to Legacy. This removes the early crossfade between two vertically offset copies of the image and prevents delayed preview frames from lingering after the stage releases. A ResizeObserver keeps stage measurements current, and the transparent outer layer does not intercept Legacy controls.
