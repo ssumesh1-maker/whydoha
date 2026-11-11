@@ -263,6 +263,7 @@ export default function Homepage() {
         </div>
       </section>
 
+      <div className="people-transition-layer">
       <section tabIndex={-1} id="stories" className="stories" aria-labelledby="stories-title">
         <div className="people-legacy-portal" aria-hidden="true">
           <div className="telescope-back"><div className="telescope-depth"><Pic file={legacy[0][1]} alt="" loading="lazy" /></div></div>
@@ -276,6 +277,7 @@ export default function Homepage() {
           </div>
         </div>
       </section>
+      </div>
 
       <LegacyExperience scenes={legacy} renderAction={([title,image,copy]) => <Pill onClick={e=>open(e,title,image,copy)}>Explore the legacy</Pill>}>
         <Title label="Legacy & Impact" id="legacy-title">Beyond the Games</Title>
