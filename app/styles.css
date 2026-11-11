@@ -523,3 +523,7 @@ a:active,button:active { filter:brightness(.8); }
 @media(max-width:800px) { .newsletter > .newsletter-copy { grid-column:1/-1; max-width:none; } }
 /* Offscreen wipe layers stay clipped inside the stationary card image slot. */
 .city-thumbnails { overflow:hidden; isolation:isolate; border-radius:clamp(11px,.83vw,16px); }
+
+/* Two editorial lines per Legacy caption; fit the longest line on narrow phones. */
+.legacy-scene-copy p { width:calc(100% - 24px); font-size:min(clamp(16px,1.25vw,24px),calc((100vw - 24px) * .044)); }
+.legacy-scene-copy p > span { display:block; white-space:nowrap; }

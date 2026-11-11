@@ -96,7 +96,7 @@ export default function LegacyExperience({ scenes, children, renderAction }) {
     {scenes.map(([title, image, copy], index) => <div key={title} className={'legacy-scene' + (active === index ? ' is-active' : '')} aria-hidden={active !== index}>
       <div className="legacy-outer"><div className="legacy-inner">
         <div className="legacy-background"><img src={'/media/' + image} alt="" className="cover" loading="lazy" decoding="async" /></div>
-        <div className="legacy-scene-copy"><h3 className="legacy-scene-title">{title}</h3><p>{copy}</p></div>
+        <div className="legacy-scene-copy"><h3 className="legacy-scene-title">{title}</h3><p>{copy.split('\n').map((line, index) => <span key={line}>{line}{index === 0 ? ' ' : ''}</span>)}</p></div>
       </div></div>
     </div>)}
     <div className="legacy-toolbar">
