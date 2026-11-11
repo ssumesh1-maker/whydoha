@@ -165,3 +165,10 @@ Restores the black → brand orange → white gradient behind the rounded white 
 Nine portraits fade upward by 18px on desktop (12px on mobile), with a 70ms stagger for portraits entering together. Each portrait plays once when visible and keeps its Figma size/crop. The existing progressive word reveal remains on the central heading. Body copy and CTA enter as one group; keyboard focus immediately completes that entrance. Legacy’s heading has a short fade as it enters view.
 
 There is no new pin, sticky stage, section overlap, photo scaling, blur or scroll interception. Existing gradient, spacing, Legacy/City sequences and other page effects remain unchanged. Reduced motion skips the added entrances; context cleanup restores all content. Completed entrances stay completed across responsive media changes.
+
+
+## Legacy slide videos
+
+Replaces the three Legacy photos with the supplied clips in upload order: Community (14599005), Sport (13721681), and Culture (the compressed 9175432 clip). Local H.264/yuv420p MP4s retain their full duration, use fast-start metadata and contain no audio. Matching first-frame JPEG posters support loading, reduced motion and playback errors. Existing cover framing, dark overlay, two-line captions and horizontal scene transitions remain.
+
+Only the active, visible Legacy video autoplays muted, inline and looping. Other slides pause, as do all videos when a dialog opens, the tab is hidden, the section leaves view or City fully covers Legacy. Play/Pause is keyboard accessible; a user pause persists across slides. Reduced motion defaults to posters with explicit Play available. Sources attach as the section approaches and only the active source requests metadata. Errors fall back to the corresponding poster.
