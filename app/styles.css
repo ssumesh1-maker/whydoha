@@ -108,30 +108,7 @@ section[id],footer[id] { scroll-margin-top:16px }
 .offset-3::after { background:linear-gradient(270deg,white 35%,transparent) }
 .venues { background:#020202; color:white; }
 .venue-stage { position:relative; isolation:isolate; min-height:max(660px,55.72vw); max-width:2100px; margin-inline:auto; overflow:hidden }
-.venue-map { position:absolute; z-index:-1; inset:0; opacity:.75; overflow:hidden; mask-image:linear-gradient(180deg,#000 72%,transparent 97%) }
-.venue-map img { width:55.25%; height:134%; max-width:none; position:absolute; left:23%; top:-18%; transform:rotate(11deg) skewX(-42deg); }
-.venue-heading { position:absolute; inset-inline-start:var(--gutter); inset-block-start:14%; z-index:2 }
 .venues .eyebrow,.legacy .eyebrow { color:var(--accent) }
-.venue-heading .pill { margin-top:clamp(18px,2.5vw,48px) }
-.venue-markers { position:absolute; inset:0 }
-.venue-marker { position:absolute; left:var(--x); top:var(--y); transform:translateX(-50%); border:0; background:none; padding:0; display:flex; flex-direction:column; align-items:center; gap:8px; z-index:1; color:#dedede; }
-.venue-marker img { width:clamp(52px,4.65vw,89px); height:clamp(35px,3.02vw,58px); object-fit:contain; transition:filter var(--control), transform var(--control) }
-/* Compensate for transparent padding in the Stadium 974 export. */
-.venue-marker img.stadium-974-model { scale:1.85; }
-.venue-marker span { background:#111d; border-radius:8px; font-size:clamp(12px,1.35vw,26px); padding:.38em .78em; white-space:nowrap }
-.venue-marker[aria-pressed="true"] { color:white; z-index:3 }
-.venue-marker[aria-pressed="true"] img,.venue-marker:hover img { filter:drop-shadow(0 10px 13px #ff7346a0); transform:translateY(-3px) }
-.venue-card { position:absolute; z-index:2; inset-inline-start:var(--card-x,64.9%); inset-block-start:var(--card-y,14.5%); color:#171717; background:white; width:clamp(225px,21.4vw,410px); padding:clamp(15px,1.67vw,32px); border-radius:clamp(18px,1.67vw,32px); box-shadow:0 14px 34px #0005; }
-.venue-card::before { content:""; width:20px; height:24px; clip-path:polygon(100% 0,0 50%,100% 100%); background:white; position:absolute; left:-19px; top:var(--pointer-y,24px) }
-.venue-card[data-side="left"]::before { left:auto; right:-19px; transform:scaleX(-1); }
-.venue-photo { width:100%; aspect-ratio:345/228; object-fit:cover; border-radius:clamp(9px,.83vw,16px); margin-bottom:clamp(10px,1.4vw,27px); }
-.venue-model { object-fit:contain; padding:12px; background:#efefed }
-.venue-card h3 { font-size:clamp(17px,1.15vw,22px); font-weight:400; text-transform:uppercase }
-.venue-card p { margin-top:.55em; font-size:clamp(13px,.83vw,16px); font-weight:300 }
-.venue-facts { margin-top:clamp(10px,1.25vw,24px); display:grid; gap:5px; font-size:clamp(11px,.83vw,16px); text-transform:uppercase }
-.venue-facts span { display:flex; gap:7px; align-items:center }
-.venue-facts img { width:clamp(14px,1.25vw,24px); height:auto }
-.venue-foot { position:absolute; inset-inline-start:var(--gutter); inset-block-end:13%; z-index:1; max-width:36%; }
 .stories { color:#080808; padding-inline:clamp(14px,2.34vw,45px); }
 .stories-panel { background:white; border-radius:clamp(19px,1.67vw,32px) clamp(19px,1.67vw,32px) 0 0; padding:clamp(64px,7.604vw,146px) clamp(20px,7.03125vw,135px) clamp(60px,5.2vw,100px); overflow:hidden; }
 .people-heading-row { display:flex; align-items:flex-start; justify-content:space-between; gap:32px; }
@@ -245,21 +222,6 @@ section[id],footer[id] { scroll-margin-top:16px }
   .vision-image { width:clamp(78px,20vw,150px) }
   .offset-1 { width:clamp(155px,35vw,255px) }
   .offset-3 { transform:translateX(110%) scale(.83) }
-  .venue-stage { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:25px 20px; min-height:0; padding:70px var(--gutter) 65px; }
-  .venue-heading,.venue-foot,.venue-card,.venue-markers { position:relative; inset:auto; max-width:none; }
-  .venue-heading,.venue-foot { grid-column:1/-1 }
-  .venue-heading .pill { margin-top:20px }
-  .venue-map { opacity:.5; }
-  .venue-map img { width:90%; height:117%; top:0; left:15%; }
-  .venue-markers { display:flex; flex-direction:column; gap:7px; }
-  .venue-marker { position:relative; inset:auto; transform:none; border:1px solid #ffffff35; border-radius:10px; width:100%; min-height:48px; padding:5px 9px; flex-direction:row-reverse; justify-content:flex-end; gap:8px; background:#141414e6; text-align:start; }
-  .venue-marker span { padding:0; white-space:normal; background:none; font-size:clamp(12px,2.15vw,16px); }
-  .venue-marker img { width:35px; height:30px; }
-  .venue-marker img.stadium-974-model { scale:1.4; }
-  .venue-marker[aria-pressed="true"] { border-color:var(--accent); }
-  .venue-card { width:100%; align-self:start; }
-  .venue-card::before { display:none }
-  .venue-foot { max-width:450px }
   .explore { min-height:clamp(540px,90vw,680px); }
   .journey { min-height:0; padding-block:70px; }
   .journey-head { flex-wrap:wrap; align-items:end }
@@ -293,11 +255,6 @@ section[id],footer[id] { scroll-margin-top:16px }
   .scroll-cue { min-height:78px; }
   .vision-gallery { width:calc(100% + 32px); }
   .offset-3 { transform:translateX(92%) scale(.72); }
-  .venue-stage { grid-template-columns:1fr; }
-  .venue-markers { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
-  .venue-card { grid-column:1/-1; }
-  .venue-photo { aspect-ratio:1.85; }
-  .venue-foot { grid-row:4; }
   .footer-links { grid-template-columns:1fr 1fr; row-gap:27px; }
   .footer-base { gap:14px; }
   .footer-base > span { letter-spacing:.1em; }
@@ -430,16 +387,16 @@ a:active,button:active { filter:brightness(.8); }
 :root {
   --people-fade-height:clamp(360px,42.291667vw,812px);
   --people-fade-overlap:clamp(40px,8.489583vw,163px);
-  --people-fade-base-height:clamp(180px,25.052083vw,481px);
-  --people-fade-base-overlap:clamp(40px,9.322917vw,179px);
+  --people-fade-base-height:clamp(180px,19.53125vw,375px);
+  --people-fade-base-overlap:clamp(40px,3.802083vw,73px);
   --people-fade-color:linear-gradient(to top,#fff 0%,#ff7346 42.892%,rgba(0,0,0,.71) 95.316%);
   --people-fade-base:linear-gradient(to bottom,#000,#fff);
 }
 .venue-stage::after {
-  content:""; position:absolute; inset:auto 0 0; height:var(--people-fade-base-overlap); z-index:0; pointer-events:none;
+  content:""; position:absolute; inset:auto 0 0; height:max(var(--people-fade-base-overlap),var(--people-fade-overlap)); z-index:1; pointer-events:none;
   background-image:var(--people-fade-color),var(--people-fade-base);
   background-size:100% var(--people-fade-height),100% var(--people-fade-base-height);
-  background-position:center calc(var(--people-fade-base-overlap) - var(--people-fade-overlap)),center top;
+  background-position:center calc(max(var(--people-fade-base-overlap),var(--people-fade-overlap)) - var(--people-fade-overlap)),center calc(max(var(--people-fade-base-overlap),var(--people-fade-overlap)) - var(--people-fade-base-overlap));
   background-repeat:no-repeat;
 }
 .stories {
@@ -539,9 +496,68 @@ a:active,button:active { filter:brightness(.8); }
 }
 
 /* Enlarge the stadium artwork while labels and marker positions stay stable. */
-.venue-marker:focus-visible { z-index:4; }
-.venue-marker:focus-visible img { transform:translateY(-3px) scale(1.14); filter:drop-shadow(0 10px 13px #ff7346a0); }
-@media(hover:hover) and (pointer:fine) {
- .venue-marker:hover { z-index:4; }
- .venue-marker:hover img { transform:translateY(-3px) scale(1.14); }
+/* Qatar is Ready: coordinates and artwork from Figma 122:1653. */
+.qatar-stage { min-height:0; height:55.729167vw; max-height:1170.3125px; background:#000; }
+.qatar-stage::after { mask-image:linear-gradient(to bottom,transparent,#000 35%); }
+.qatar-art { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+.qatar-coast { position:absolute; left:20.833333%; top:6.261682%; width:86.71875%; max-width:none; height:87.570093%; mask-image:linear-gradient(to right,transparent,#000 14%),linear-gradient(to bottom,transparent,#000 9%,#000 78%,transparent); mask-composite:intersect; }
+.qatar-shade { position:absolute; max-width:none; }
+.qatar-shade-lower { left:0; top:40.747664%; width:46.875%; height:81.632991%; }
+.qatar-shade-left { left:0; top:-15.88785%; width:46.875%; height:129.345794%; }
+.qatar-shade-top { left:0; top:-9.345794%; width:100%; height:31.962617%; }
+.qatar-shade-bottom { left:0; top:81.588785%; width:100%; height:37.102804%; }
+.qatar-heading { position:absolute; z-index:2; left:8.59375%; top:13.64486%; }
+.qatar-heading .eyebrow { font-size:clamp(13px,.9375vw,19.6875px); font-weight:300; line-height:1.333333; letter-spacing:.25em; gap:9px; margin-bottom:16px; }
+.qatar-heading .eyebrow img { width:12px; height:12px; }
+.qatar-heading h2 { font-size:clamp(26px,2.5vw,52.5px); line-height:1.166667; letter-spacing:0; font-weight:400; }
+.qatar-heading .pill { margin-top:clamp(20px,2.5vw,52.5px); padding:10px 12px 12px 24px; min-height:56px; gap:8px; font-size:16px; line-height:20px; letter-spacing:-.4px; background:#ffffff1a; border:1px solid white; }
+.qatar-heading .pill-icon { width:32px; height:32px; border:.7px dashed #fff; border-radius:50%; }
+.qatar-heading .pill-icon img:first-child { display:none; }
+.qatar-hotspots { position:absolute; inset:0; pointer-events:none; z-index:3; }
+.qatar-hotspot { position:absolute; left:var(--stadium-x); top:var(--stadium-y); translate:-50% 0; padding:0 0 clamp(22px,2.6vw,50px); border:0; background:none; display:flex; flex-direction:column; align-items:center; color:#fff; pointer-events:auto; }
+.qatar-label { display:block; padding:clamp(7px,.520833vw,11px) clamp(12px,1.25vw,26.25px); background:#ffffff0f; border-radius:12px; white-space:nowrap; font-size:clamp(12px,.9375vw,19.6875px); font-weight:400; line-height:1.333333; transition:background-color var(--control),color var(--control),transform var(--control); }
+.qatar-pin { width:clamp(5px,.416667vw,8.75px); height:clamp(22px,1.770833vw,37.1875px); object-fit:fill; transition:filter var(--control); }
+.qatar-hotspot[data-active="true"] .qatar-label { background:#ff7346; color:#151515; }
+.qatar-hotspot[data-active="true"] .qatar-pin { filter:brightness(0) saturate(100%) invert(58%) sepia(90%) saturate(1265%) hue-rotate(331deg) brightness(105%) contrast(101%); }
+.qatar-hotspot:active .qatar-label { transform:scale(.97); }
+.qatar-hotspot:focus-visible { outline:0; z-index:4; }
+.qatar-hotspot:focus-visible .qatar-label { outline:2px solid #fff; outline-offset:4px; transform:scale(1.06); }
+@media (hover:hover) and (pointer:fine) { .qatar-hotspot:hover { z-index:4; } .qatar-hotspot:hover .qatar-label { transform:scale(1.06); background:#ff7346; color:#151515; } }
+.qatar-card { position:absolute; z-index:5; left:var(--detail-x,33.385417%); top:var(--detail-y,29.439252%); width:clamp(250px,19.739583vw,414.53125px); padding:clamp(12px,.833333vw,17.5px) clamp(12px,.833333vw,17.5px) clamp(18px,1.25vw,26.25px); border-radius:16px; background:#fff; color:#1a1919; box-shadow:0 12px 30px #0003; }
+.qatar-photo { display:block; width:100%; aspect-ratio:347/229; object-fit:cover; border-radius:8px; margin-bottom:clamp(16px,1.25vw,26.25px); }
+.qatar-photo-illustration { background:url('/media/qatar-ready-map.png') 86% 87% / 375% auto; }
+.qatar-card h3 { font-size:clamp(18px,1.145833vw,24.0625px); font-weight:400; line-height:1.545455; letter-spacing:.04em; text-transform:uppercase; }
+.qatar-card p { margin-top:12px; font-size:clamp(14px,.833333vw,17.5px); font-weight:300; line-height:1.35; letter-spacing:0; }
+.qatar-facts { display:grid; gap:8px; margin-top:24px; font-size:clamp(13px,.833333vw,17.5px); font-weight:400; line-height:1.25; letter-spacing:-.025em; text-transform:uppercase; }
+.qatar-facts span { display:flex; align-items:center; gap:8px; }
+.qatar-facts img { width:24px; height:24px; object-fit:contain; }
+.qatar-card-arrow { position:absolute; display:block; width:29px; height:39px; pointer-events:none; }
+.qatar-card-arrow img { display:block; width:100%; height:100%; }
+.qatar-card[data-side="right"] .qatar-card-arrow { right:-28px; top:calc(var(--arrow-y) - 19.5px); }
+.qatar-card[data-side="left"] .qatar-card-arrow { left:-28px; top:calc(var(--arrow-y) - 19.5px); rotate:180deg; }
+.qatar-card[data-side="bottom"] .qatar-card-arrow { left:calc(var(--arrow-x) - 14.5px); bottom:-33px; rotate:90deg; }
+.qatar-evidence { position:absolute; z-index:2; left:8.59375%; top:75.607477%; width:23.802083%; }
+.qatar-evidence > img { display:block; width:100%; height:auto; }
+.qatar-evidence p { margin-top:17.45px; font-size:clamp(16px,1.25vw,26.25px); font-weight:300; line-height:1.333333; }
+@media (max-width:800px) {
+ .qatar-stage { display:flex; flex-direction:column; gap:28px; height:auto; max-height:none; padding:64px var(--gutter) 80px; }
+ .qatar-art { position:relative; inset:auto; order:1; height:auto; aspect-ratio:1665/937; margin-inline:calc(-1 * var(--gutter)); }
+ .qatar-coast { left:0; top:0; width:100%; height:100%; object-fit:cover; mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 90%,transparent); mask-composite:add; }
+ .qatar-shade { display:none; }
+ .qatar-heading { position:relative; inset:auto; order:0; }
+ .qatar-heading h2 { font-size:var(--section-title); }
+ .qatar-heading .eyebrow { font-size:14px; }
+ .qatar-heading .pill { margin-top:24px; }
+ .qatar-hotspots { position:relative; inset:auto; order:2; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; pointer-events:auto; }
+ .qatar-hotspot { position:relative; inset:auto; translate:none; padding:0; align-items:stretch; min-width:0; }
+ .qatar-label { display:flex; justify-content:center; align-items:center; min-height:48px; height:100%; white-space:normal; padding:10px 8px; font-size:14px; background:#ffffff17; border:1px solid #ffffff26; }
+ .qatar-pin { display:none; }
+ .qatar-card { position:relative; left:auto; top:auto; order:3; width:100%; padding:16px 16px 24px; margin-top:12px; }
+ .qatar-card h3 { font-size:22px; }
+ .qatar-card p,.qatar-facts { font-size:16px; }
+ .qatar-photo { margin-bottom:24px; }
+ .qatar-card .qatar-card-arrow { left:calc(var(--arrow-x,50%) - 14.5px); top:-33px; bottom:auto; right:auto; rotate:-90deg; }
+ .qatar-evidence { position:relative; inset:auto; order:4; width:100%; max-width:457px; }
+ .qatar-evidence p { font-size:20px; }
 }
+@media (prefers-reduced-motion:reduce) { .qatar-label,.qatar-pin { transition:none; } }
