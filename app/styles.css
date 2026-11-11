@@ -356,10 +356,10 @@ a:active,button:active { filter:brightness(.8); }
 
 /* Section-scoped adaptation of GSAP's continuous-section demo. */
 .legacy-experience { position:relative; isolation:isolate; height:100svh; min-height:620px; color:white; background:#111; overflow:hidden; }
-.legacy-heading { position:absolute; z-index:10; inset:0 var(--gutter) auto; min-height:clamp(88px,7vw,134px); display:flex; align-items:center; pointer-events:none; }
-.legacy-heading .section-title { display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%; }
+.legacy-heading { position:absolute; z-index:10; inset:0 var(--gutter) auto; padding-block-start:clamp(40px,5vw,96px); pointer-events:none; }
+.legacy-heading .section-title { display:flex; flex-direction:column; align-items:flex-start; gap:16px; width:100%; }
 .legacy-heading .eyebrow { color:var(--accent); margin:0; }
-.legacy-heading h2 { font-size:clamp(12px,.94vw,18px); text-align:right; }
+.legacy-heading h2 { font-size:clamp(30px,2.5vw,48px); line-height:1.166667; font-weight:400; letter-spacing:normal; text-align:left; }
 .legacy-scene { position:absolute; inset:0; visibility:hidden; }
 .legacy-scene.is-active { visibility:visible; }
 .legacy-outer,.legacy-inner { position:absolute; inset:0; overflow:hidden; }
@@ -367,8 +367,8 @@ a:active,button:active { filter:brightness(.8); }
 .legacy-background::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,#000a, #0004 40%,#000a 100%); }
 .legacy-background .cover { object-position:60% center; }
 .legacy-scene-copy { position:absolute; inset:0; padding:100px 5vw; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; text-align:center; }
-.legacy-scene-title { width:90vw; max-width:1200px; font-size:clamp(40px,6vw,112px); font-weight:400; line-height:1.12; letter-spacing:-.045em; text-transform:uppercase; }
-.legacy-scene-copy p { position:absolute; top:calc(50% + clamp(40px,6vw,112px) * .56 + 24px); width:calc(100% - 48px); max-width:560px; font-size:clamp(16px,1.25vw,24px); font-weight:300; line-height:1.33; }
+.legacy-scene-title { width:90vw; max-width:1200px; font-size:clamp(24px,1.666667vw,32px); font-weight:400; line-height:1.25; letter-spacing:normal; text-transform:uppercase; }
+.legacy-scene-copy p { position:absolute; top:calc(50% + clamp(24px,1.666667vw,32px) * .625 + 24px); width:calc(100% - 48px); max-width:560px; font-size:clamp(16px,1.25vw,24px); font-weight:300; line-height:1.33; }
 .legacy-toolbar { position:absolute; z-index:10; inset:auto var(--gutter) clamp(24px,4vw,76px); display:flex; align-items:center; justify-content:space-between; gap:20px; }
 .legacy-scene-controls { display:flex; gap:8px; }
 .legacy-scene-controls button { width:44px; height:44px; border-radius:50%; border:1px solid #fff7; color:white; background:#0003; font-size:14px; }
