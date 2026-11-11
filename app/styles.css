@@ -132,7 +132,7 @@ section[id],footer[id] { scroll-margin-top:16px }
 .venue-facts span { display:flex; gap:7px; align-items:center }
 .venue-facts img { width:clamp(14px,1.25vw,24px); height:auto }
 .venue-foot { position:absolute; inset-inline-start:var(--gutter); inset-block-end:13%; z-index:1; max-width:36%; }
-.stories { color:#080808; padding-inline:clamp(14px,2.34vw,45px); background:linear-gradient(180deg,#020202 0%,#4c2d20 13%,#ff7346 36%,#fff 61%); }
+.stories { color:#080808; padding-inline:clamp(14px,2.34vw,45px); }
 .stories-panel { background:white; border-radius:clamp(19px,1.67vw,32px) clamp(19px,1.67vw,32px) 0 0; padding:clamp(64px,7.604vw,146px) clamp(20px,7.03125vw,135px) clamp(60px,5.2vw,100px); overflow:hidden; }
 .people-heading-row { display:flex; align-items:flex-start; justify-content:space-between; gap:32px; }
 .people-heading-row .section-title { width:clamp(280px,25.104vw,482px); }
@@ -425,7 +425,31 @@ a:active,button:active { filter:brightness(.8); }
 .vision-description { position:absolute; left:50.9137%; top:54.9751%; width:49.0863%; }
 .vision-copy { margin:0; max-width:none; font-size:clamp(19px,1.666667vw,32px); line-height:1.25; font-weight:300; }
 .vision-description .pill { margin-top:clamp(24px,2.552083vw,49px); font-size:16px; line-height:20px; letter-spacing:-.4px; min-height:56px; }
-.stories { background:white; padding:5px clamp(14px,2.34375vw,45px) var(--section-space); }
+/* Figma 76:456/458: one continuous backdrop split at the map/People boundary.
+   Map controls paint above it; the rounded white People panel paints in front. */
+:root {
+  --people-fade-height:clamp(360px,42.291667vw,812px);
+  --people-fade-overlap:clamp(40px,8.489583vw,163px);
+  --people-fade-base-height:clamp(180px,25.052083vw,481px);
+  --people-fade-base-overlap:clamp(40px,9.322917vw,179px);
+  --people-fade-color:linear-gradient(to top,#fff 0%,#ff7346 42.892%,rgba(0,0,0,.71) 95.316%);
+  --people-fade-base:linear-gradient(to bottom,#000,#fff);
+}
+.venue-stage::after {
+  content:""; position:absolute; inset:auto 0 0; height:var(--people-fade-base-overlap); z-index:0; pointer-events:none;
+  background-image:var(--people-fade-color),var(--people-fade-base);
+  background-size:100% var(--people-fade-height),100% var(--people-fade-base-height);
+  background-position:center calc(var(--people-fade-base-overlap) - var(--people-fade-overlap)),center top;
+  background-repeat:no-repeat;
+}
+.stories {
+  padding:5px clamp(14px,2.34375vw,45px) var(--section-space);
+  background-color:white;
+  background-image:var(--people-fade-color),var(--people-fade-base);
+  background-size:100% var(--people-fade-height),100% var(--people-fade-base-height);
+  background-position:center calc(-1 * var(--people-fade-overlap)),center calc(-1 * var(--people-fade-base-overlap));
+  background-repeat:no-repeat;
+}
 .stories-panel { position:relative; padding:0; width:100%; aspect-ratio:1832/1118; border-radius:24px; overflow:visible; background:white; }
 .people-collage { position:absolute; inset:0; width:100%; height:100%; margin:0; }
 .people-parallax { position:relative; width:100%; height:100%; }
