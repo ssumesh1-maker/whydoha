@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from './logo.json'
 import CityExperience from './city-experience'
+import QatarReady from './qatar-ready'
 import LegacyExperience from './legacy-experience'
 import useTextReveals from './use-text-reveals'
 import usePageParallax from './use-page-parallax'
@@ -19,13 +20,6 @@ const legacy = [
   ['Sport','legacy-community.jpg','A shared ambition for sport\nacross generations.','legacy-community.mp4'],
   ['Community','legacy-sport.jpg','Athletes, volunteers, and communities across Qatar\nshare a purpose across different backgrounds.','legacy-sport.mp4'],
   ['Culture','legacy-culture.jpg','An enduring legacy that brings\npeople and cultures together.','legacy-culture.mp4'],
-]
-const venues = [
-  ['Lusail Stadium','1075a.png',60.4,16,'0f67b.png'],
-  ['Khalifa Stadium','14cf7.png',56.7,43],
-  ['Al Thumama Stadium','893e0.png',40.2,54],
-  ['Stadium 974','6ef7b.png',67.838,47.01],
-  ['Al Bayt Stadium','e1238.png',86,8],
 ]
 const milestones = [['Our Ambitions','Bid vision launched'],['Engagement','Global dialogue & support'],['Candidature','Official submissions (in progress)']]
 const searchable = [...nav, ['Legacy & Impact','#legacy'], ['The Journey','#journey'], ['Get Updates','#updates']]
@@ -64,7 +58,6 @@ function Rule({ children }) {
 function rotate(index, amount, count) { return (index + amount + count) % count }
 
 export default function Homepage() {
-  const [venueIndex,setVenue] = useState(null)
   const [menu,setMenu] = useState(false)
   const [modal,setModal] = useState(null)
   const [query,setQuery] = useState('')
@@ -72,9 +65,6 @@ export default function Homepage() {
   const [newsletterNotice,setNewsletterNotice] = useState('')
   const [allowMotion,setAllowMotion] = useState(false)
   const heroVideo = useRef(null)
-  const venueStage = useRef(null)
-  const venueCard = useRef(null)
-  const [cardPlacement,setCardPlacement] = useState(null)
   const root = useRef(null)
   useTextReveals(root)
   usePageParallax(root)
@@ -83,36 +73,7 @@ export default function Homepage() {
   const menuButton = useRef(null)
   const trigger = useRef(null)
   const skipRestore = useRef(false)
-  const [venue,model,,,venueImage] = venues[venueIndex] || []
   const matching = searchable.filter(([label])=>label.toLowerCase().includes(query.trim().toLowerCase()))
-
-  useLayoutEffect(()=>{
-    if (venueIndex === null) return
-    const stage = venueStage.current
-    const card = venueCard.current
-    const marker = stage.querySelectorAll('.venue-marker')[venueIndex]
-    function placeCard() {
-      if (window.innerWidth <= 800) return
-      const area = stage.getBoundingClientRect()
-      const anchor = marker.getBoundingClientRect()
-      const width = card.offsetWidth
-      const height = card.offsetHeight
-      const gap = 20
-      const padding = 24
-      const right = anchor.right - area.left + gap
-      const side = right + width <= area.width - padding ? 'right' : 'left'
-      const x = Math.max(padding, Math.min(area.width - width - padding, side === 'right' ? right : anchor.left - area.left - width - gap))
-      const anchorY = anchor.top - area.top + anchor.height / 2
-      const y = Math.max(padding, Math.min(area.height - height - padding, anchorY - 36))
-      setCardPlacement({ side, '--card-x': x + 'px', '--card-y': y + 'px', '--pointer-y': Math.max(20,Math.min(height - 44,anchorY - y - 12)) + 'px' })
-    }
-    placeCard()
-    const observer = new ResizeObserver(placeCard)
-    observer.observe(stage)
-    observer.observe(card)
-    window.addEventListener('resize',placeCard)
-    return ()=>{ observer.disconnect();window.removeEventListener('resize',placeCard) }
-  },[venueIndex])
 
   useEffect(()=>{
     gsap.registerPlugin(ScrollTrigger)
@@ -244,24 +205,9 @@ export default function Homepage() {
         </div>
       </section>
 
-      <section tabIndex={-1} id="venues" className="venues" aria-labelledby="venues-title">
-        <div ref={venueStage} className="venue-stage">
-          <div className="venue-map" aria-hidden="true"><Pic file="9074b.svg" /></div>
-          <div className="venue-heading">
-            <Title label="Qatar is Ready" id="venues-title">A city built for<br />major events</Title>
-            <Pill onClick={e=>open(e,venue || 'Qatar is Ready',venueImage||model,venueImage?'Capacity shown in the bid design: 88,966. Multi-sport ready.':evidence)}>Explore the evidence</Pill>
-          </div>
-          <div className="venue-markers" role="group" aria-label="Select a venue">
-            {venues.map(([name,file,x,y],i)=><button key={name} type="button" className="venue-marker" aria-pressed={venueIndex===i} aria-expanded={venueIndex===i} aria-controls={venueIndex===i ? "stadium-detail" : undefined} style={{'--x':x+'%','--y':y+'%'}} onClick={()=>setVenue(current=>current===i ? null : i)}><span>{name}</span><Pic className={name === 'Stadium 974' ? 'stadium-974-model' : undefined} file={file} /></button>)}
-          </div>
-          {venueIndex !== null && <article ref={venueCard} id="stadium-detail" className="venue-card" data-side={cardPlacement?.side} style={cardPlacement ? {'--card-x':cardPlacement['--card-x'],'--card-y':cardPlacement['--card-y'],'--pointer-y':cardPlacement['--pointer-y']} : undefined} aria-live="polite"><div key={venue} className="state-change">
-            <Pic className={venueImage?'venue-photo':'venue-photo venue-model'} file={venueImage||model} alt={venue} loading="lazy" />
-            <h3>{venue}</h3><p>A closer look at the places, connection and experience that shape Doha’s readiness.</p>
-            {venueImage&&<div className="venue-facts"><span><Pic file="df3e7.svg" />Capacity&nbsp; 88,966</span><span><Pic file="1ded2.svg" />Multi-sport ready</span></div>}
-          </div></article>}
-          <div className="venue-foot"><Rule>{evidence}</Rule></div>
-        </div>
-      </section>
+      <QatarReady renderAction={stadium => <Pill onClick={e=>open(e,stadium?.name || 'Qatar is Ready',stadium?.image,stadium?.capacity ? 'Capacity shown in the bid design: '+stadium.capacity+'. Multi-sport ready.' : evidence)}>Explore the evidence</Pill>}>
+        <Title label="Qatar is Ready" id="venues-title">A city built for<br />major events</Title>
+      </QatarReady>
 
       <section tabIndex={-1} id="stories" className="stories" aria-labelledby="stories-title">
         <div className="stories-panel">
