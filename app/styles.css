@@ -527,3 +527,13 @@ a:active,button:active { filter:brightness(.8); }
 /* Two editorial lines per Legacy caption; fit the longest line on narrow phones. */
 .legacy-scene-copy p { width:calc(100% - 24px); font-size:min(clamp(16px,1.25vw,24px),calc((100vw - 24px) * .044)); }
 .legacy-scene-copy p > span { display:block; white-space:nowrap; }
+
+/* Active Legacy videos share the existing image crop and readability overlay. */
+.legacy-background video { display:block; }
+.legacy-scene-actions { flex-wrap:wrap; }
+.legacy-video-toggle { min-height:44px; border:1px solid #fff8; border-radius:999px; padding:8px 14px; background:#0004; color:white; font-size:12px; text-transform:uppercase; }
+.legacy-video-toggle:hover { background:#ffffff26; }
+@media(max-width:480px) {
+ .legacy-scene-actions { justify-content:center; gap:8px 12px; }
+ .legacy-scene-actions > .pill { flex-basis:100%; }
+}
