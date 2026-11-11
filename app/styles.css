@@ -517,12 +517,12 @@ a:active,button:active { filter:brightness(.8); }
 .qatar-hotspot { position:absolute; left:var(--stadium-x); top:var(--stadium-y); translate:-50% 0; padding:0 0 clamp(22px,2.6vw,50px); border:0; background:none; display:flex; flex-direction:column; align-items:center; color:#fff; pointer-events:auto; }
 .qatar-label { display:block; padding:clamp(7px,.520833vw,11px) clamp(12px,1.25vw,26.25px); background:#ffffff0f; border-radius:12px; white-space:nowrap; font-size:clamp(12px,.9375vw,19.6875px); font-weight:400; line-height:1.333333; transition:background-color var(--control),color var(--control),transform var(--control); }
 .qatar-pin { width:clamp(5px,.416667vw,8.75px); height:clamp(22px,1.770833vw,37.1875px); object-fit:fill; transition:filter var(--control); }
-.qatar-hotspot[data-active="true"] .qatar-label { background:#ff7346; color:#151515; }
+.qatar-hotspot[data-active="true"] .qatar-label { background:#ff7346; color:#fff; }
 .qatar-hotspot[data-active="true"] .qatar-pin { filter:brightness(0) saturate(100%) invert(58%) sepia(90%) saturate(1265%) hue-rotate(331deg) brightness(105%) contrast(101%); }
 .qatar-hotspot:active .qatar-label { transform:scale(.97); }
 .qatar-hotspot:focus-visible { outline:0; z-index:4; }
 .qatar-hotspot:focus-visible .qatar-label { outline:2px solid #fff; outline-offset:4px; transform:scale(1.06); }
-@media (hover:hover) and (pointer:fine) { .qatar-hotspot:hover { z-index:4; } .qatar-hotspot:hover .qatar-label { transform:scale(1.06); background:#ff7346; color:#151515; } }
+@media (hover:hover) and (pointer:fine) { .qatar-hotspot:hover { z-index:4; } .qatar-hotspot:hover .qatar-label { transform:scale(1.06); background:#ff7346; color:#fff; } }
 .qatar-card { position:absolute; z-index:5; left:var(--detail-x,33.385417%); top:var(--detail-y,29.439252%); width:clamp(250px,19.739583vw,414.53125px); padding:clamp(12px,.833333vw,17.5px) clamp(12px,.833333vw,17.5px) clamp(18px,1.25vw,26.25px); border-radius:16px; background:#fff; color:#1a1919; box-shadow:0 12px 30px #0003; }
 .qatar-photo { display:block; width:100%; aspect-ratio:347/229; object-fit:cover; border-radius:8px; margin-bottom:clamp(16px,1.25vw,26.25px); }
 .qatar-photo-illustration { background:url('/media/qatar-ready-map.png') 86% 87% / 375% auto; }
