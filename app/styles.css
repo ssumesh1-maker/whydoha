@@ -492,3 +492,24 @@ a:active,button:active { filter:brightness(.8); }
 /* Native sticky keeps the city stage stable during compositor-driven scrolling. */
 .city-overlap-layer.city-scroll-enabled { height:calc(var(--city-stage-height) * var(--city-scene-count)); }
 .city-scroll-enabled > .city-experience { position:sticky; top:0; }
+
+
+/* Six masked depth planes expand through the People composition into Legacy. */
+.people-legacy-portal { display:none; }
+.people-legacy-zoom .stories { position:relative; min-height:var(--people-legacy-height); z-index:3; overflow:hidden; }
+.people-legacy-zoom .stories-panel { z-index:2; }
+.people-legacy-zoom .people-collage { perspective:var(--people-legacy-height); perspective-origin:50% 50%; }
+.people-legacy-zoom .people-parallax { transform-style:preserve-3d; }
+.people-legacy-zoom .people-legacy-portal { display:block; visibility:hidden; position:absolute; bottom:0; left:0; width:100%; height:var(--people-legacy-height); z-index:1; overflow:hidden; pointer-events:none; background:#111; transform-origin:50% 50%; }
+.telescope-back,.telescope-front { position:absolute; inset:0; overflow:hidden; }
+.telescope-front { mask-image:radial-gradient(ellipse at 60% 50%,#000 40%,transparent 70%); mask-position:center; mask-size:cover; mask-repeat:no-repeat; }
+.telescope-depth { position:relative; width:100%; height:100%; }
+.telescope-depth img { width:100%; height:100%; object-fit:cover; object-position:60% center; }
+.telescope-back::after,.telescope-front::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,#000a,#0004 40%,#000a 100%); }
+.people-legacy-zoom #legacy { margin-block-start:calc(-1 * var(--people-legacy-height)); }
+/* A transparent pin spacer must not intercept Legacy controls after handoff. */
+.pin-spacer-people-legacy-zoom { pointer-events:none; }
+.people-legacy-zoom .stories { pointer-events:auto; }
+.newsletter-copy span { display:block; white-space:nowrap; }
+.journey-head .pill-icon img:last-child,.newsletter button img { filter:brightness(0) invert(1); }
+@media(max-width:800px) { .newsletter > .newsletter-copy { grid-column:1/-1; max-width:none; } }
