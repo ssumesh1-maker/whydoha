@@ -16,11 +16,10 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
   const [covered, setCovered] = useState(false)
   const [tabVisible, setTabVisible] = useState(true)
   const [motion, setMotion] = useState(false)
-  const [choice, setChoice] = useState(null)
-  const [playing, setPlaying] = useState(null)
+  const [manualPlay, setManualPlay] = useState(false)
   const [blocked, setBlocked] = useState(false)
   const [failed, setFailed] = useState({})
-  const shouldPlay = visible && !covered && !paused && tabVisible && (choice ?? motion)
+  const shouldPlay = visible && !covered && !paused && tabVisible && (manualPlay || motion)
 
   useEffect(() => {
     const warm = new IntersectionObserver(entries => {
@@ -32,7 +31,7 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
     warm.observe(section.current)
     visibility.observe(section.current)
     const preference = matchMedia('(prefers-reduced-motion: no-preference)')
-    const syncMotion = () => { setMotion(preference.matches); setChoice(null) }
+    const syncMotion = () => { setMotion(preference.matches); setManualPlay(false) }
     const syncTab = () => setTabVisible(document.visibilityState === 'visible')
     syncMotion(); syncTab()
     preference.addEventListener('change', syncMotion)
@@ -58,18 +57,13 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
     return () => { disposed = true; video.pause() }
   }, [active, shouldPlay, near, failed])
 
-  function toggleVideo() {
+  function startVideo() {
     const video = videos.current[active]
-    if (playing === active) {
-      setChoice(false)
-      video?.pause()
-    } else {
-      setChoice(true)
-      setBlocked(false)
-      if (video) {
-        video.muted = true
-        video.play().catch(error => { if (error.name !== 'AbortError') setBlocked(true) })
-      }
+    setManualPlay(true)
+    setBlocked(false)
+    if (video) {
+      video.muted = true
+      video.play().catch(error => { if (error.name !== 'AbortError') setBlocked(true) })
     }
   }
 
@@ -146,12 +140,14 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
     setActive(index)
   }
 
+  const showVideoStart = Boolean(scenes[active][3]) && !failed[active] && (blocked || (!motion && !manualPlay))
+
   return <section ref={section} id="legacy" tabIndex={-1} className="legacy-experience" aria-labelledby="legacy-title">
     <div className="legacy-heading">{children}</div>
     {scenes.map(([title, image, copy, video], index) => <div key={title} className={'legacy-scene' + (active === index ? ' is-active' : '')} aria-hidden={active !== index}>
       <div className="legacy-outer"><div className="legacy-inner">
         <div className="legacy-background" aria-hidden="true">
-          {video && !failed[index] ? <video ref={node => { videos.current[index] = node }} src={near ? '/media/' + video : undefined} poster={'/media/' + image} className="cover" muted loop playsInline autoPlay={index === active && shouldPlay} preload={near && index === active && (motion || choice) ? 'metadata' : 'none'} onPlay={() => setPlaying(index)} onPause={() => setPlaying(current => current === index ? null : current)} onError={() => setFailed(current => ({ ...current, [index]: true }))} /> : <img src={'/media/' + image} alt="" className="cover" loading="lazy" decoding="async" />}
+          {video && !failed[index] ? <video ref={node => { videos.current[index] = node }} src={near ? '/media/' + video : undefined} poster={'/media/' + image} className="cover" muted loop playsInline autoPlay={index === active && shouldPlay} preload={near && index === active && (motion || manualPlay) ? 'metadata' : 'none'} onError={() => setFailed(current => ({ ...current, [index]: true }))} /> : <img src={'/media/' + image} alt="" className="cover" loading="lazy" decoding="async" />}
         </div>
         <div className="legacy-scene-copy"><h3 className="legacy-scene-title">{title}</h3><p>{copy.split('\n').map((line, index) => <span key={line}>{line}{index === 0 ? ' ' : ''}</span>)}</p></div>
       </div></div>
@@ -161,8 +157,8 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
         {scenes.map(([title], index) => <button key={title} type="button" aria-label={title} aria-pressed={active === index} onClick={() => select(index)}><span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span></button>)}
       </div>
       <span className="sr-only" role="status">{scenes[active][0]}</span>
-      <div className="legacy-scene-actions">{renderAction(scenes[active])}
-        {scenes[active][3] && !failed[active] && <button className="legacy-video-toggle" type="button" aria-pressed={playing === active} onClick={toggleVideo}>{playing === active ? 'Pause video' : 'Play video'}</button>}
+      <div className={'legacy-scene-actions' + (showVideoStart ? ' has-video-start' : '')}>{renderAction(scenes[active])}
+        {showVideoStart && <button className="legacy-video-start" type="button" onClick={startVideo}>Play video</button>}
         <span className="sr-only" role="status">{failed[active] ? 'Video unavailable. Showing a poster image.' : blocked ? 'Use Play video to start playback.' : ''}</span><button className="legacy-advance" type="button" onClick={() => active < scenes.length - 1 ? select(active + 1) : select(0)}>Next <span aria-hidden="true">↓</span></button></div>
     </div>
   </section>
