@@ -21,11 +21,9 @@ function Media({ file, ...props }) {
 }
 
 export default function QatarReady({ children, renderAction }) {
-  const [selected, setSelected] = useState(null)
   const [preview, setPreview] = useState(null)
   const [placement, setPlacement] = useState(null)
-  const active = preview ?? selected
-  const stadium = stadiums.find(item => item.id === active)
+  const stadium = stadiums.find(item => item.id === preview)
   const stage = useRef(null)
   const card = useRef(null)
   const dismissTimer = useRef(null)
@@ -39,18 +37,29 @@ export default function QatarReady({ children, renderAction }) {
     cancelDismiss()
     setPreview(id)
   }
-  function select(id) {
+  function tapPreview(event, id) {
+    const pointer = event.nativeEvent.pointerType
+    if (pointer !== 'touch' && pointer !== 'pen' && !(event.detail > 0 && window.matchMedia('(hover:none)').matches)) return
     cancelDismiss()
-    setPreview(null)
-    setSelected(current => current === id ? null : id)
+    setPreview(current => current === id ? null : id)
   }
   function escape(event) {
     if (event.key !== 'Escape') return
     cancelDismiss()
-    setSelected(null)
     setPreview(null)
   }
-  useEffect(() => () => clearTimeout(dismissTimer.current), [])
+  useEffect(() => {
+    function dismissOutside(event) {
+      if (stage.current?.contains(event.target) && event.target.closest('.qatar-hotspot,.qatar-card')) return
+      clearTimeout(dismissTimer.current)
+      setPreview(null)
+    }
+    document.addEventListener('pointerdown', dismissOutside)
+    return () => {
+      document.removeEventListener('pointerdown', dismissOutside)
+      clearTimeout(dismissTimer.current)
+    }
+  }, [])
 
   // Geometry stays in React/CSS: no scroll transforms on the map, card or anchors.
   useLayoutEffect(() => {
@@ -110,15 +119,15 @@ export default function QatarReady({ children, renderAction }) {
       </div>
       <div className="qatar-heading">{children}{renderAction(stadium)}</div>
       <div className="qatar-hotspots" role="group" aria-label="Explore stadiums">
-        {stadiums.map(item => <button key={item.id} type="button" className="qatar-hotspot" data-stadium={item.id} data-active={active === item.id} style={{ '--stadium-x':item.x/1920*100+'%', '--stadium-y':item.y/1070*100+'%' }} aria-pressed={selected === item.id} aria-expanded={active === item.id} aria-controls={active === item.id ? 'stadium-detail' : undefined}
-          onPointerEnter={event => { if(event.pointerType === 'mouse') show(item.id) }} onPointerLeave={dismissPreview}
+        {stadiums.map(item => <button key={item.id} type="button" className="qatar-hotspot" data-stadium={item.id} style={{ '--stadium-x':item.x/1920*100+'%', '--stadium-y':item.y/1070*100+'%' }} aria-expanded={preview === item.id} aria-controls={preview === item.id ? 'stadium-detail' : undefined}
+          onPointerEnter={event => { if(event.pointerType === 'mouse') show(item.id) }} onPointerLeave={event => { if(event.pointerType === 'mouse') dismissPreview() }}
           onFocus={event => { if(event.currentTarget.matches(':focus-visible')) show(item.id) }} onBlur={dismissPreview}
-          onClick={() => select(item.id)}>
+          onClick={event => tapPreview(event, item.id)}>
           <span className="qatar-label">{item.name}</span>
           <Media file="qatar-pin.svg" className="qatar-pin" alt="" />
         </button>)}
       </div>
-      {stadium && <article ref={card} id="stadium-detail" className="qatar-card" data-side={placement?.side} style={placement?.style} onPointerEnter={cancelDismiss} onPointerLeave={dismissPreview} aria-live="polite" aria-atomic="true">
+      {stadium && <article ref={card} id="stadium-detail" className="qatar-card" data-side={placement?.side} style={placement?.style} onPointerEnter={cancelDismiss} onPointerLeave={event => { if(event.pointerType === 'mouse') dismissPreview() }} aria-live="polite" aria-atomic="true">
         <span className="qatar-card-arrow" aria-hidden="true"><Media file="qatar-card-pointer.svg" alt="" /></span>
         {stadium.image ? <Media className="qatar-photo" file={stadium.image} alt={stadium.name} style={stadium.id === 'al-thumama' ? {objectPosition:'center 67%'} : undefined} /> : <div className="qatar-photo qatar-photo-illustration" role="img" aria-label="Al Janoub Stadium illustration from the Qatar map" />}
         <h3>{stadium.name}</h3>
