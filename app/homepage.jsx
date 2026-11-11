@@ -7,6 +7,7 @@ import logo from './logo.json'
 import CityExperience from './city-experience'
 import LegacyExperience from './legacy-experience'
 import useTextReveals from './use-text-reveals'
+import usePageParallax from './use-page-parallax'
 
 const heroFilm = '/media/hero-film.mp4'
 const heroPoster = '/media/hero-poster.png'
@@ -34,8 +35,10 @@ function Pic({ file, alt = '', ...props }) {
 }
 function PeopleCollage({ preview = false }) {
   return <div className={'people-collage' + (preview ? ' people-collage-preview' : '')}>
+    <div className="people-parallax">
     <Pic className="people-collage-art" file="people-collage.png" width="1309" height="793" loading="lazy" alt="A collage of Qatar’s athletes, supporters and cultural life in organic shapes" />
     <Pic className="people-volunteer" file="people-volunteer.png" width="205" height="212" loading="lazy" alt="Qatari volunteers wearing maroon uniforms" />
+    </div>
   </div>
 }
 function Logo() {
@@ -72,6 +75,7 @@ export default function Homepage() {
   const [cardPlacement,setCardPlacement] = useState(null)
   const root = useRef(null)
   useTextReveals(root)
+  usePageParallax(root)
   const dialog = useRef(null)
   const menuButton = useRef(null)
   const trigger = useRef(null)
@@ -129,7 +133,6 @@ export default function Homepage() {
       // Animate local content only: pin containers, map markers and card geometry stay fixed.
       root.current.querySelectorAll('.vision-gallery, .people-collage, .milestones li, .footer-links').forEach(reveal)
       if (desktop) {
-        gsap.to('.hero-media video',{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.7}})
         gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.6}})
       }
     },root)

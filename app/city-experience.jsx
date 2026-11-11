@@ -119,13 +119,13 @@ export default function CityExperience({ children, renderAction }) {
   const scene = scenes[active]
   return <section ref={section} tabIndex={-1} id="explore" className="explore city-experience" aria-labelledby="explore-title">
     <div className="city-backgrounds" aria-hidden="true">
-      {scenes.map((item, index) => <div key={item.file} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><img src={'/media/' + item.file} alt="" decoding="async" loading="lazy" className="cover" /></div></div>)}
+      {scenes.map((item, index) => <div key={item.file} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><div className="city-depth"><img src={'/media/' + item.file} alt="" decoding="async" loading="lazy" className="cover" /></div></div></div>)}
     </div>
     <div className="explore-card">
       {children}
       {renderAction(scene)}
       <div className="city-thumbnails">
-        {scenes.map((item, index) => <div key={item.file} aria-hidden={active !== index} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><img src={'/media/' + item.file} alt={item.alt} decoding="async" loading="lazy" className="explore-thumb" /></div></div>)}
+        {scenes.map((item, index) => <div key={item.file} aria-hidden={active !== index} className={'city-scene' + (active === index ? ' is-active' : '')}><div className="city-inner"><div className="city-depth"><img src={'/media/' + item.file} alt={item.alt} decoding="async" loading="lazy" className="explore-thumb" /></div></div></div>)}
       </div>
       <h3 id="city-scene-title" aria-live="polite" aria-atomic="true">{scene.title}</h3>
       <div className="city-controls" role="group" aria-label="Choose a city experience">

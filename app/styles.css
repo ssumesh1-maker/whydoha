@@ -419,3 +419,9 @@ a:active,button:active { filter:brightness(.8); }
 .people-collage-art { width:100%; height:auto; }
 .people-volunteer { position:absolute; left:22.4005%; top:70.4461%; width:15.6322%; height:auto; }
 .people-collage.people-collage-preview { width:100%; margin:0; }
+
+/* Parallax moves imagery on separate layers; text, controls and sticky stages stay steady. */
+.people-parallax { position:relative; width:100%; }
+.city-depth { position:relative; width:100%; height:100%; }
+.footer { position:relative; isolation:isolate; overflow:hidden; }
+.footer::before { content:""; position:absolute; inset:-15% 0; z-index:-1; pointer-events:none; background:inherit; transform:translateY(var(--footer-depth,0px)); }

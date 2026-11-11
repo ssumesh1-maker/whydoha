@@ -128,3 +128,11 @@ Production build and Chromium desktop/mobile/reduced-motion checks pass for artw
 ### Missing volunteer portrait restored
 
 The bottom-left volunteer portrait is now included as its own exact masked Figma export (node 109:1453) and positioned relative to the collage at x=22.4005%, y=70.4461%, width=15.6322%. This preserves alignment when the collage scales. The complete composition is reused in the Meet the People preview, so the image is visible there too. Production build and Chromium desktop, emulated touch and reduced-motion checks pass for portrait loading, reference placement, preview rendering, focus restoration and overflow.
+
+## Page-wide GSAP parallax
+
+Uses GSAP ScrollTrigger with eased scrub on separate imagery layers: hero video, ambition images, the complete people collage, Legacy backgrounds, synchronized city background/card depth wrappers, journey glow and footer gradient. Desktop uses gentle 4% image travel, mobile 2%; the collage moves as one group so the restored volunteer portrait keeps its relative placement. Text typography and interactive control geometry stay unchanged.
+
+Depth wrappers are separate from horizontal/vertical scene transition targets, and the city stage remains native CSS sticky. Images use small overscan to prevent exposed edges. There is no replacement scroller, input interception or new dependency. Reduced motion disables parallax and reverts all added transforms/custom properties immediately.
+
+Production build and Chromium desktop/emulated iPhone/reduced-motion checks pass for parallax movement, collage alignment, preference-change cleanup, overflow, city image reversal and Legacy overlap. The 90-frame city stability check still reports 0px card drift. Physical-device Safari remains untested.
