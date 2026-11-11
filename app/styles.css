@@ -530,10 +530,10 @@ a:active,button:active { filter:brightness(.8); }
 
 /* Active Legacy videos share the existing image crop and readability overlay. */
 .legacy-background video { display:block; }
-.legacy-scene-actions { flex-wrap:wrap; }
-.legacy-video-toggle { min-height:44px; border:1px solid #fff8; border-radius:999px; padding:8px 14px; background:#0004; color:white; font-size:12px; text-transform:uppercase; }
-.legacy-video-toggle:hover { background:#ffffff26; }
+.legacy-scene-actions.has-video-start { flex-wrap:wrap; }
+.legacy-video-start { min-height:44px; border:1px solid #fff8; border-radius:999px; padding:8px 14px; background:#0004; color:white; font-size:12px; text-transform:uppercase; }
+.legacy-video-start:hover { background:#ffffff26; }
 @media(max-width:480px) {
- .legacy-scene-actions { justify-content:center; gap:8px 12px; }
- .legacy-scene-actions > .pill { flex-basis:100%; }
+ .legacy-scene-actions.has-video-start { justify-content:center; gap:8px 12px; }
+ .legacy-scene-actions.has-video-start > .pill { flex-basis:100%; }
 }
