@@ -8,7 +8,6 @@ import CityExperience from './city-experience'
 import LegacyExperience from './legacy-experience'
 import useTextReveals from './use-text-reveals'
 import usePageParallax from './use-page-parallax'
-import usePeopleLegacyZoom from './use-people-legacy-zoom'
 
 const heroFilm = '/media/hero-film.mp4'
 const heroPoster = '/media/hero-poster.png'
@@ -77,7 +76,6 @@ export default function Homepage() {
   const [cardPlacement,setCardPlacement] = useState(null)
   const root = useRef(null)
   useTextReveals(root)
-  usePeopleLegacyZoom(root)
   usePageParallax(root)
   const dialog = useRef(null)
   const menuButton = useRef(null)
@@ -263,12 +261,7 @@ export default function Homepage() {
         </div>
       </section>
 
-      <div className="people-transition-layer">
       <section tabIndex={-1} id="stories" className="stories" aria-labelledby="stories-title">
-        <div className="people-legacy-portal" aria-hidden="true">
-          <div className="telescope-back"><div className="telescope-depth"><Pic file={legacy[0][1]} alt="" loading="lazy" /></div></div>
-          {[0,1,2,3,4,5].map(index => <div className="telescope-front" key={index}><div className="telescope-depth"><Pic file={legacy[0][1]} alt="" loading="lazy" /></div></div>)}
-        </div>
         <div className="stories-panel">
           <PeopleCollage />
           <div className="people-heading-row"><Title label="People & Stories" id="stories-title">The people<br />behind the bid</Title></div>
@@ -277,7 +270,6 @@ export default function Homepage() {
           </div>
         </div>
       </section>
-      </div>
 
       <LegacyExperience scenes={legacy} renderAction={([title,image,copy]) => <Pill onClick={e=>open(e,title,image,copy)}>Explore the legacy</Pill>}>
         <Title label="Legacy & Impact" id="legacy-title">Beyond the Games</Title>
