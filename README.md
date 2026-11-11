@@ -145,3 +145,11 @@ Legacy returns to its finite horizontal ScrollTrigger sequence. Experience the C
 Page-wide ScrollTrigger parallax remains active on supported imagery. All three Our Ambition photos now use a clearer 7% image travel with 1.18 overscan on desktop, reduced to 3% and 1.1 on mobile. Rounded frames and text stay stationary. Reduced motion reverts these transforms and keeps direct scene controls usable.
 
 The Figma Journey fixes remain: white dotted arrow surround, dotted card-to-circle connectors, and the visible curve behind milestone circles.
+
+## People → Legacy telescope reveal
+
+Based on the mechanism in [Joffrey Spitzer’s Telescope Zoom](https://github.com/joffreysp/telescope-zoom): six masked image planes expand together, blur resolves, and surrounding portraits move forward in perspective. Uses the existing Doha portraits and Legacy opening image, with a CSS portrait vignette instead of the demo’s bird mask or imagery. Implementation is adapted to React and native ScrollTrigger; no ScrollSmoother, replacement scroller or new dependency is introduced.
+
+The transition holds People briefly, then hands over to the unique real Legacy content and existing horizontal sequence. The City overlap remains unchanged. The image preview is decorative and hidden from assistive technology. People controls become inert while fading and restore on reverse. Reduced motion and screens below 620px tall skip the effect; matchMedia/context cleanup restores layout and controls after viewport/preference changes.
+
+The footer updates sentence uses two explicit lines. Get updates and newsletter arrows are white.

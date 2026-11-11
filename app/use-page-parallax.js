@@ -25,7 +25,7 @@ export default function usePageParallax(root) {
         depth(photo.querySelector('img'), photo, desktop ? 7 : 3, {}, desktop ? 1.18 : 1.1))
       // Keep every collage portrait in one coordinate space, including the restored image.
       gsap.fromTo('#stories .people-parallax', { yPercent: desktop ? 2 : 1 }, { yPercent: desktop ? -2 : -1, ease: 'none', scrollTrigger: { trigger: '#stories', start: 'top bottom', end: 'bottom top', scrub, invalidateOnRefresh: true } })
-      depth('.legacy-background .cover', '#legacy', amount, {
+      depth('.legacy-background .cover, .telescope-depth', '#legacy', amount, {
         start: () => { const scene = ScrollTrigger.getById('legacy-experience'); return scene ? scene.start - innerHeight : 'top bottom' },
         end: () => { const scene = ScrollTrigger.getById('legacy-experience'); return scene ? scene.end + innerHeight : 'bottom top' },
       })

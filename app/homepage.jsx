@@ -8,6 +8,7 @@ import CityExperience from './city-experience'
 import LegacyExperience from './legacy-experience'
 import useTextReveals from './use-text-reveals'
 import usePageParallax from './use-page-parallax'
+import usePeopleLegacyZoom from './use-people-legacy-zoom'
 
 const heroFilm = '/media/hero-film.mp4'
 const heroPoster = '/media/hero-poster.png'
@@ -76,6 +77,7 @@ export default function Homepage() {
   const [cardPlacement,setCardPlacement] = useState(null)
   const root = useRef(null)
   useTextReveals(root)
+  usePeopleLegacyZoom(root)
   usePageParallax(root)
   const dialog = useRef(null)
   const menuButton = useRef(null)
@@ -262,6 +264,10 @@ export default function Homepage() {
       </section>
 
       <section tabIndex={-1} id="stories" className="stories" aria-labelledby="stories-title">
+        <div className="people-legacy-portal" aria-hidden="true">
+          <div className="telescope-back"><div className="telescope-depth"><Pic file={legacy[0][1]} alt="" loading="lazy" /></div></div>
+          {[0,1,2,3,4,5].map(index => <div className="telescope-front" key={index}><div className="telescope-depth"><Pic file={legacy[0][1]} alt="" loading="lazy" /></div></div>)}
+        </div>
         <div className="stories-panel">
           <PeopleCollage />
           <div className="people-heading-row"><Title label="People & Stories" id="stories-title">The people<br />behind the bid</Title></div>
@@ -295,7 +301,7 @@ export default function Homepage() {
 
     <footer tabIndex={-1} id="updates" className="footer">
       <div className="container">
-        <div className="newsletter"><h2>Stay close to<br />the story</h2><p>Get the latest updates, stories and key developments.</p>
+        <div className="newsletter"><h2>Stay close to<br />the story</h2><p className="newsletter-copy"><span>Get the latest updates, stories</span> <span>and key developments.</span></p>
           <form onSubmit={e=>saveEmail(e,'updates')}><label className="sr-only" htmlFor="newsletter-email">Email address</label><input id="newsletter-email" name="email" type="email" autoComplete="email" required placeholder="Enter your email" /><button type="submit" aria-label="Register for updates"><Pic file="e4328.svg" /></button><span className="form-notice" role="status">{newsletterNotice}</span></form>
         </div>
         <div className="footer-links">{[
