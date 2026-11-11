@@ -20,7 +20,7 @@ export default function usePageParallax(root) {
         })
       }
       gsap.to('.hero-media video', { yPercent: desktop ? 7 : 3, scale: desktop ? 1.04 : 1.02, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub, invalidateOnRefresh: true } })
-      depth('.vision-image img', '.vision-gallery', amount)
+      root.current.querySelectorAll('.vision-photo').forEach(photo => depth(photo.querySelector('img'), photo, amount))
       // Keep every collage portrait in one coordinate space, including the restored image.
       gsap.fromTo('#stories .people-parallax', { yPercent: desktop ? 2 : 1 }, { yPercent: desktop ? -2 : -1, ease: 'none', scrollTrigger: { trigger: '#stories', start: 'top bottom', end: 'bottom top', scrub, invalidateOnRefresh: true } })
       depth('.legacy-background .cover', '#legacy', amount, {

@@ -14,7 +14,6 @@ const heroPoster = '/media/hero-poster.png'
 
 const evidence = 'Experience, infrastructure and connectivity told through real places and verified evidence.'
 const nav = [['The Vision', '#vision'], ['Qatar is Ready', '#venues'], ['People & Stories', '#stories'], ['Explore Doha', '#explore']]
-const vision = [['Sport','8c11d.png'],['People','cf4ea.png'],['Culture','c16da.png'],['Doha','9aded.png']]
 const legacy = [
   ['Community','7edd5.png','Athletes, volunteers, and communities across Qatar share a purpose across different backgrounds.'],
   ['Sport','8c11d.png','A shared ambition for sport across generations.'],
@@ -33,12 +32,16 @@ const searchable = [...nav, ['Legacy & Impact','#legacy'], ['The Journey','#jour
 function Pic({ file, alt = '', ...props }) {
   return <img src={'/media/' + file} alt={alt} decoding="async" {...props} />
 }
+const peoplePortraits = [
+  [1492,121,210,'A woman sharing her story'],[1510,584,128,'Life at a Qatari souq'],
+  [1480,1107,209,'Qatar supporters celebrating'],[1508,1580,128,'Qatari riders'],
+  [1482,236,480,'A Qatari athlete celebrating'],[1496,1470,617,'Traditional craft in the souq'],
+  [1498,121,891,'Riders against the Doha skyline'],[1500,577,935,'A Qatar athlete'],
+  [1494,1252,931,'A Qatar football player'],
+]
 function PeopleCollage({ preview = false }) {
-  return <div className={'people-collage' + (preview ? ' people-collage-preview' : '')}>
-    <div className="people-parallax">
-    <Pic className="people-collage-art" file="people-collage.png" width="1309" height="793" loading="lazy" alt="A collage of Qatar’s athletes, supporters and cultural life in organic shapes" />
-    <Pic className="people-volunteer" file="people-volunteer.png" width="205" height="212" loading="lazy" alt="Qatari volunteers wearing maroon uniforms" />
-    </div>
+  return <div className={'people-collage' + (preview ? ' people-collage-preview' : '')} aria-label="People and stories from Qatar">
+    <div className="people-parallax">{peoplePortraits.map(([id,x,y,alt]) => <Pic key={id} file={'people-'+id+'.png'} alt={alt} loading="lazy" style={{left:x/1832*100+'%',top:y/1118*100+'%'}} />)}</div>
   </div>
 }
 function Logo() {
@@ -60,7 +63,6 @@ function Rule({ children }) {
 function rotate(index, amount, count) { return (index + amount + count) % count }
 
 export default function Homepage() {
-  const [visionIndex,setVision] = useState(1)
   const [venueIndex,setVenue] = useState(null)
   const [menu,setMenu] = useState(false)
   const [modal,setModal] = useState(null)
@@ -69,7 +71,6 @@ export default function Homepage() {
   const [newsletterNotice,setNewsletterNotice] = useState('')
   const [allowMotion,setAllowMotion] = useState(false)
   const heroVideo = useRef(null)
-  const visionGallery = useRef(null)
   const venueStage = useRef(null)
   const venueCard = useRef(null)
   const [cardPlacement,setCardPlacement] = useState(null)
@@ -131,7 +132,7 @@ export default function Homepage() {
         })
       }
       // Animate local content only: pin containers, map markers and card geometry stay fixed.
-      root.current.querySelectorAll('.vision-gallery, .people-collage, .milestones li, .footer-links').forEach(reveal)
+      root.current.querySelectorAll('.vision-photo, .milestones li, .footer-links').forEach(reveal)
       if (desktop) {
         gsap.fromTo('.journey-line',{clipPath:'inset(0 88% 0 0)'},{clipPath:'inset(0 0% 0 0)',ease:'none',scrollTrigger:{trigger:'.journey',start:'top 78%',end:'bottom 75%',scrub:.6}})
       }
@@ -155,20 +156,6 @@ export default function Homepage() {
       video.pause()
     }
   },[allowMotion,modal])
-
-  useEffect(()=>{
-    if (!allowMotion || modal) return
-    const timer = window.setInterval(()=>{
-      const gallery = visionGallery.current
-      if (!gallery || document.hidden || gallery.contains(document.activeElement)) return
-      if (window.matchMedia('(hover:hover)').matches && gallery.matches(':hover')) return
-      const bounds = gallery.getBoundingClientRect()
-      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return
-      setVision(index=>rotate(index,1,vision.length))
-    },4000)
-    return ()=>window.clearInterval(timer)
-  },[allowMotion,modal,visionIndex])
-
 
   useEffect(()=>{
     if(modal && !dialog.current.open) dialog.current.showModal()
@@ -246,16 +233,14 @@ export default function Homepage() {
 
     <main aria-label="Why Doha">
       <section tabIndex={-1} id="vision" className="vision" aria-labelledby="vision-title">
-        <Title label="Our Ambition" id="vision-title">More than a Games</Title>
-        <p className="vision-copy">A shared ambition begins with people. Doha’s vision brings people, sport and cultures together, with the ambition to create an enduring legacy for future generations.</p>
-        <div ref={visionGallery} className="vision-gallery" role="group" aria-label="Explore the vision imagery">
-          {vision.map(([label,file],i)=>{
-            const position = rotate(i,-visionIndex+1,vision.length)
-            return <button key={label} className={'vision-image offset-'+position} aria-label={'Show '+label} aria-pressed={i===visionIndex} aria-controls="vision-detail" type="button" onClick={()=>setVision(i)}><Pic file={file} loading="lazy" /></button>
-          })}
+        <div className="vision-layout">
+          <Title label="Our Ambition" id="vision-title">More than<br />a Games</Title>
+          <div className="vision-photo vision-sport"><Pic file="8c11d.png" alt="A stadium ready to welcome the world" loading="lazy" /></div>
+          <div className="vision-photo vision-culture"><Pic file="c16da.png" alt="The Museum of Islamic Art" loading="lazy" /></div>
+          <div className="vision-photo vision-people"><Pic file="people-1465.png" alt="Volunteers in Doha" loading="lazy" /></div>
+          <div className="vision-description"><p className="vision-copy">A shared ambition begins with people.Doha's vision brings people, sport and cultures together, with the ambition to create an enduring legacy for future generations.</p>
+          <Pill light onClick={e=>open(e,'Our Ambition','8c11d.png','A shared ambition begins with people.')}>Discover the vision</Pill></div>
         </div>
-        <span className="sr-only" role="status">{vision[visionIndex][0]} selected</span>
-        <div id="vision-detail"><Pill light onClick={e=>open(e,vision[visionIndex][0],vision[visionIndex][1],'A shared ambition begins with people.')}>Discover the vision</Pill></div>
       </section>
 
       <section tabIndex={-1} id="venues" className="venues" aria-labelledby="venues-title">
@@ -279,14 +264,11 @@ export default function Homepage() {
 
       <section tabIndex={-1} id="stories" className="stories" aria-labelledby="stories-title">
         <div className="stories-panel">
-          <div className="people-heading-row">
-            <Title label="People & Stories" id="stories-title">The people<br />behind the bid</Title>
-            <div className="people-intro">
-              <p>Every ambitions begins with a human story</p>
-              <Pill light onClick={e=>open(e,'Meet the People',null,'Every ambitions begins with a human story','people')}>Meet the People</Pill>
-            </div>
-          </div>
           <PeopleCollage />
+          <div className="people-heading-row"><Title label="People & Stories" id="stories-title">The people<br />behind the bid</Title></div>
+          <div className="people-intro"><p>Every ambitions begins with a human story</p>
+            <Pill light onClick={e=>open(e,'Meet the People',null,'Every ambitions begins with a human story','people')}>Meet the People</Pill>
+          </div>
         </div>
       </section>
 
