@@ -18,7 +18,7 @@ export default function useTextReveals(root) {
       if (stopped) return
       // Only stable editorial text: React owns live slider titles and dialog content.
       const next = preference.matches ? Array.from(root.current.querySelectorAll('h1, h2, h3, p')).filter(element =>
-        !element.closest('dialog, .legacy-experience, .venue-card, .story-meta, .city-experience h3') &&
+        !element.closest('dialog, .legacy-experience, .venue-card, .story-meta, .city-experience h3, .people-intro') &&
         !element.querySelector('a, button, input, img') &&
         parseFloat(getComputedStyle(element).fontSize) > 24
       ) : []

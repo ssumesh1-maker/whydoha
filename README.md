@@ -158,3 +158,10 @@ The footer sentence remains two lines, and the update arrows remain white.
 ## People backdrop restored from Figma
 
 Restores the black → brand orange → white gradient behind the rounded white People panel, based on Figma nodes 76:456 and 76:458. Shared CSS gradient sizes and offsets continue the same backdrop through the map’s lower edge while map labels, controls and cards remain above it. Desktop uses the design’s 812px/481px layers and 163px/179px overlaps, scaled for smaller screens. The nine exact portrait crops, centered typography, CTA and spacing are unchanged. This is a static background; removed image effects stay removed.
+
+
+## Gentle People entrance
+
+Nine portraits fade upward by 18px on desktop (12px on mobile), with a 70ms stagger for portraits entering together. Each portrait plays once when visible and keeps its Figma size/crop. The existing progressive word reveal remains on the central heading. Body copy and CTA enter as one group; keyboard focus immediately completes that entrance. Legacy’s heading has a short fade as it enters view.
+
+There is no new pin, sticky stage, section overlap, photo scaling, blur or scroll interception. Existing gradient, spacing, Legacy/City sequences and other page effects remain unchanged. Reduced motion skips the added entrances; context cleanup restores all content. Completed entrances stay completed across responsive media changes.
