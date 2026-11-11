@@ -153,3 +153,8 @@ People flows directly into Legacy with native scrolling. The telescope preview, 
 City keeps its stationary sticky card and synchronized vertical scene wipes. A persistent first-image layer stays beneath every transition. Later frames stay rendered while moving into/out of the clipped image slots, avoiding visibility toggles at scene boundaries. Labels follow the rendered timeline and immediate scroll progress. Individual photos have no extra transform or parallax. Images warm/decode earlier, and the first image loads eagerly. Reduced motion retains direct scene controls.
 
 The footer sentence remains two lines, and the update arrows remain white.
+
+
+## People backdrop restored from Figma
+
+Restores the black → brand orange → white gradient behind the rounded white People panel, based on Figma nodes 76:456 and 76:458. Shared CSS gradient sizes and offsets continue the same backdrop through the map’s lower edge while map labels, controls and cards remain above it. Desktop uses the design’s 812px/481px layers and 163px/179px overlaps, scaled for smaller screens. The nine exact portrait crops, centered typography, CTA and spacing are unchanged. This is a static background; removed image effects stay removed.
