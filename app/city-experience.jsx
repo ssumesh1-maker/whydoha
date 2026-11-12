@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { scrollToPosition } from './use-smooth-scroll'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const scenes = [
@@ -108,9 +109,9 @@ export default function CityExperience({ children, renderAction }) {
   function selectScene(index) {
     const sequence = scrollSequence.current
     if (sequence) {
-      // Native scroll ownership, no wheel/touch interception or forced smooth scrolling.
+      // Cancel any wheel inertia before seeking the synchronized image sequence.
       const progress = sequence.timeline.labels['scene-' + index] / sequence.timeline.duration()
-      window.scrollTo({ top: sequence.trigger.start + progress * (sequence.trigger.end - sequence.trigger.start), behavior: 'instant' })
+      scrollToPosition(sequence.trigger.start + progress * (sequence.trigger.end - sequence.trigger.start))
     }
     setActive(index)
   }
