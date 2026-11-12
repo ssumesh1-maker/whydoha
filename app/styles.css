@@ -469,15 +469,6 @@ a:active,button:active { filter:brightness(.8); }
  .milestone-connector img { transform:rotate(-90deg); transform-origin:top left; width:1px; height:24px; }
 }
 
-/* City rises over the held final Legacy scene; both sections keep native scroll. */
-.city-overlap-layer { position:relative; z-index:2; }
-.legacy-city-overlap .city-overlap-layer { margin-block-start:calc(-1 * var(--legacy-overlap-height,100svh)); }
-
-/* Native sticky keeps the city stage stable during compositor-driven scrolling. */
-.city-overlap-layer.city-scroll-enabled { height:calc(var(--city-stage-height) * var(--city-scene-count)); }
-.city-scroll-enabled > .city-experience { position:sticky; top:0; }
-
-
 .newsletter-copy span { display:block; white-space:nowrap; }
 .journey-head .pill-icon img:last-child,.newsletter button img { filter:brightness(0) invert(1); }
 @media(max-width:800px) { .newsletter > .newsletter-copy { grid-column:1/-1; max-width:none; } }
@@ -572,3 +563,44 @@ a:active,button:active { filter:brightness(.8); }
   .stories { padding-inline:calc((100vw - 1647px) / 2); }
   .journey-line,.milestones { left:50%; right:auto; width:var(--layout-max); transform:translateX(-50%); }
 }
+
+/* Full-screen panels; native inner scrolling keeps long content reachable. */
+:root { --screen-height:100vh; scroll-snap-type:y mandatory; scroll-padding-block:0; }
+@supports (height:100dvh) { :root { --screen-height:100dvh; } }
+.hero,#vision,#venues,#stories,#legacy,#explore,#journey,#updates {
+  height:var(--screen-height); min-height:0; max-height:var(--screen-height);
+  scroll-snap-align:start; scroll-snap-stop:always; scroll-margin-block:0;
+  overflow-x:clip; overflow-y:auto; overscroll-behavior-y:contain;
+}
+.hero { background:#122524; }
+.hero > * { flex-shrink:0; }
+.hero-content { margin-block-start:clamp(24px,8dvh,100px); }
+.hero-meta { margin-block-start:clamp(24px,5dvh,72px); }
+.scroll-cue { min-height:clamp(64px,10dvh,108px); margin-block-start:auto; }
+#vision { display:flex; flex-direction:column; padding-block:clamp(32px,6dvh,var(--section-space)); }
+.vision-layout { flex:none; margin-block:auto; }
+#venues { display:flex; flex-direction:column; }
+.qatar-stage { flex:none; margin-block:auto; }
+#stories { display:flex; flex-direction:column; padding-block:clamp(24px,4dvh,48px); }
+.stories-panel { flex:none; margin:auto; }
+#explore { padding-block:32px; }
+.explore-card { margin-block:auto; }
+#journey { padding-block:clamp(32px,6dvh,var(--section-space)); }
+#updates { display:flex; flex-direction:column; }
+#updates > .container { flex:none; margin-block:auto; }
+@media (prefers-reduced-motion:reduce) { :root { scroll-behavior:auto; } }
+
+:root.section-moving { scroll-snap-type:none; scroll-behavior:auto; }
+.journey-glow { inset:0; overflow:clip; }
+.footer::before { display:none; }
+@media(min-width:801px) {
+  #stories .stories-panel { container-type:inline-size; width:min(100%,calc(max(500px,var(--screen-height) - 2 * clamp(24px,4dvh,48px)) * 1832 / 1118)); }
+  #stories .section-title h2 { font-size:clamp(32px,6.28cqw,103.5px); }
+  #stories .people-intro > p { font-size:clamp(18px,1.747cqw,28.8px); }
+}
+@media(max-width:800px) { .qatar-stage { aspect-ratio:auto; } }
+
+.legacy-stage { position:relative; isolation:isolate; height:100%; min-height:620px; }
+
+:root:has(dialog[open],.main-nav.open) { overflow:hidden; }
+.hero:has(.main-nav.open) { overflow-y:hidden; }

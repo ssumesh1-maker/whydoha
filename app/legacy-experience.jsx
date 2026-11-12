@@ -2,24 +2,23 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 
 export default function LegacyExperience({ scenes, children, renderAction, paused = false }) {
   const section = useRef(null)
   const sequence = useRef(null)
   const [active, setActive] = useState(0)
+  const activeIndex = useRef(0)
 
   const videos = useRef([])
   const [near, setNear] = useState(false)
   const [visible, setVisible] = useState(false)
-  const [covered, setCovered] = useState(false)
   const [tabVisible, setTabVisible] = useState(true)
   const [motion, setMotion] = useState(false)
   const [manualPlay, setManualPlay] = useState(false)
   const [blocked, setBlocked] = useState(false)
   const [failed, setFailed] = useState({})
-  const shouldPlay = visible && !covered && !paused && tabVisible && (manualPlay || motion)
+  const shouldPlay = visible && !paused && tabVisible && (manualPlay || motion)
 
   useEffect(() => {
     const warm = new IntersectionObserver(entries => {
@@ -68,12 +67,12 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
   }
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger, SplitText)
+    gsap.registerPlugin(SplitText)
     const media = gsap.matchMedia()
     let disposed = false
     document.fonts.ready.then(() => {
       if (disposed) return
-      media.add('(prefers-reduced-motion: no-preference) and (min-height: 620px)', () => {
+      media.add('(prefers-reduced-motion: no-preference)', () => {
         const panels = section.current.querySelectorAll('.legacy-scene')
         const outers = section.current.querySelectorAll('.legacy-outer')
         const inners = section.current.querySelectorAll('.legacy-inner')
@@ -82,7 +81,7 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
         gsap.set(panels[0], { autoAlpha: 1 })
         gsap.set(Array.from(outers).slice(1), { xPercent: 100 })
         gsap.set(Array.from(inners).slice(1), { xPercent: -100 })
-        const timeline = gsap.timeline({ defaults: { duration: 1, ease: 'power1.inOut' } })
+        const timeline = gsap.timeline({ paused:true, defaults: { duration: 1, ease: 'power1.inOut' } })
         timeline.addLabel('scene-0', 0)
         scenes.slice(1).forEach((_, offset) => {
           const i = offset + 1
@@ -94,36 +93,11 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
             .set(panels[i - 1], { autoAlpha: 0 }, start + 1)
             .addLabel('scene-' + i, start + 1)
         })
-        timeline.to({}, { duration: .5 })
-        // Hold the final scene for the extra viewport in which the city covers it.
-        timeline.to({}, { duration: timeline.duration() / (scenes.length - 1) })
-        const container = section.current.parentElement
-        const toolbar = section.current.querySelector('.legacy-toolbar')
-        container.classList.add('legacy-city-overlap')
-        const measureOverlap = () => container.style.setProperty('--legacy-overlap-height', section.current.offsetHeight + 'px')
-        measureOverlap()
-        const trigger = ScrollTrigger.create({
-          id: 'legacy-experience', trigger: section.current, animation: timeline,
-          start: 'top top', end: () => { measureOverlap(); return '+=' + innerHeight * scenes.length },
-          pin: true, scrub: .35, anticipatePin: 1, invalidateOnRefresh: true,
-          onUpdate: self => {
-            const time = self.progress * timeline.duration()
-            let index = 0
-            scenes.forEach((_, i) => { if (time >= timeline.labels['scene-' + i] - .01) index = i })
-            setActive(index)
-            setCovered(self.progress >= 1)
-            toolbar.inert = self.progress >= (scenes.length - 1) / scenes.length
-          },
-        })
-        sequence.current = { trigger, timeline }
-        ScrollTrigger.sort()
-        ScrollTrigger.refresh()
+        timeline.seek('scene-' + activeIndex.current)
+        sequence.current = { timeline, tween:null }
         return () => {
+          sequence.current?.tween?.kill()
           sequence.current = null
-          setCovered(false)
-          container.classList.remove('legacy-city-overlap')
-          container.style.removeProperty('--legacy-overlap-height')
-          toolbar.inert = false
           headings.forEach(heading => heading.revert())
         }
       }, section)
@@ -134,15 +108,17 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
   function select(index) {
     const current = sequence.current
     if (current) {
-      const progress = current.timeline.labels['scene-' + index] / current.timeline.duration()
-      window.scrollTo({ top: current.trigger.start + progress * (current.trigger.end - current.trigger.start), behavior: 'instant' })
+      current.tween?.kill()
+      current.tween = current.timeline.tweenTo('scene-' + index, { duration:.75, ease:'power2.inOut' })
     }
+    activeIndex.current = index
     setActive(index)
   }
 
   const showVideoStart = Boolean(scenes[active][3]) && !failed[active] && (blocked || (!motion && !manualPlay))
 
   return <section ref={section} id="legacy" tabIndex={-1} className="legacy-experience" aria-labelledby="legacy-title">
+    <div className="legacy-stage">
     <div className="legacy-heading">{children}</div>
     {scenes.map(([title, image, copy, video], index) => <div key={title} className={'legacy-scene' + (active === index ? ' is-active' : '')} aria-hidden={active !== index}>
       <div className="legacy-outer"><div className="legacy-inner">
@@ -160,6 +136,7 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
       <div className={'legacy-scene-actions' + (showVideoStart ? ' has-video-start' : '')}>{renderAction(scenes[active])}
         {showVideoStart && <button className="legacy-video-start" type="button" onClick={startVideo}>Play video</button>}
         <span className="sr-only" role="status">{failed[active] ? 'Video unavailable. Showing a poster image.' : blocked ? 'Use Play video to start playback.' : ''}</span><button className="legacy-advance" type="button" onClick={() => active < scenes.length - 1 ? select(active + 1) : select(0)}>Next <span aria-hidden="true">↓</span></button></div>
+    </div>
     </div>
   </section>
 }

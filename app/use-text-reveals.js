@@ -2,17 +2,26 @@
 
 import { useEffect } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 
 export default function useTextReveals(root) {
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger, SplitText)
+    gsap.registerPlugin(SplitText)
     const preference = window.matchMedia('(prefers-reduced-motion: no-preference)')
     let context
     let targets = []
     let resizeTimer
     let stopped = false
+    const seen = new WeakSet()
+    const animations = new WeakMap()
+    const visibility = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return
+        seen.add(entry.target)
+        animations.get(entry.target)?.play()
+        visibility.unobserve(entry.target)
+      })
+    }, { threshold:.1 })
 
     function update() {
       if (stopped) return
@@ -23,6 +32,7 @@ export default function useTextReveals(root) {
         parseFloat(getComputedStyle(element).fontSize) > 24
       ) : []
       if (next.length === targets.length && next.every((element, index) => element === targets[index])) return
+      visibility.disconnect()
       context?.revert()
       targets = next
       context = gsap.context(() => {
@@ -32,18 +42,21 @@ export default function useTextReveals(root) {
             wordsClass: 'text-reveal-word',
             aria: 'auto',
             onSplit(split) {
-              return gsap.from(split.words, {
+              const animation = gsap.from(split.words, {
                 opacity: .12,
                 duration: .65,
                 stagger: { amount: Math.min(.9, Math.max(0, split.words.length - 1) * .045) },
                 ease: 'power1.out',
-                scrollTrigger: { trigger: element, start: 'top 92%', once: true },
+                paused:true,
               })
+              animations.set(element, animation)
+              if (seen.has(element)) animation.progress(1)
+              else visibility.observe(element)
+              return animation
             },
           })
         })
       }, root)
-      ScrollTrigger.refresh()
     }
     function resize() {
       clearTimeout(resizeTimer)
@@ -57,6 +70,7 @@ export default function useTextReveals(root) {
     window.addEventListener('resize', resize)
     return () => {
       stopped = true
+      visibility.disconnect()
       observer.disconnect()
       clearTimeout(resizeTimer)
       preference.removeEventListener('change', update)
