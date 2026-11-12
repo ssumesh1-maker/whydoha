@@ -184,10 +184,10 @@ export default function Homepage() {
       </header>
       <div className="hero-content container" id="main" tabIndex={-1}>
         <h1 id="hero-title">A city ready<br />to welcome.</h1>
-        <div className="hero-meta">
-          <Rule>Great ambitions begin with people. Discover the energy, hospitality and spirit that make Doha a place to connect.</Rule>
-          <Pill play onClick={e=>open(e,'A city ready to welcome',null,null,'campaign-film')}>Watch the story</Pill>
-        </div>
+      </div>
+      <div className="hero-meta container">
+        <Rule>Great ambitions begin with people. Discover the energy, hospitality and spirit that make Doha a place to connect.</Rule>
+        <Pill play onClick={e=>open(e,'A city ready to welcome',null,null,'campaign-film')}>Watch the story</Pill>
       </div>
 
       <a className="scroll-cue" href="#vision" aria-label="Scroll to Our Ambition">Scroll to explore<Pic file="scroll-cue-motion.svg" /></a>

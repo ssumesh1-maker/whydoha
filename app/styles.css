@@ -589,3 +589,7 @@ a:active,button:active { filter:brightness(.8); }
 #updates > .container { flex:none; margin-block:auto; }
 @media(max-width:800px) { .qatar-stage { aspect-ratio:auto; } }
 :root:has(dialog[open],.main-nav.open) { overflow:hidden; }
+
+/* Keep the hero description and film CTA directly above the scroll cue. */
+.hero > .hero-meta { margin-block-start:auto; padding-block:clamp(32px,5svh,72px) clamp(20px,3svh,40px); flex-shrink:0; }
+.hero > .scroll-cue { margin-block-start:0; flex-shrink:0; }
