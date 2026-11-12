@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from './logo.json'
 import CityExperience from './city-experience'
 import QatarReady from './qatar-ready'
@@ -10,6 +9,7 @@ import LegacyExperience from './legacy-experience'
 import useTextReveals from './use-text-reveals'
 import usePageParallax from './use-page-parallax'
 import usePeopleEntrance from './use-people-entrance'
+import useFullPageScroll from './use-full-page-scroll'
 
 const heroFilm = '/media/hero-film.mp4'
 const heroPoster = '/media/hero-poster.png'
@@ -69,6 +69,7 @@ export default function Homepage() {
   useTextReveals(root)
   usePageParallax(root)
   usePeopleEntrance(root)
+  useFullPageScroll(root)
   const dialog = useRef(null)
   const menuButton = useRef(null)
   const trigger = useRef(null)
@@ -76,7 +77,6 @@ export default function Homepage() {
   const matching = searchable.filter(([label])=>label.toLowerCase().includes(query.trim().toLowerCase()))
 
   useEffect(()=>{
-    gsap.registerPlugin(ScrollTrigger)
     const motion = gsap.matchMedia(root)
     motion.add({
       desktop: '(min-width: 801px)',
@@ -84,20 +84,29 @@ export default function Homepage() {
     },context=>{
       if (!context.conditions.animate) return
       const desktop = context.conditions.desktop
+      const visibility = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return
+          animations.get(entry.target)?.play()
+          visibility.unobserve(entry.target)
+        })
+      }, { threshold:.1 })
+      const animations = new WeakMap()
       const reveal = target => {
-        gsap.from(target,{
+        const animation = gsap.from(target,{
           y:desktop ? 24 : 12,
           opacity:.65,
           duration:desktop ? .85 : .55,
           ease:'power2.out',
           clearProps:'transform,opacity',
-          scrollTrigger:{trigger:target,start:'top 92%',once:true},
+          paused:true,
         })
+        animations.set(target,animation)
+        visibility.observe(target)
       }
-      // Animate local content only: pin containers, map markers and card geometry stay fixed.
+      // Animate local content without moving panel boundaries or map geometry.
       root.current.querySelectorAll('.vision-photo, .milestones li, .footer-links').forEach(reveal)
-      if (desktop) {
-      }
+      return () => visibility.disconnect()
     },root)
     return ()=>motion.revert()
   },[])
@@ -168,7 +177,7 @@ export default function Homepage() {
 
   return <div ref={root} id="top" tabIndex={-1} className="site" onClick={navigateSection}>
     <a className="skip" href="#main">Skip to content</a>
-    <section className="hero" aria-labelledby="hero-title">
+    <section tabIndex={-1} className="hero" aria-labelledby="hero-title">
       <div className="hero-media" aria-hidden="true">
         <video autoPlay={allowMotion} ref={heroVideo} src={allowMotion ? heroFilm : undefined} poster={heroPoster} preload="none" muted loop playsInline />
       </div>
@@ -220,14 +229,12 @@ export default function Homepage() {
       </section>
 
       <LegacyExperience scenes={legacy} paused={Boolean(modal)} renderAction={([title,image,copy]) => <Pill onClick={e=>open(e,title,image,copy)}>Explore the legacy</Pill>}>
-        <Title label="Legacy & Impact" id="legacy-title">Beyond the Games</Title>
+        <Title label="Legacy & Impact" id="legacy-title">Beyond the<br />Games</Title>
       </LegacyExperience>
 
-      <div className="city-overlap-layer">
       <CityExperience renderAction={scene => <Pill light onClick={e=>open(e,scene.title,scene.file,scene.title === 'Culture & Heritage' ? 'Discover Doha’s culture and heritage through its historic souq and public spaces.' : null)}>Explore Doha</Pill>}>
         <Title label="Explore Doha" id="explore-title">Experience<br />the city</Title>
       </CityExperience>
-      </div>
 
       <section tabIndex={-1} id="journey" className="journey" aria-labelledby="journey-title">
         <div className="journey-glow" aria-hidden="true"><Pic file="0dd4d.svg" /></div>
