@@ -156,8 +156,8 @@ section[id],footer[id] { scroll-margin-top:16px }
 .milestones li:nth-child(2) .milestone-marker { top:100%; transform:translate(-50%,55%) }
 .milestones li:nth-child(3) .milestone-marker { background:white }
 .milestones li:nth-child(3) .milestone-marker img { width:100% }
-.footer { background:linear-gradient(180deg,#171717 63%,#373737); color:#fff; padding-block:clamp(54px,calc(5.5 * var(--layout-vw)),106px) clamp(22px,calc(2.35 * var(--layout-vw)),45px); }
-.newsletter { display:grid; grid-template-columns:1fr 1.65fr 1.45fr; align-items:center; gap:clamp(20px,calc(2.6 * var(--layout-vw)),50px); margin-bottom:clamp(45px,calc(5.7 * var(--layout-vw)),110px); }
+.footer { background:linear-gradient(180deg,#171717 63%,#373737); color:#fff; padding-block:clamp(32px,calc(3 * var(--layout-vw)),56px) clamp(20px,calc(1.4 * var(--layout-vw)),28px); }
+.newsletter { display:grid; grid-template-columns:1fr 1.65fr 1.45fr; align-items:center; gap:clamp(20px,calc(2.6 * var(--layout-vw)),50px); margin-bottom:clamp(24px,calc(2.5 * var(--layout-vw)),44px); }
 .newsletter h2 { font-size:clamp(28px,calc(2.08 * var(--layout-vw)),40px) }
 .newsletter > p { border-inline-start:1px solid #fff4; padding:clamp(12px,calc(1.8 * var(--layout-vw)),35px); font-size:clamp(14px,calc(.83 * var(--layout-vw)),16px); font-weight:300; max-width:404px; }
 .newsletter form { position:relative; display:flex; align-items:center; min-height:clamp(46px,calc(2.9 * var(--layout-vw)),56px); background:#ffffff19; border:1px solid #fff9; border-radius:999px; padding-inline:16px 5px; }
@@ -166,7 +166,7 @@ section[id],footer[id] { scroll-margin-top:16px }
 .newsletter button { display:grid; place-items:center; width:44px; height:44px; padding:0; background:none; border:0; border-radius:50%; }
 .newsletter button img { width:22px }
 .form-notice { position:absolute; inset-block-start:calc(100% + 8px); inset-inline-start:14px; font-size:13px }
-.footer-links { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; border-block:1px solid #fff2; padding-block:clamp(32px,calc(3.7 * var(--layout-vw)),71px); }
+.footer-links { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; border-block:1px solid #fff2; padding-block:clamp(20px,calc(2 * var(--layout-vw)),36px); }
 .footer-links nav { display:grid; align-content:start; justify-items:start; gap:9px }
 .footer-links h3,.footer-links a,.footer-links button,.footer-base { font-size:clamp(11px,calc(.8 * var(--layout-vw)),15px); text-transform:uppercase; letter-spacing:.21em; font-weight:400 }
 .footer-links h3 { color:#b5b5b5; margin-bottom:6px; }
@@ -174,7 +174,7 @@ section[id],footer[id] { scroll-margin-top:16px }
 .socials { display:flex; margin-top:10px; }
 .socials button { width:39px; height:39px; display:grid; place-items:center; }
 .socials img { width:clamp(16px,calc(1.15 * var(--layout-vw)),22px); height:auto }
-.footer-base { padding-top:clamp(20px,calc(2.45 * var(--layout-vw)),47px); display:flex; align-items:center; gap:clamp(16px,calc(2.4 * var(--layout-vw)),46px); color:#ddd; font-size:clamp(10px,calc(.62 * var(--layout-vw)),12px); }
+.footer-base { padding-top:clamp(16px,calc(1.4 * var(--layout-vw)),24px); display:flex; align-items:center; gap:clamp(16px,calc(2.4 * var(--layout-vw)),46px); color:#ddd; font-size:clamp(10px,calc(.62 * var(--layout-vw)),12px); }
 .footer-legal { margin-inline-start:auto; display:flex; gap:clamp(11px,calc(2.8 * var(--layout-vw)),54px); flex-wrap:wrap; }
 .footer-legal button { letter-spacing:inherit; text-transform:uppercase; }
 .top-link { display:grid; justify-items:center; gap:7px; white-space:nowrap }
@@ -578,15 +578,13 @@ a:active,button:active { filter:brightness(.8); }
 .hero-content { margin-block-start:clamp(24px,8svh,100px); }
 .hero-meta { margin-block-start:clamp(24px,5svh,72px); }
 .scroll-cue { min-height:clamp(64px,10svh,108px); margin-block-start:auto; }
-#vision,#venues,#stories,#journey,#updates { min-height:100svh; }
+#vision,#venues,#stories,#journey { min-height:100svh; }
 #vision { display:flex; flex-direction:column; }
 .vision-layout { flex:none; margin-block:auto; }
 #venues { display:flex; flex-direction:column; }
 .qatar-stage { flex:none; margin-block:auto; }
 #stories { display:flex; flex-direction:column; }
 .stories-panel { flex:none; margin:auto; }
-#updates { display:flex; flex-direction:column; }
-#updates > .container { flex:none; margin-block:auto; }
 @media(max-width:800px) { .qatar-stage { aspect-ratio:auto; } }
 :root:has(dialog[open],.main-nav.open) { overflow:hidden; }
 
