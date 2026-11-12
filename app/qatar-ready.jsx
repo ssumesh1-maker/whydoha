@@ -55,8 +55,10 @@ export default function QatarReady({ children, renderAction }) {
       setPreview(null)
     }
     document.addEventListener('pointerdown', dismissOutside)
+    document.addEventListener('keydown', escape)
     return () => {
       document.removeEventListener('pointerdown', dismissOutside)
+      document.removeEventListener('keydown', escape)
       clearTimeout(dismissTimer.current)
     }
   }, [])
@@ -108,7 +110,7 @@ export default function QatarReady({ children, renderAction }) {
     return () => { observer.disconnect(); window.removeEventListener('resize', position) }
   }, [stadium])
 
-  return <section tabIndex={-1} id="venues" className="venues qatar-ready" aria-labelledby="venues-title" onKeyDown={escape}>
+  return <section tabIndex={-1} id="venues" className="venues qatar-ready" aria-labelledby="venues-title">
     <div ref={stage} className="venue-stage qatar-stage">
       <div className="qatar-art" aria-hidden="true">
         <Media file="qatar-ready-map.png" className="qatar-coast" alt="" />
