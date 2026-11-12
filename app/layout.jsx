@@ -1,3 +1,4 @@
+import 'lenis/dist/lenis.css'
 import './styles.css'
 
 export const metadata = {

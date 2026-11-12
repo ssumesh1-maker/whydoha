@@ -10,6 +10,8 @@ import LegacyExperience from './legacy-experience'
 import useTextReveals from './use-text-reveals'
 import usePageParallax from './use-page-parallax'
 import usePeopleEntrance from './use-people-entrance'
+import useSmoothScroll, { scrollToSection } from './use-smooth-scroll'
+import useJourneyConnection from './use-journey-connection'
 
 const heroFilm = '/media/hero-film.mp4'
 const heroPoster = '/media/hero-poster.png'
@@ -69,6 +71,8 @@ export default function Homepage() {
   useTextReveals(root)
   usePageParallax(root)
   usePeopleEntrance(root)
+  useSmoothScroll(Boolean(modal) || menu)
+  useJourneyConnection(root)
   const dialog = useRef(null)
   const menuButton = useRef(null)
   const trigger = useRef(null)
@@ -144,7 +148,7 @@ export default function Homepage() {
     setModal({title,image,copy,type})
   }
 
-  // Let native anchors update history and scroll; move focus without a second scroll.
+  // Preserve anchor URLs and focus while Lenis owns the optional smooth motion.
   function navigateSection(event) {
     const link = event.target.closest('a[href^="#"]')
     if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
@@ -152,6 +156,10 @@ export default function Homepage() {
     if (!destination) return
     setMenu(false)
     destination.focus({ preventScroll: true })
+    if (scrollToSection(destination)) {
+      event.preventDefault()
+      if (location.hash !== link.hash) history.pushState(null, '', link.hash)
+    }
   }
 
   function saveEmail(event,type){
@@ -263,7 +271,7 @@ export default function Homepage() {
       </div>
     </footer>
 
-    <dialog className="dialog" ref={dialog} onCancel={e=>{e.preventDefault();setModal(null)}} onKeyDown={e=>{if(e.key==='Escape'){e.preventDefault();setModal(null)}}} onClose={()=>{setModal(null);if(!skipRestore.current)trigger.current?.focus({preventScroll:true})}} onClick={e=>{if(e.target===e.currentTarget)setModal(null)}} aria-labelledby="dialog-title">
+    <dialog data-lenis-prevent className="dialog" ref={dialog} onCancel={e=>{e.preventDefault();setModal(null)}} onKeyDown={e=>{if(e.key==='Escape'){e.preventDefault();setModal(null)}}} onClose={()=>{setModal(null);if(!skipRestore.current)trigger.current?.focus({preventScroll:true})}} onClick={e=>{if(e.target===e.currentTarget)setModal(null)}} aria-labelledby="dialog-title">
       {modal&&<div className="dialog-inner">
         <button className="dialog-close" type="button" aria-label="Close dialog" onClick={()=>setModal(null)}>×</button>
         <h2 id="dialog-title">{modal.title}</h2>

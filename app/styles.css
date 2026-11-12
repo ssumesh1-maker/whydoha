@@ -591,3 +591,13 @@ a:active,button:active { filter:brightness(.8); }
 /* Keep the hero description and film CTA directly above the scroll cue. */
 .hero > .hero-meta { margin-block-start:auto; padding-block:clamp(32px,5svh,72px) clamp(20px,3svh,40px); flex-shrink:0; }
 .hero > .scroll-cue { margin-block-start:0; flex-shrink:0; }
+
+/* Lenis owns wheel/anchor easing; avoid a second browser smooth animation. */
+html.lenis { scroll-behavior:auto; }
+
+/* Anchor Engagement's check circle on the existing Journey curve. */
+@media(min-width:801px) {
+  .milestones li:nth-child(2) .milestone-marker { top:var(--engagement-marker-top,100%); transform:translate(-50%,var(--engagement-marker-shift,53.448276%)); }
+  .milestones li:nth-child(2) .milestone-connector { height:var(--engagement-connector-height,clamp(24px,calc(1.927083 * var(--layout-vw)),37px)); background:repeating-linear-gradient(to bottom,#fff 0 2px,transparent 2px 4px); }
+  .milestones li:nth-child(2) .milestone-connector img { display:none; }
+}

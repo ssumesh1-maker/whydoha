@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { scrollToPosition } from './use-smooth-scroll'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 
@@ -135,7 +136,7 @@ export default function LegacyExperience({ scenes, children, renderAction, pause
     const current = sequence.current
     if (current) {
       const progress = current.timeline.labels['scene-' + index] / current.timeline.duration()
-      window.scrollTo({ top: current.trigger.start + progress * (current.trigger.end - current.trigger.start), behavior: 'instant' })
+      scrollToPosition(current.trigger.start + progress * (current.trigger.end - current.trigger.start))
     }
     setActive(index)
   }
